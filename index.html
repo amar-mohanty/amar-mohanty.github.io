@@ -4,1296 +4,198 @@
 <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover'>
 <meta name='theme-color' content='#0c0a10'>
-<meta name='apple-mobile-web-app-capable' content='yes'>
-<meta name='apple-mobile-web-app-title' content='Palmora'>
 <title>Palmora</title>
 <link rel='manifest' href='manifest.json'>
 <style>
-*{box-sizing:border-box}html,body{margin:0;background:#0c0a10;color:#f6f0e6}body{font-family:system-ui,Segoe UI,sans-serif;line-height:1.55;min-height:100vh}h1,h2,h3,summary{font-family:Georgia,Palatino,serif;font-weight:500}h1{font-size:58px;line-height:.9;margin:8px 0 10px}h2{font-size:30px;line-height:1.08;margin:0 0 10px}h3{font-size:22px;margin:16px 0 6px}button,input{font:inherit;color:inherit}button{cursor:pointer}.wrap{width:min(520px,100%);margin:0 auto;padding:22px 18px 120px}.screen{display:none}.screen.on{display:block}.eyebrow{letter-spacing:.2em;text-transform:uppercase;color:#e0c07a;font-size:11px;margin:0 0 8px}.note{color:#b7ab9a;font-size:14px}.mark{width:92px;height:122px;display:block;margin:8px 0 12px}.btn{display:block;width:100%;margin:8px 0;padding:14px 16px;border:0;border-radius:999px;background:#e0c07a;color:#1a140c;font-weight:650;text-align:center}.ghost{background:transparent;color:#f0d7a4;border:1px solid rgba(224,192,122,.45)}.chip,.choice{border:1px solid rgba(224,192,122,.35);background:transparent;color:#f6f0e6;border-radius:14px}.chip{border-radius:999px;padding:8px 12px;margin:4px 6px 4px 0}.chip.on{background:#e0c07a;color:#1a140c}.choice{display:block;width:100%;text-align:left;padding:14px;margin:8px 0}.field{width:100%;margin:8px 0 12px;padding:12px 14px;border-radius:14px;border:1px solid rgba(224,192,122,.28);background:#16131b}.card{border:1px solid rgba(224,192,122,.22);border-radius:18px;padding:12px 14px;margin:10px 0}.ev{margin:0 0 8px}.meters{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.meter{text-align:center;border:1px solid rgba(224,192,122,.25);border-radius:14px;padding:8px 4px}.meter b{display:block;color:#e0c07a;font-size:22px;font-family:Georgia,serif}.meter span{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#b7ab9a}details{border-top:1px solid rgba(224,192,122,.2);padding:12px 0}summary{cursor:pointer;font-size:22px}.nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-around;gap:4px;background:rgba(12,10,16,.94);border-top:1px solid rgba(224,192,122,.22);padding:10px 8px calc(10px + env(safe-area-inset-bottom));z-index:5}.nav button{background:none;border:0;color:#8f8374;letter-spacing:.12em;text-transform:uppercase;font-size:11px;padding:8px}.nav button.cur{color:#e0c07a}.viewer{display:none}.viewer.on{display:block}.frame{position:relative;border-radius:22px;overflow:hidden;background:#000;margin:8px 0}video{width:100%;height:56vh;object-fit:cover;background:#000}.guide{position:absolute;inset:8% 14% 14%;border:1.5px solid rgba(224,192,122,.9);border-radius:46% 46% 40% 40%;pointer-events:none}.shutter{width:74px;height:74px;border-radius:50%;border:3px solid #e0c07a;background:#f4ecdf;display:block;margin:8px auto}.file{position:absolute;width:1px;height:1px;opacity:0}.shotbox{position:relative;margin:10px 0}.shotbox img{width:100%;border-radius:18px;display:block}.shotbox canvas{position:absolute;inset:0;width:100%;height:100%}.tiny{font-size:13px;color:#b7ab9a}
-</style>
-</head>
-<body>
+*{box-sizing:border-box}html,body{margin:0;background:#0c0a10;color:#f6f0e6}body{font-family:system-ui,Segoe UI,sans-serif;line-height:1.55;min-height:100vh}h1,h2,h3,summary{font-family:Georgia,Palatino,serif;font-weight:500}h1{font-size:56px;line-height:.9;margin:8px 0 10px}h2{font-size:30px;line-height:1.08;margin:0 0 10px}h3{font-size:22px;margin:16px 0 6px}button,input{font:inherit;color:inherit}button{cursor:pointer}.wrap{width:min(520px,100%);margin:0 auto;padding:22px 18px 120px}.screen{display:none}.screen.on{display:block}.eyebrow{letter-spacing:.2em;text-transform:uppercase;color:#e0c07a;font-size:11px}.note{color:#b7ab9a;font-size:14px}.mark{width:92px;height:122px;display:block;margin:8px 0 12px}.btn{display:block;width:100%;margin:8px 0;padding:14px 16px;border:0;border-radius:999px;background:#e0c07a;color:#1a140c;font-weight:650}.ghost{background:transparent;color:#f0d7a4;border:1px solid rgba(224,192,122,.45)}.chip,.choice{border:1px solid rgba(224,192,122,.35);background:transparent;color:#f6f0e6;border-radius:14px}.chip{border-radius:999px;padding:8px 12px;margin:4px 6px 4px 0}.chip.on{background:#e0c07a;color:#1a140c}.choice{display:block;width:100%;text-align:left;padding:14px;margin:8px 0}.field{width:100%;margin:8px 0 12px;padding:12px 14px;border-radius:14px;border:1px solid rgba(224,192,122,.28);background:#16131b}.card{border:1px solid rgba(224,192,122,.22);border-radius:18px;padding:12px 14px;margin:10px 0}.meters{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.meter{text-align:center;border:1px solid rgba(224,192,122,.25);border-radius:14px;padding:8px 4px}.meter b{display:block;color:#e0c07a;font-size:22px;font-family:Georgia,serif}.meter span{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#b7ab9a}details{border-top:1px solid rgba(224,192,122,.2);padding:12px 0}summary{cursor:pointer;font-size:22px}.nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-around;background:rgba(12,10,16,.94);border-top:1px solid rgba(224,192,122,.22);padding:10px 8px calc(10px + env(safe-area-inset-bottom));z-index:5}.nav button{background:none;border:0;color:#8f8374;letter-spacing:.12em;text-transform:uppercase;font-size:11px}.nav button.cur{color:#e0c07a}.viewer{display:none}.viewer.on{display:block}.frame{position:relative;border-radius:22px;overflow:hidden;background:#000;margin:8px 0}video{width:100%;height:56vh;object-fit:cover}.guide{position:absolute;inset:8% 14% 14%;border:1.5px solid rgba(224,192,122,.9);border-radius:46% 46% 40% 40%;pointer-events:none}.shutter{width:74px;height:74px;border-radius:50%;border:3px solid #e0c07a;background:#f4ecdf;display:block;margin:8px auto}.file{position:absolute;width:1px;height:1px;opacity:0}.shotbox{position:relative;margin:10px 0}.shotbox img{width:100%;border-radius:18px;display:block}.shotbox canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.shotbox canvas.live{pointer-events:auto;touch-action:none}.tiny{font-size:13px;color:#b7ab9a}
+</style></head><body>
 <div class='wrap'>
-<section id='home' class='screen on'>
-<p class='eyebrow'>Private palmistry</p>
+<section id='home' class='screen on'><p class='eyebrow'>Private palmistry</p>
 <svg class='mark' viewBox='0 0 120 160' aria-hidden='true'><path d='M60 148 C22 136 16 96 30 74 C34 42 42 16 50 16 C54 30 56 50 60 66 C62 34 70 12 76 16 C80 32 76 52 74 68 C82 40 94 24 100 34 C104 52 94 74 86 82 C100 66 114 70 112 90 C108 122 86 150 60 148 Z' fill='none' stroke='#e0c07a' stroke-width='1.6'/></svg>
 <h1>Palmora</h1>
-<p>A reading of the signs that are actually on the hand: major lines, where they meet, and only those crosses, stars, triangles, deltas, islands, and grilles the eye or the photo can support.</p>
-<p class='note'>Nothing is uploaded. A mark that is not clear is not invented. The life line is not a lifespan, and this is not medical, legal, or financial advice.</p>
+<p>Fingertips and the thumb are measured from the photo. Creases are only a draft until you accept, reject, or redraw each line. A reading is not written from a trace that does not sit on the hand.</p>
+<p class='note'>Nothing is uploaded. A camera cannot see mount height or skin texture, so those are not invented. The life line is not a lifespan.</p>
 <p id='hint' class='note'></p>
 <button class='btn' type='button' data-go='prep' data-act='fresh'>Begin a reading</button>
 <button class='btn ghost' type='button' data-act='sample'>Preview a detailed sample</button>
 <button class='btn ghost' type='button' data-go='compare'>Compatibility</button>
-<button class='chip' type='button' data-act='install'>Add to home screen</button>
-</section>
-<section id='prep' class='screen'>
-<p class='eyebrow'>The plate</p>
-<h2>Which hand</h2>
-<p class='note'>The writing hand is the life you practice. The other hand is the temperament you arrived with.</p>
+<button class='chip' type='button' data-act='install'>Add to home screen</button></section>
+<section id='prep' class='screen'><p class='eyebrow'>The plate</p><h2>Which hand</h2>
+<p class='note'>The writing hand is the life you practice. The other hand is what you arrived with.</p>
 <input id='person' class='field' maxlength='40' placeholder='First name, optional'>
-<p class='note'>Hand you write with</p>
-<p><button type='button' class='chip on' data-pick='writes' data-val='Right'>Right</button><button type='button' class='chip' data-pick='writes' data-val='Left'>Left</button></p>
-<p class='note'>This reading is of</p>
-<p><button type='button' class='chip on' data-pick='which' data-val='writing'>The writing hand</button><button type='button' class='chip' data-pick='which' data-val='other'>The other hand</button></p>
-<p class='note'>Tradition to add, after the evidence</p>
-<p><button type='button' class='chip on' data-pick='tradition' data-val='blend'>Blend</button><button type='button' class='chip' data-pick='tradition' data-val='western'>Western</button><button type='button' class='chip' data-pick='tradition' data-val='vedic'>Vedic</button><button type='button' class='chip' data-pick='tradition' data-val='chinese'>Chinese</button></p>
+<p class='note'>Hand you write with</p><p><button type='button' class='chip on' data-pick='writes' data-val='Right'>Right</button><button type='button' class='chip' data-pick='writes' data-val='Left'>Left</button></p>
+<p class='note'>This reading is of</p><p><button type='button' class='chip on' data-pick='which' data-val='writing'>The writing hand</button><button type='button' class='chip' data-pick='which' data-val='other'>The other hand</button></p>
+<p class='note'>Tradition, after the evidence</p><p><button type='button' class='chip on' data-pick='tradition' data-val='blend'>Blend</button><button type='button' class='chip' data-pick='tradition' data-val='western'>Western</button><button type='button' class='chip' data-pick='tradition' data-val='vedic'>Vedic</button><button type='button' class='chip' data-pick='tradition' data-val='chinese'>Chinese</button></p>
 <button class='btn' type='button' data-go='capture'>Use the camera or a photo</button>
-<button class='btn ghost' type='button' data-go='guide' data-act='guide-go'>No photo. Walk the lines</button>
-</section>
-<section id='capture' class='screen'>
-<p class='eyebrow'>Photograph</p>
-<h2>Fill the frame. Even light. All five fingers.</h2>
-<p class='note'>Minor marks need a large, sharp palm. A far or blurry photo will be refused rather than guessed.</p>
+<button class='btn ghost' type='button' data-go='guide' data-act='guide-go'>No photo. Walk the lines</button></section>
+<section id='capture' class='screen'><p class='eyebrow'>Photograph</p><h2>Side light. All five fingertips. Palm flat.</h2>
+<p class='note'>Put the lamp to the side so each crease throws a small shadow. Then you will check the colored lines against the real creases before any reading.</p>
 <p id='issue' class='note'></p>
 <div id='viewer' class='viewer'><div class='frame'><video id='cam' playsinline autoplay muted></video><div class='guide'></div></div><button class='shutter' type='button' data-act='snap' aria-label='Take photo'></button></div>
 <button class='btn' type='button' data-act='cam'>Take palm photo</button>
 <button class='btn ghost' type='button' data-act='cam-front'>Use the front camera</button>
 <label class='btn ghost' for='file'>Choose an existing photo</label>
 <input id='file' class='file' type='file' accept='image/*'>
-<button class='btn ghost' type='button' data-go='guide' data-act='guide-go'>Walk the lines instead</button>
-</section>
+<button class='btn ghost' type='button' data-go='guide' data-act='guide-go'>Walk the lines instead</button></section>
+<section id='review' class='screen'><p class='eyebrow'>Check the draft</p><h2>Accept a line only if the color sits on the crease.</h2>
+<p class='note'>Rose heart, blue head, green life, gold fate, pale gold sun, lilac Mercury. If a color misses the crease, reject it or tap start, middle, and end of the real line. Nothing is interpreted until every line is checked.</p>
+<div id='review-photo'></div><p id='review-hint' class='note'></p><div id='review-lines'></div>
+<button class='btn' type='button' data-act='finish-review'>Write the reading from checked lines</button></section>
 <section id='guide' class='screen'><div id='guide-root'></div></section>
-<section id='attest' class='screen'>
-<p class='eyebrow'>Only what you see</p>
-<h2>Tap a mark only if it is really there</h2>
-<p class='note'>Leave the rest off. A tapped mark is labeled as yours. The camera will not pretend it measured it.</p>
-<div id='attest-root'></div>
+<section id='attest' class='screen'><p class='eyebrow'>Only what you see</p><h2>Tap a mark only if it is really there</h2>
+<p class='note'>Leave the rest off. A tap is labeled as yours.</p><div id='attest-root'></div>
 <button class='btn' type='button' data-act='attest-done'>Use these marks</button>
-<button class='btn ghost' type='button' data-act='attest-clear'>Clear ticks</button>
-</section>
-<section id='busy' class='screen'><p class='eyebrow'>Reading</p><h2 id='phase'>Finding the hand</h2><p class='note'>Lines first. Then crosses, stars, triangles, and joins. A noisy photo is refused.</p></section>
+<button class='btn ghost' type='button' data-act='attest-clear'>Clear ticks</button></section>
+<section id='busy' class='screen'><p class='eyebrow'>Draft</p><h2 id='phase'>Finding the hand</h2><p class='note'>This draft is not the reading. You will check it next.</p></section>
 <section id='report' class='screen'><div id='report-root'></div></section>
 <section id='library' class='screen'><p class='eyebrow'>On this phone</p><h2>Library</h2><div id='lib-root'></div></section>
-<section id='compare' class='screen'><p class='eyebrow'>Two people</p><h2>How the hands meet</h2><p class='note'>Choose two saved readings.</p><div id='compare-root'></div></section>
-<section id='ask' class='screen'><p class='eyebrow'>Ask</p><h2>Ask this hand</h2><p class='note'>The answer uses only the signs already in this reading.</p><input id='ask-q' class='field' placeholder='Money, fame, a cross, travel, love'><button class='btn' type='button' data-act='ask-send'>Answer</button><div id='ask-a'></div></section>
-<section id='learn' class='screen'>
-<p class='eyebrow'>The craft</p><h2>What is allowed to be read</h2>
-<details open><summary>Evidence before story</summary><p>Palmora names a sign only when the photo traces it, or when you tap it yourself. If the hand is small, dark, or the skin is a net of noise, minor marks are skipped. Absence is interpreted only on a clear photo. A missing line on a bad picture is not a destiny.</p></details>
-<details><summary>Cross, star, triangle, delta</summary><p>A cross is two short creases in an X. A star has more arms. A triangle is a closed three-sided figure. A delta is a small triangle. On Jupiter they lean toward leadership. On Apollo, a star leans toward visibility and a cross leans toward delay. On Mercury, a triangle leans toward business judgment. On Saturn, a cross or star is a classical caution, not a death mark. A mystic cross sits between the head and heart and is read as perception, not as proof of visions.</p></details>
-<details><summary>Money, fame, success</summary><p>The money triangle is a closed meeting of the head line, the fate line, and the Mercury line. Vertical lines on Mercury are business lines. Fame wants a real sun line, a star or triangle on Apollo, or a trident. Success in the classical sense wants a star or triangle on Jupiter, a fate line that actually arrives, or a square protecting a break. If those marks are missing, the app says so.</p></details>
-<details><summary>Joins, islands, forks</summary><p>A fate line that leaves the life line is self-made effort. One that rises from the Moon is shaped by other people. Head tied to life is caution. A wide gap is independence. An island is a split that rejoins: a season, not a life sentence. A chain is many small islands. A fork at the end of the heart, between index and middle, is the balanced heart. A fork on the head is a mind with two tools, and sometimes two aims.</p></details>
-<details><summary>What this app will not count</summary><p>Hairlines that some readers call children, or a number of marriages, are too often created by a camera. They are not counted. You may tap short horizontal lines under the little finger if you see them. They are read as bonds, never as a number. No sign here dates a death or names a disease.</p></details>
-</section>
-</div>
+<section id='compare' class='screen'><p class='eyebrow'>Two people</p><h2>How the hands meet</h2><div id='compare-root'></div></section>
+<section id='ask' class='screen'><p class='eyebrow'>Ask</p><h2>Ask this hand</h2><input id='ask-q' class='field' placeholder='Money, fame, fingers, a cross, love'><button class='btn' type='button' data-act='ask-send'>Answer</button><div id='ask-a'></div></section>
+<section id='learn' class='screen'><p class='eyebrow'>Trust</p><h2>What can be known from a photo</h2>
+<details open><summary>Why a pretty photo can still be wrong</summary><p>A palmist feels mount height, skin, and flexibility, and watches a crease from more than one angle. A single picture cannot do that. Palmora measures fingertips and the thumb, because those landmarks are stable. It only drafts the creases. You must accept, reject, or redraw each line. An unchecked line is not read, and it is not called missing.</p></details>
+<details><summary>What a professional still looks for</summary><p>Order of a real sitting: hand shape, which finger leads, thumb will against thumb reason, then heart, head, life, and fate, then the space between heart and head (the quadrangle) and the great triangle inside life, head, and fate. Only after that: sun line, Mercury, crosses, stars, triangles, islands, and joins. Marks that are not confirmed are omitted.</p></details>
+<details><summary>Money, fame, crosses</summary><p>Money wants a closed triangle of head, fate, and Mercury, or clear vertical lines under the little finger. Fame wants a sun line that you can see, or a star on Apollo. A cross is two short creases, not every wrinkle. If you cannot see it on the photo, do not tap it.</p></details>
+</section></div>
 <nav class='nav'><button type='button' data-go='home'>Home</button><button type='button' data-go='prep'>Read</button><button type='button' data-go='library'>Library</button><button type='button' data-go='learn'>Learn</button></nav>
 <script>
-document.body.addEventListener('click', function(ev){
-  var n=ev.target;
-  while(n&&n.nodeType===1){
-    if(n.getAttribute&&n.getAttribute('data-go')){
-      var id=n.getAttribute('data-go');
-      var screens=document.querySelectorAll('.screen'); var i;
-      for(i=0;i<screens.length;i++) screens[i].classList.toggle('on', screens[i].id===id);
-      var nav=document.querySelectorAll('.nav button');
-      for(i=0;i<nav.length;i++) nav[i].classList.toggle('cur', nav[i].getAttribute('data-go')===id);
-      window.scrollTo(0,0); return;
-    }
-    n=n.parentNode;
-  }
-});
+document.body.addEventListener('click', function(ev){var n=ev.target; while(n&&n.nodeType===1){ if(n.getAttribute&&n.getAttribute('data-go')){ var id=n.getAttribute('data-go'); var screens=document.querySelectorAll('.screen'); var i; for(i=0;i<screens.length;i++) screens[i].classList.toggle('on', screens[i].id===id); var nav=document.querySelectorAll('.nav button'); for(i=0;i<nav.length;i++) nav[i].classList.toggle('cur', nav[i].getAttribute('data-go')===id); window.scrollTo(0,0); return;} n=n.parentNode; }});
 </script>
 <script>
 (function(){
-var SEQ=3;
+var SEQ=10;
 function nid(t){SEQ+=1; return t+'-'+SEQ;}
 function hypot(a,b){return Math.sqrt(a*a+b*b);}
 function clamp(n,a,b){return Math.max(a,Math.min(b,n));}
 function sentence(a){var o=[],i; for(i=0;i<a.length;i++) if(a[i]) o.push(a[i]); return o.join(' ');}
 function trim(s){s=s||''; while(s.charAt(0)===' ') s=s.slice(1); while(s.length&&s.charAt(s.length-1)===' ') s=s.slice(0,-1); return s;}
 function NL(){return String.fromCharCode(10);}
+var NAMES=['heart','head','life','fate','sun','mercury'];
+var LABEL={heart:'Heart',head:'Head',life:'Life',fate:'Fate',sun:'Sun',mercury:'Mercury'};
 var STEPS=[
 {k:'shape',q:'Is the palm longer than it is wide, or closer to a square?',a:[['long','Longer palm'],['square','Squarer palm']]},
 {k:'fingers',q:'Are the fingers long beside the palm, or shorter?',a:[['long','Long fingers'],['short','Shorter fingers']]},
-{k:'heart',q:'Where does the heart line end, toward the fingers?',a:[['jupiter','Under the index'],['between','Between index and middle'],['saturn','Under the middle'],['ulnar','It fades before the middle']]},
-{k:'curve',q:'Does the heart line bend up, or run straight?',a:[['curve','It bends'],['straight','It runs straight']]},
-{k:'head',q:'Does the head line stay level, or slope toward the wrist?',a:[['straight','Mostly level'],['gentle','A gentle slope'],['steep','A deep slope']]},
+{k:'heart',q:'Where does the heart line end?',a:[['jupiter','Under the index'],['between','Between index and middle'],['saturn','Under the middle'],['ulnar','It fades before the middle']]},
+{k:'curve',q:'Does the heart line bend, or run straight?',a:[['curve','It bends'],['straight','Straight']]},
+{k:'head',q:'Does the head line slope toward the wrist?',a:[['straight','Mostly level'],['gentle','A gentle slope'],['steep','A deep slope']]},
 {k:'sweep',q:'Does the life line bow into the palm, or hug the thumb?',a:[['wide','Bows wide'],['close','Hugs the thumb']]},
-{k:'fate',q:'The fate line, up the center. What do you see?',a:[['strong','Clear line'],['faint','Faint line'],['broken','Broken line'],['absent','No fate line']]},
-{k:'fatestart',q:'If the fate line is there, where does it rise?',a:[['wrist','From low on the palm'],['life','Out of the life line'],['moon','From the outer palm'],['none','There is no fate line']]}
+{k:'fate',q:'The fate line. What do you see?',a:[['strong','Clear'],['faint','Faint'],['broken','Broken'],['absent','Not there']]},
+{k:'fatestart',q:'Where does the fate line rise?',a:[['wrist','Low in the center'],['life','Out of the life line'],['moon','From the outer palm'],['none','No fate line']]}
 ];
 var ATTEST=[
-['Joins','simian|palm','Heart and head run as one line'],
-['Joins','join|fate-life','Fate line rises out of the life line'],
-['Joins','join|fate-moon','Fate line rises from the outer palm'],
-['Joins','join|head-life','Head line is tied into the life line at the start'],
-['Forks and breaks','fork|heart','Heart line forks at the end'],
-['Forks and breaks','fork|head','Head line forks at the end'],
-['Forks and breaks','trident|sun','Sun line ends in three prongs'],
-['Forks and breaks','island|heart','Island on the heart line'],
-['Forks and breaks','island|head','Island on the head line'],
-['Forks and breaks','island|life','Island on the life line'],
-['Forks and breaks','island|fate','Island on the fate line'],
-['Minor lines','girdle|palm','Girdle of Venus above the heart line'],
-['Minor lines','solomon|jupiter','Ring of Solomon under the index'],
-['Minor lines','intuition|moon','Curved line of intuition on the outer palm'],
-['Minor lines','sister|life','Sister line beside the life line'],
-['Minor lines','business|mercury','Several vertical lines under the little finger'],
-['Minor lines','money|plain','Closed money triangle in the center'],
-['Minor lines','attachment|mercury','Short horizontal lines on the outer edge under the little finger'],
-['Cross','cross|jupiter','Cross under the index'],
-['Cross','cross|saturn','Cross under the middle'],
-['Cross','cross|apollo','Cross under the ring'],
-['Cross','cross|mercury','Cross under the little finger'],
-['Cross','cross|venus','Cross on the thumb base'],
-['Cross','cross|moon','Cross on the outer palm'],
-['Cross','cross|mars','Cross in the center of the palm'],
-['Cross','cross|mystic','Cross between head and heart, the mystic cross'],
-['Star','star|jupiter','Star under the index'],
-['Star','star|saturn','Star under the middle'],
-['Star','star|apollo','Star under the ring'],
-['Star','star|mercury','Star under the little finger'],
-['Star','star|venus','Star on the thumb base'],
-['Star','star|moon','Star on the outer palm'],
-['Triangle or delta','triangle|jupiter','Triangle under the index'],
-['Triangle or delta','triangle|saturn','Triangle under the middle'],
-['Triangle or delta','triangle|apollo','Triangle under the ring'],
-['Triangle or delta','triangle|mercury','Triangle under the little finger'],
-['Triangle or delta','triangle|moon','Triangle on the outer palm'],
-['Triangle or delta','delta|jupiter','Small delta under the index'],
-['Triangle or delta','square|life','Square, a closed box, on or by the life line'],
-['Other','grille|venus','Grille, a hash of little crosses, on the thumb base'],
-['Other','grille|moon','Grille on the outer palm']
+['Joins','simian|palm','Heart and head are one line'],
+['Joins','join|fate-life','Fate rises from the life line'],
+['Joins','join|fate-moon','Fate rises from the outer palm'],
+['Joins','join|head-life','Head starts tied to the life line'],
+['On a line','fork|heart','Heart forks at the end'],
+['On a line','fork|head','Head forks at the end'],
+['On a line','island|heart','Island on the heart'],
+['On a line','island|head','Island on the head'],
+['On a line','island|life','Island on the life line'],
+['On a line','island|fate','Island on the fate line'],
+['Minor','girdle|palm','Girdle of Venus'],
+['Minor','solomon|jupiter','Ring of Solomon'],
+['Minor','intuition|moon','Line of intuition'],
+['Minor','sister|life','Sister line beside life'],
+['Minor','business|mercury','Vertical lines under the little finger'],
+['Minor','money|plain','Closed money triangle'],
+['Minor','attachment|mercury','Short horizontal lines on the outer edge'],
+['Cross','cross|jupiter','Cross under index'],
+['Cross','cross|saturn','Cross under middle'],
+['Cross','cross|apollo','Cross under ring'],
+['Cross','cross|mercury','Cross under little finger'],
+['Cross','cross|venus','Cross on thumb base'],
+['Cross','cross|moon','Cross on outer palm'],
+['Cross','cross|mystic','Mystic cross between head and heart'],
+['Star','star|jupiter','Star under index'],
+['Star','star|saturn','Star under middle'],
+['Star','star|apollo','Star under ring'],
+['Star','star|mercury','Star under little finger'],
+['Triangle','triangle|jupiter','Triangle under index'],
+['Triangle','triangle|apollo','Triangle under ring'],
+['Triangle','triangle|mercury','Triangle under little finger'],
+['Triangle','triangle|moon','Triangle on outer palm']
 ];
 var ENAME={earth:'Earth hand',air:'Air hand',fire:'Fire hand',water:'Water hand',mixed:'Mixed hand'};
-var state={writes:'Right',which:'writing',tradition:'blend',step:0,answers:{},stream:null,eye:null,reading:null,pairId:0,cmp:[],attestFor:'new',facing:'environment'};
-function show(id){
-  var screens=document.querySelectorAll('.screen'); var i;
-  for(i=0;i<screens.length;i++) screens[i].classList.toggle('on', screens[i].id===id);
-  var nav=document.querySelectorAll('.nav button');
-  for(i=0;i<nav.length;i++){
-    var g=nav[i].getAttribute('data-go');
-    nav[i].classList.toggle('cur', g===id || ((id==='report'||id==='capture'||id==='guide'||id==='busy'||id==='ask'||id==='attest')&&g==='prep'));
-  }
-  window.scrollTo(0,0);
-}
+var state={writes:'Right',which:'writing',tradition:'blend',step:0,answers:{},stream:null,eye:null,reading:null,pairId:0,cmp:[],attestFor:'new',facing:'environment',draft:null,place:null};
+function show(id){var screens=document.querySelectorAll('.screen'); var i; for(i=0;i<screens.length;i++) screens[i].classList.toggle('on', screens[i].id===id); var nav=document.querySelectorAll('.nav button'); for(i=0;i<nav.length;i++){ var g=nav[i].getAttribute('data-go'); nav[i].classList.toggle('cur', g===id || ((id==='report'||id==='capture'||id==='guide'||id==='busy'||id==='ask'||id==='attest'||id==='review')&&g==='prep')); } window.scrollTo(0,0);}
 function addP(parent,text,cls){if(!text) return; var p=document.createElement('p'); if(cls) p.className=cls; p.textContent=text; parent.appendChild(p);}
 function clear(n){while(n&&n.firstChild) n.removeChild(n.firstChild);}
-function loadLib(){try{return JSON.parse(localStorage.getItem('palmora-lib3')||'[]');}catch(e){return [];}}
-function remember(rec){
-  var list=loadLib().filter(function(x){return String(x.id)!==String(rec.id);});
-  list.unshift(rec); list=list.slice(0,8);
-  try{localStorage.setItem('palmora-lib3', JSON.stringify(list));}
-  catch(e){var i; for(i=0;i<list.length;i++){list[i].photo='';} try{localStorage.setItem('palmora-lib3', JSON.stringify(list));}catch(e2){}}
-  renderLibrary(); renderCompare();
-}
-function emptyLine(){return {present:false,depth:0,length:0,cover:0,breaks:false,breakAt:null,end:'',slope:'',sweep:'',start:'',curve:0,endMount:''};}
-function hasMark(f,type,place){
-  var m=f.marks||[], i;
-  for(i=0;i<m.length;i++){
-    if(m[i].type!==type) continue;
-    if(!place || m[i].mount===place || m[i].line===place) return true;
-  }
-  return false;
-}
-function marksWhere(f,type,place){
-  var m=f.marks||[], o=[], i;
-  for(i=0;i<m.length;i++) if(m[i].type===type && (!place || m[i].mount===place || m[i].line===place)) o.push(m[i]);
-  return o;
-}
-function pretty(p){
-  var map={jupiter:'Jupiter, under the index',saturn:'Saturn, under the middle',apollo:'Apollo, under the ring',mercury:'Mercury, under the little finger',venus:'Venus, the thumb base',moon:'the Moon, outer palm',mars:'Mars, the center',mystic:'the space between head and heart',palm:'the palm',plain:'the center',life:'the life line',heart:'the heart line',head:'the head line',fate:'the fate line',sun:'the sun line','fate-life':'the life line','fate-moon':'the Moon','head-life':'the life line'};
-  return map[p]||p||'the palm';
-}
-function whenAt(at){
-  if(at==null) return 'along the line';
-  if(at<0.33) return 'in the early part of the line';
-  if(at<0.66) return 'around the middle of the line';
-  return 'in the later part of the line';
-}
+function loadLib(){try{return JSON.parse(localStorage.getItem('palmora-lib4')||'[]');}catch(e){return [];}}
+function remember(rec){var list=loadLib().filter(function(x){return String(x.id)!==String(rec.id);}); list.unshift(rec); list=list.slice(0,8); try{localStorage.setItem('palmora-lib4', JSON.stringify(list));}catch(e){var i; for(i=0;i<list.length;i++) list[i].photo=''; try{localStorage.setItem('palmora-lib4', JSON.stringify(list));}catch(e2){}} renderLibrary(); renderCompare();}
+function emptyLine(){return {present:false,confirmed:false,placed:false,depth:0,length:0,cover:0,breaks:false,breakAt:null,end:'',slope:'',sweep:'',start:'',curve:0,endMount:''};}
+function confirmAll(f){var i; for(i=0;i<NAMES.length;i++){ if(f.lines[NAMES[i]]){ f.lines[NAMES[i]].confirmed=true; f.lines[NAMES[i]].placed=false; } }}
+function hasMark(f,type,place){var m=f.marks||[], i; for(i=0;i<m.length;i++){ if(m[i].type!==type) continue; if(!place || m[i].mount===place || m[i].line===place) return true; } return false;}
+function marksWhere(f,type,place){var m=f.marks||[], o=[], i; for(i=0;i<m.length;i++) if(m[i].type===type && (!place || m[i].mount===place || m[i].line===place)) o.push(m[i]); return o;}
+function pretty(p){var map={jupiter:'Jupiter',saturn:'Saturn',apollo:'Apollo',mercury:'Mercury',venus:'Venus',moon:'the Moon',mars:'Mars',mystic:'between head and heart',palm:'the palm',plain:'the center',life:'the life line',heart:'the heart line',head:'the head line',fate:'the fate line',sun:'the sun line'}; return map[p]||p||'the palm';}
+function whenAt(at){if(at==null) return 'along the line'; if(at<0.33) return 'early on the line'; if(at<0.66) return 'around the middle of the line'; return 'later on the line';}
 function depthWord(d){if(d>0.62) return 'deep'; if(d>0.42) return 'clear'; if(d>0.3) return 'fine'; return 'faint';}
-function gloss(topic){
-  var t=state.tradition||'blend';
-  var all={
-    heart:{w:'Western readers start with the heart line.',v:'In hasta samudrika this is the hridaya rekha.',c:'Chinese hand study calls it the emotion line.'},
-    head:{w:'The head line is how the mind moves, not a test score.',v:'Vedic readers call it the buddhi rekha.',c:'Chinese palmistry calls it the wisdom line.'},
-    life:{w:'The life line is vitality and season, never a date of death.',v:'It is the jeevan rekha.',c:'The Chinese life line is constitution, not lifespan.'},
-    fate:{w:'The fate line is direction and how much the world gets a vote.',v:'Vedic palmistry calls it the bhagya rekha.',c:'Chinese readers call it the career line.'},
-    money:{w:'Western readers want a closed money triangle or Mercury lines before they speak of wealth.',v:'Vedic readers weigh Mercury with the fate line, and they do not invent a triangle.',c:'Chinese hand study ties livelihood to a clear career line and a capable little finger.'},
-    fame:{w:'Fame is a sun line or a star on Apollo, or it is not claimed.',v:'The surya rekha is recognition, and only when the line is really there.',c:'A line under the ring finger is visibility, not a guarantee of celebrity.'}
-  };
-  var g=all[topic]; if(!g) return '';
-  if(t==='western') return g.w; if(t==='vedic') return g.v; if(t==='chinese') return g.c;
-  return g.w+' '+g.v+' '+g.c;
-}
-function markTitle(m){
-  if(m.type==='join' && m.line==='fate-life') return 'Fate line leaves the life line';
-  if(m.type==='join' && m.line==='fate-moon') return 'Fate line rises from the Moon';
-  if(m.type==='join' && m.line==='head-life') return 'Head line is tied to the life line';
-  if(m.type==='simian') return 'Heart and head run together';
-  if(m.type==='money') return 'Money triangle';
-  if(m.type==='girdle') return 'Girdle of Venus';
-  if(m.type==='solomon') return 'Ring of Solomon';
-  if(m.type==='intuition') return 'Line of intuition';
-  if(m.type==='business') return 'Vertical business lines on Mercury'+(m.count?(' ('+m.count+')'):'');
-  if(m.type==='attachment') return 'Attachment lines on the outer edge';
-  if(m.type==='sister') return 'Sister line beside the life line';
-  if(m.type==='fork') return 'Fork at the end of '+pretty(m.line);
-  if(m.type==='trident') return 'Trident on '+pretty(m.line);
-  if(m.type==='island') return 'Island on '+pretty(m.line);
-  if(m.type==='chain') return 'Chain on '+pretty(m.line);
-  if(m.type==='cross' && m.line) return 'Cross on '+pretty(m.line)+' '+whenAt(m.at);
-  var names={cross:'Cross',star:'Star',triangle:'Triangle',delta:'Delta',grille:'Grille',square:'Square'};
-  return (names[m.type]||m.type)+' on '+pretty(m.mount);
-}
-function meaningOf(m){
-  var you=m.source==='you'?'You report this. It was not measured by the camera. Classical reading: ':'';
-  var key=m.type+'|'+(m.mount||m.line||'');
-  var map={
-    'cross|jupiter':'A cross on Jupiter is classically success through leadership, and a bond that puts a duty on ambition. It checks pride.',
-    'cross|saturn':'A cross on Saturn is a classical caution around work, timing, status, or risk. It is not a curse and not a death mark.',
-    'cross|apollo':'A cross on Apollo classically delays or humbles fame and money from display. Talent can be real while recognition is costly.',
-    'cross|mercury':'A cross on Mercury classically marks speech or business that can go too far: wit, a sharp deal, or a truth told past its use.',
-    'cross|venus':'A cross on Venus classically marks one strong attachment that costs something. It is not a ban on love.',
-    'cross|moon':'A cross on the Moon classically marks strong imagination and a warning about misreading people or a journey.',
-    'cross|mars':'A cross in the center, on Mars, classically marks a contest, a rivalry, or a test of nerve.',
-    'cross|mystic':'A cross between the head and the heart, clear of both lines, is the mystic cross. Classical readers take it as perception and an interest in hidden causes. It does not prove a vision.',
-    'star|jupiter':'A star on Jupiter is one of the stronger classical signs of honor: ambition that becomes visible through a public trust.',
-    'star|saturn':'Classical texts treat a star on Saturn as a heavy event around status or loss. It is not read here as death. It asks for caution with risk, debt, and reputation.',
-    'star|apollo':'A star on Apollo is a classical sign of brilliance and recognition, a sudden visibility. It belongs to work that can be seen.',
-    'star|mercury':'A star on Mercury classically favors commerce, science, negotiation, or money made by wit.',
-    'star|venus':'A star on Venus classically marks a great passion or a notable success in love. It is intense.',
-    'star|moon':'A star on the Moon classically marks imagination of a high order, and sometimes a voyage or a public episode that changes the life.',
-    'triangle|jupiter':'A triangle on Jupiter classically marks diplomacy, the organizing of people, and calmer success.',
-    'triangle|saturn':'A triangle on Saturn classically marks a talent for deep study, research, or philosophical work.',
-    'triangle|apollo':'A triangle on Apollo classically marks success in art or performance with more peace than scandal.',
-    'triangle|mercury':'A triangle on Mercury is a classical business sign: shrewd judgment and money through skill.',
-    'triangle|venus':'A triangle on Venus classically cools passion into judgment.',
-    'triangle|moon':'A triangle on the Moon classically makes imagination practical: writing, science, or travel that produces a result.',
-    'delta|jupiter':'A small delta on Jupiter is read as a modest triangle: a contained gift for leadership, not a crown.',
-    'grille|venus':'A grille on Venus classically marks restless desire and many attractions. It is appetite, not a script.',
-    'grille|moon':'A grille on the Moon classically marks restless imagination, many plans, and anxiety if sleep is poor.',
-    'square|life':'A square is a classical mark of preservation: a limit around a trouble, often read as a rescue rather than a prize.',
-    'money|plain':'The head line, the fate line, and the Mercury line close a triangle. Classical palmistry calls this the money triangle: means from judgment and your own effort. It is not a sum and not a date.',
-    'business|mercury':'Vertical lines on Mercury are business lines. Classical readers tie them to trade, clients, and money through negotiation. The count is not a bank balance.',
-    'girdle|palm':'The girdle of Venus is a curve above the heart line. Classically it marks intensity, artistic nerves, and feeling that arrives before thought. It needs a bank of rest.',
-    'solomon|jupiter':'The ring of Solomon is a curve under the index. Classically it marks a gift for reading people, counsel, and interest in hidden knowledge. It is not a title.',
-    'intuition|moon':'A bowed line on the outer palm is the line of intuition. Classically it marks a true hunch for people or for business, which still has to be checked.',
-    'sister|life':'A sister line beside the life line is classically a reserve: extra vitality, or protection through a hard season.',
-    'attachment|mercury':'Short horizontal lines on the outer edge are classical lines of attachment. They mark significant bonds. They are not a count of marriages.',
-    'simian|palm':'Heart and head run as one line. Feeling and thinking are not separate. The gift is total commitment. The work is to let other people have a slower pace.',
-    'join|fate-life':'The fate line leaving the life line is the classical self-made road: effort from early on, not a post that arrives by itself.',
-    'join|fate-moon':'A fate line from the Moon means other people, the public, or a change of place shapes the work. It is capable and less settled.',
-    'join|head-life':'The head line tied to the life line at the start is classical caution. Confidence is earned later. Thought happens before the leap.',
-    'fork|heart':'A fork at the end of the heart line, when it opens between the index and the middle, is the classical balanced heart: warmth with judgment.',
-    'fork|head':'A fork at the end of the head line classically marks two mental tools, often language and practical sense. If the fork is very wide, the aims can split.',
-    'trident|sun':'A trident at the end of the sun line is a classical sign that recognition or money can arrive by more than one channel.',
-    'island|heart':'An island on the heart line is a season of divided affection or emotional strain, classically read at that part of the line, not as a life without love.',
-    'island|head':'An island on the head line is a season of worry or scattered concentration. It is not a diagnosis.',
-    'island|life':'An island on the life line is a lower-energy season. It is not the name of an illness.',
-    'island|fate':'An island on the fate line is a blocked or confused chapter of work, not a failed life.',
-    'chain|heart':'A chained heart line classically marks sensitive, changeable affection and many small weathers.',
-    'chain|head':'A chained head line classically marks worry and a mind that restarts often.',
-    'chain|life':'A chained life line classically marks delicate reserves in that season.'
-  };
-  if(m.type==='cross' && m.line) return you+'A cross on '+pretty(m.line)+' '+whenAt(m.at)+' is classically an event or a shock at that season of the line. Early is youth, middle is the building years, later is later life. It is not a calendar date.';
-  return you+(map[key]||map[m.type+'|'+(m.line||'')]||'This sign is recorded because it was seen. No extra story is added beyond the classical sense of that mark.');
-}
-function shapeText(f){
-  var base={earth:'Square palm, shorter fingers: the earth hand. Intelligence that trusts what it can build and finish. The shadow is loyalty to a method after the ground has moved.',air:'Square palm, long fingers: the air hand. You think for a living even when that is not the title. Give the mind a decision and a date.',fire:'Long palm, shorter fingers: the fire hand. You start what other people only describe. The shadow is a trail of lit matches. Keep one fire.',water:'Long palm, long fingers: the water hand. You read rooms the way other people read print. The gift needs a boundary that is not an apology.',mixed:'The proportions do not settle. Range is the gift. Auditioning a new life every month is the shadow.'};
-  var num='';
-  if(f.ratio) num='Measured from the photo: finger length is '+f.ratio+' of the palm, and the palm is '+f.shape+' times as long as it is wide. ';
-  var thumb=f.thumb==='open'?'The thumb opens off the palm, so you give room, and you can give away the week if you never ask the cost.':f.thumb==='firm'?'The thumb sits closer in. You finish. Loosen the grip when a better idea arrives in another voice.':'The thumb is neither locked nor loose.';
-  return sentence([num+(base[f.element]||base.mixed), thumb]);
-}
-function heartText(f){
-  var h=f.lines.heart;
-  if(f.source!=='guided' && f.source!=='sample' && !h.present){
-    if(!f.allowAbsence) return 'The heart line is not clear enough to read. No style of love is invented. '+(f.qualityNote||'');
-    return 'On a clear photo the heart line is not really there as a continuous crease. Classical readers do not describe a love life from a line they cannot see. If you can see it, walk the lines and say where it ends.';
-  }
-  var end={jupiter:'The heart line reaches under the index finger. Classically this loves as an ideal. A partnership has to enlarge you, and you forgive on your own clock.',between:'The heart line ends between the index and the middle. This is the warmer balanced ending: affection with judgment.',saturn:'The heart line ends under the middle finger. Love is selective. The inner circle is small and loyal. Everyone else meets a cooler courtesy.',ulnar:'The heart line fades before the middle of the palm. Classically the affections are more private and more physical than idealistic, and they are not ruled by a public standard.',unknown:'The heart line is present, but its ending is not clear enough to name.'};
-  var bits=[end[h.end]||end.unknown];
-  bits.push(h.curve>0.5?'The line bends, so feeling is shown.':'The line runs straighter. You feel no less, but you edit it.');
-  bits.push('Depth: '+depthWord(h.depth)+'.');
-  if(h.breaks) bits.push('A break '+whenAt(h.breakAt)+' is a change in how you attach, not a life without love.');
-  if(hasMark(f,'fork','heart')) bits.push(meaningOf(marksWhere(f,'fork','heart')[0]));
-  if(hasMark(f,'island','heart')) bits.push(meaningOf(marksWhere(f,'island','heart')[0]));
-  if(hasMark(f,'chain','heart')) bits.push(meaningOf(marksWhere(f,'chain','heart')[0]));
-  var cx=marksWhere(f,'cross','heart'); if(cx.length) bits.push(meaningOf(cx[0]));
-  if(hasMark(f,'simian')) bits.push(meaningOf(marksWhere(f,'simian')[0]));
-  bits.push(gloss('heart'));
-  return sentence(bits);
-}
-function headText(f){
-  var h=f.lines.head;
-  if(f.source!=='guided' && f.source!=='sample' && !h.present){
-    if(!f.allowAbsence) return 'The head line is not clear enough to read. No kind of mind is invented. '+(f.qualityNote||'');
-    return 'The head line is not continuous on this palm. The mind is not described from a crease that is not there. Walk the lines if you can see it.';
-  }
-  var slope={straight:'The head line runs level. You want evidence and sequence. The shadow is ignoring a hunch because it did not arrive as a list.',gentle:'The head line slopes gently. A practical mind with a door left open. Useful where people and systems meet.',steep:'The head line drops toward the Moon. You think in images. Guard sleep and what you take in at night.',unknown:'The head line is present. Its slope is not clear enough to force a type.'};
-  var bits=[slope[h.slope]||slope.unknown];
-  bits.push(h.length>0.72?'It travels far. You can hold a complicated problem.':'It is the shorter kind. You think toward a decision.');
-  bits.push('Depth: '+depthWord(h.depth)+'.');
-  if(h.breaks) bits.push('A break '+whenAt(h.breakAt)+' marks a change in how you think: a study, a move, or a crisis that made the old logic too small.');
-  if(hasMark(f,'fork','head')) bits.push(meaningOf(marksWhere(f,'fork','head')[0]));
-  if(hasMark(f,'island','head')) bits.push(meaningOf(marksWhere(f,'island','head')[0]));
-  if(hasMark(f,'chain','head')) bits.push(meaningOf(marksWhere(f,'chain','head')[0]));
-  if(hasMark(f,'join','head-life')) bits.push(meaningOf(marksWhere(f,'join','head-life')[0]));
-  else if(f.lines.head.separate) bits.push('The head line starts well away from the life line. Classically this is early independence. The shadow is a leap before the facts are in.');
-  var cx=marksWhere(f,'cross','head'); if(cx.length) bits.push(meaningOf(cx[0]));
-  bits.push(gloss('head'));
-  return sentence(bits);
-}
-function lifeText(f){
-  var L=f.lines.life;
-  if(f.source!=='guided' && f.source!=='sample' && !L.present){
-    if(!f.allowAbsence) return 'The life line is not clear enough to read, so vitality is not invented. '+(f.qualityNote||'');
-    return 'The life line is not continuous here. No constitution is described from a line that is not on the palm.';
-  }
-  var bits=[];
-  bits.push(L.depth>0.45?'The life line is '+depthWord(L.depth)+'. There is a real vital current if sleep and food are not treated as optional.':'The life line is '+depthWord(L.depth)+'. Energy comes in tides. A borrowed schedule is a bad master.');
-  bits.push(L.sweep==='wide'?'It bows into the palm. Appetite, warmth, and beauty are part of stamina.':'It hugs the thumb. Caution is part of vitality. You last longer than you flare.');
-  if(L.breaks) bits.push('A break '+whenAt(L.breakAt)+' is a change of rhythm: a move, a recovery, a reinvention. It is not an ending and not a lifespan.');
-  if(hasMark(f,'island','life')) bits.push(meaningOf(marksWhere(f,'island','life')[0]));
-  if(hasMark(f,'sister','life')) bits.push(meaningOf(marksWhere(f,'sister','life')[0]));
-  if(hasMark(f,'square','life')) bits.push(meaningOf(marksWhere(f,'square','life')[0]));
-  bits.push(gloss('life'));
-  return sentence(bits);
-}
-function fateText(f){
-  var fate=f.lines.fate;
-  if(f.source!=='guided' && f.source!=='sample' && !fate.present){
-    if(!f.allowAbsence) return 'The fate line is not clear enough. Absence is not being read as a self-made road, because the photo cannot prove the line is truly missing. '+(f.qualityNote||'');
-    return 'No fate line is clear on a readable photo. The classical meaning of a truly absent fate line is a self-made road: you name the work. It is not bad luck. It does become drift if you never choose.';
-  }
-  var map={strong:'The fate line is clear. A role or a craft gets a vote, and you are better when that vote is conscious.',faint:'The fate line is faint. Skill may be forming the road before the title does.',broken:'The fate line breaks. There is more than one chapter of work. A break is a change of road, not a personal failure.',absent:'No fate line. The classical reading is a self-made road, which still requires a choice.',unknown:'The fate line is present.'};
-  var bits=[map[fate.presence]||map.unknown];
-  if(fate.start==='life' || hasMark(f,'join','fate-life')) bits.push(hasMark(f,'join','fate-life')?meaningOf(marksWhere(f,'join','fate-life')[0]):'It rises from the life line: effort from your own hand, early.');
-  else if(fate.start==='moon' || hasMark(f,'join','fate-moon')) bits.push(hasMark(f,'join','fate-moon')?meaningOf(marksWhere(f,'join','fate-moon')[0]):'It rises from the outer palm.');
-  else if(fate.start==='wrist') bits.push('It rises low and near the center, the ordinary steady start.');
-  else if(fate.start==='late') bits.push('It becomes clear higher in the palm. The early years are apprenticeship. A public name can come later without being a failure of nerve.');
-  if(fate.endMount==='jupiter') bits.push('It aims toward Jupiter. Classical reading: the career wants authority, a standard, or a lead.');
-  if(fate.endMount==='apollo') bits.push('It aims toward Apollo. The work turns toward art, display, or recognition.');
-  if(fate.endMount==='heart') bits.push('It runs into the heart line. Later work is steered by a person, a loyalty, or a feeling.');
-  if(fate.endMount==='saturn') bits.push('It aims at Saturn, the classical career line: duty, mastery, time.');
-  if(hasMark(f,'island','fate')) bits.push(meaningOf(marksWhere(f,'island','fate')[0]));
-  bits.push(gloss('fate'));
-  return sentence(bits);
-}
-function moneyText(f){
-  if(f.source==='photo' && !f.allowAbsence) return 'Money signs were not scored. '+(f.qualityNote||'A triangle or a star is not claimed from a photo that cannot support minor marks.');
-  var bits=[];
-  if(hasMark(f,'money')) bits.push(meaningOf(marksWhere(f,'money')[0]));
-  if(hasMark(f,'business')) bits.push(meaningOf(marksWhere(f,'business')[0]));
-  if(hasMark(f,'triangle','mercury')) bits.push(meaningOf(marksWhere(f,'triangle','mercury')[0]));
-  if(hasMark(f,'star','mercury')) bits.push(meaningOf(marksWhere(f,'star','mercury')[0]));
-  if(hasMark(f,'triangle','jupiter')) bits.push('A triangle on Jupiter adds organized success, which can include money, but it is a leadership mark first.');
-  if(hasMark(f,'cross','apollo')) bits.push('The cross on Apollo argues against easy money from display.');
-  if(!bits.length){
-    if(f.lines.fate.present && f.lines.fate.depth>0.42) bits.push('No money triangle, no business lines, and no wealth star were clear. The only related sign is a readable fate line, which supports earning by a role, not a special fortune mark.');
-    else bits.push('No money triangle, no set of business lines, and no star or triangle of wealth is clear. Nothing about a fortune is claimed.');
-  }
-  bits.push(gloss('money'));
-  return sentence(bits);
-}
-function fameText(f){
-  if(f.source==='photo' && !f.allowAbsence && !(f.lines.sun&&f.lines.sun.present)) return 'Fame signs were not scored. '+(f.qualityNote||'');
-  var bits=[], sun=f.lines.sun;
-  if(sun && sun.present && sun.length>=0.4 && sun.depth>=0.36) bits.push('The sun line is present and '+depthWord(sun.depth)+', running a real length under the ring finger. Classical palmistry reads that as visibility: art, reputation, or work other people notice. It is not a promise of celebrity.');
-  else if(f.allowAbsence || f.source!=='photo') bits.push('A strong sun line is not clear.');
-  if(hasMark(f,'star','apollo')) bits.push(meaningOf(marksWhere(f,'star','apollo')[0]));
-  if(hasMark(f,'triangle','apollo')) bits.push(meaningOf(marksWhere(f,'triangle','apollo')[0]));
-  if(hasMark(f,'trident','sun')) bits.push(meaningOf(marksWhere(f,'trident','sun')[0]));
-  if(hasMark(f,'cross','apollo')) bits.push(meaningOf(marksWhere(f,'cross','apollo')[0]));
-  var onlyWeak=bits.length<=1 && !(sun&&sun.present&&sun.length>=0.4);
-  if(onlyWeak && !hasMark(f,'star','apollo') && !hasMark(f,'triangle','apollo') && !hasMark(f,'trident','sun')) return sentence(['No sun line of real length, no star on Apollo, and no trident were clear. The classical fame marks are not on this reading, so none are claimed.', gloss('fame')]);
-  bits.push(gloss('fame'));
-  return sentence(bits);
-}
-function successText(f){
-  var bits=[];
-  if(hasMark(f,'star','jupiter')) bits.push(meaningOf(marksWhere(f,'star','jupiter')[0]));
-  if(hasMark(f,'triangle','jupiter')) bits.push(meaningOf(marksWhere(f,'triangle','jupiter')[0]));
-  if(hasMark(f,'cross','jupiter')) bits.push(meaningOf(marksWhere(f,'cross','jupiter')[0]));
-  if(hasMark(f,'square')) bits.push(meaningOf(marksWhere(f,'square')[0]));
-  if(f.lines.fate.present && (f.lines.fate.presence==='strong' || f.lines.fate.depth>0.5)) bits.push('A clear fate line is the ordinary classical sign of direction. It supports a role. It is not, by itself, a promise that the role succeeds.');
-  if(f.thumb==='firm' && f.lines.head.present && f.lines.head.depth>0.4) bits.push('The thumb and a readable head line support follow-through. That is a success sign of character, not of fame.');
-  if(hasMark(f,'cross','saturn')||hasMark(f,'star','saturn')) bits.push('Saturn carries a heavy mark. Classical readers do not call that easy success. They call it a demand for care.');
-  if(!bits.length) return 'No star or triangle on Jupiter, no protecting square, and no other success mark was clear. Success is not being declared.';
-  return sentence(bits);
-}
-function marksText(f){
-  var m=f.marks||[], bits=[], i, seen={};
-  var care=['cross','star','triangle','delta','grille','square'];
-  for(i=0;i<m.length;i++){
-    if(care.indexOf(m[i].type)<0) continue;
-    if(m[i].line) continue;
-    var k=m[i].type+'|'+m[i].mount;
-    if(seen[k]) continue; seen[k]=1;
-    bits.push(meaningOf(m[i]));
-  }
-  if(!bits.length){
-    if(f.source==='photo' && !f.marksRead) return 'Crosses, stars, triangles, and deltas were not scored. '+(f.qualityNote||'The photo cannot separate those marks from noise or blur.');
-    return 'No cross, star, triangle, delta, or grille was clear enough to name. Faint scratches are not promoted into signs.';
-  }
-  return sentence(bits);
-}
-function minorText(f){
-  var bits=[];
-  if(hasMark(f,'girdle')) bits.push(meaningOf(marksWhere(f,'girdle')[0]));
-  if(hasMark(f,'solomon')) bits.push(meaningOf(marksWhere(f,'solomon')[0]));
-  if(hasMark(f,'intuition')) bits.push(meaningOf(marksWhere(f,'intuition')[0]));
-  if(hasMark(f,'attachment')) bits.push(meaningOf(marksWhere(f,'attachment')[0]));
-  if(!bits.length){
-    if(f.source==='photo' && !f.marksRead) return 'The girdle, the ring of Solomon, and the intuition line were not scored. '+(f.qualityNote||'');
-    return 'No girdle of Venus, ring of Solomon, or line of intuition was clear. They are not added for color.';
-  }
-  return sentence(bits);
-}
-function counselText(f){
-  var bits=[];
-  if(hasMark(f,'join','fate-life')) bits.push('Build the work yourself. A fate line from the life line does not reward waiting for permission.');
-  if(hasMark(f,'star','apollo')||(f.lines.sun&&f.lines.sun.present&&f.lines.sun.length>0.5)) bits.push('Do the work that can be seen, and keep a private room the audience does not enter.');
-  if(hasMark(f,'money')) bits.push('The money triangle favors patient judgment. It does not favor a gamble.');
-  if(hasMark(f,'cross','saturn')||hasMark(f,'star','saturn')) bits.push('Treat the Saturn mark as a practical caution about risk and reputation. Drop the superstition. Keep the caution.');
-  if(hasMark(f,'simian')) bits.push('Where heart and head are one line, wait overnight before you call a feeling a decision.');
-  if(hasMark(f,'cross','mystic')||hasMark(f,'solomon')) bits.push('Perception is a tool. It is not evidence that a dream or a hunch is already a fact.');
-  if(hasMark(f,'grille','moon')||f.lines.head.slope==='steep') bits.push('Guard sleep and night inputs. This kind of palm absorbs other people and then thinks the noise is its own.');
-  if(!bits.length) bits.push('No rare mark gave a special instruction. Use the measured lines. Do not add a sign that is not there.');
-  bits.push('Classical reading of what is visible. Not a medical, legal, or financial instruction, and not a date of death.');
-  return sentence(bits);
-}
-function notClaimed(f){
-  if(f.source==='sample') return 'This is a sample, so the missing-sign list is not about your hand.';
-  if(f.source==='photo' && !f.allowAbsence) return 'Because the photo cannot support fine marks, unmarked signs are unscored, not declared absent. '+(f.qualityNote||'');
-  var miss=[];
-  if(!hasMark(f,'money')) miss.push('money triangle');
-  if(!(f.lines.sun&&f.lines.sun.present&&f.lines.sun.length>=0.4) && !hasMark(f,'star','apollo')) miss.push('fame star or strong sun line');
-  if(!hasMark(f,'cross','mystic')) miss.push('mystic cross');
-  if(!hasMark(f,'girdle')) miss.push('girdle of Venus');
-  if(!hasMark(f,'star','jupiter') && !hasMark(f,'triangle','jupiter')) miss.push('star or triangle on Jupiter');
-  return 'Not on this reading, so not claimed: '+miss.join(', ')+'.';
-}
-function compose(f){
-  if(!f.marks) f.marks=[];
-  if(!f.lines) f.lines={};
-  ['heart','head','life','fate','sun','mercury'].forEach(function(k){ if(!f.lines[k]) f.lines[k]=emptyLine(); });
-  return [
-    {t:'The hand, measured', b:shapeText(f)},
-    {t:'Heart line', b:heartText(f)},
-    {t:'Head line', b:headText(f)},
-    {t:'Life line', b:lifeText(f)},
-    {t:'Fate line and joins', b:fateText(f)},
-    {t:'Money', b:moneyText(f)},
-    {t:'Fame and visibility', b:fameText(f)},
-    {t:'Success', b:successText(f)},
-    {t:'Crosses, stars, triangles, deltas', b:marksText(f)},
-    {t:'Minor lines', b:minorText(f)},
-    {t:'Counsel', b:counselText(f)}
-  ];
-}
+function lineGate(f,line,label){ if(f.source!=='photo') return ''; if(!line || !line.confirmed) return 'The '+label+' was not checked, so it is not read and it is not called missing.'; if(line.placed) return 'You redrew the '+label+' because the draft missed the crease. Ending, forks, and islands are not invented from that drawing.'; return ''; }
+function gloss(topic){var t=state.tradition||'blend'; var all={heart:{w:'Western readers begin with the heart line.',v:'Hasta samudrika calls it the hridaya rekha.',c:'Chinese hand study calls it the emotion line.'},head:{w:'The head line is how the mind moves, not a score.',v:'Vedic readers call it the buddhi rekha.',c:'Chinese palmistry calls it the wisdom line.'},life:{w:'The life line is vitality, never a date of death.',v:'It is the jeevan rekha.',c:'The Chinese life line is constitution, not lifespan.'},fate:{w:'The fate line is direction.',v:'Vedic palmistry calls it the bhagya rekha.',c:'Chinese readers call it the career line.'}}; var g=all[topic]; if(!g) return ''; if(t==='western') return g.w; if(t==='vedic') return g.v; if(t==='chinese') return g.c; return g.w+' '+g.v+' '+g.c;}
+function meaningOf(m){var you=m.source==='you'?'You report this. Classical reading: ':''; var key=m.type+'|'+(m.mount||m.line||''); var map={'cross|jupiter':'A cross on Jupiter classically marks leadership that carries a duty, and a check on pride.','cross|saturn':'A cross on Saturn is a caution about work, timing, and risk. It is not a death mark.','cross|apollo':'A cross on Apollo delays or humbles recognition.','cross|mercury':'A cross on Mercury marks speech or a deal that can go too far.','cross|venus':'A cross on Venus marks one strong attachment that costs something.','cross|moon':'A cross on the Moon marks strong imagination and a warning not to trust a hunch alone.','cross|mystic':'A mystic cross between head and heart is perception, not proof of a vision.','star|jupiter':'A star on Jupiter is a classical sign of honor through a public trust.','star|saturn':'A star on Saturn is a heavy caution around status and loss, not a death sentence.','star|apollo':'A star on Apollo is classical visibility: work that can be seen.','star|mercury':'A star on Mercury favors commerce, speech, or money made by wit.','triangle|jupiter':'A triangle on Jupiter marks diplomacy and calmer authority.','triangle|apollo':'A triangle on Apollo marks art with more peace than scandal.','triangle|mercury':'A triangle on Mercury is a business sign: judgment, not a windfall.','triangle|moon':'A triangle on the Moon makes imagination practical.','money|plain':'A closed meeting of head, fate, and Mercury is the money triangle: means from judgment and effort. Not a sum.','business|mercury':'Vertical lines under the little finger are business lines: trade and clients. Not a balance.','girdle|palm':'The girdle of Venus is intensity above the heart line. It needs rest.','solomon|jupiter':'The ring of Solomon is a gift for reading people. It is not a title.','intuition|moon':'The intuition line is a hunch that still has to be checked.','sister|life':'A sister line is a reserve beside the life line.','attachment|mercury':'Short lines on the outer edge mark bonds. They are not a count of marriages.','simian|palm':'Heart and head as one line: feeling and thought are not separate. Wait before you call a feeling a decision.','join|fate-life':'Fate leaving the life line is a self-made road.','join|fate-moon':'Fate from the Moon means other people or the public shape the work.','join|head-life':'Head tied to life at the start is caution. Confidence comes later.','fork|heart':'A fork at the end of the heart, between index and middle, is warmth with judgment.','fork|head':'A fork on the head is two mental tools, and sometimes two aims.','island|heart':'An island on the heart is a season of divided affection, not a life without love.','island|head':'An island on the head is a season of scattered concentration. Not a diagnosis.','island|life':'An island on the life line is a lower-energy season. Not an illness.','island|fate':'An island on the fate line is a confused chapter of work.'}; if(m.type==='cross' && m.line) return you+'A cross on '+pretty(m.line)+' '+whenAt(m.at)+' is an event at that season of the line, not a calendar date.'; return you+(map[key]||'This mark is kept only because it was confirmed.');}
+function shapeText(f){var base={earth:'Square palm, shorter fingers: the earth hand. It trusts what it can finish. The shadow is staying with a method after the ground has moved.',air:'Square palm, long fingers: the air hand. Give the mind a decision and a date.',fire:'Long palm, shorter fingers: the fire hand. You start what others describe. Keep one fire.',water:'Long palm, long fingers: the water hand. You read rooms. The gift needs a boundary.',mixed:'The proportions do not settle on one element.'}; var num=f.ratio?('Palm length over width is '+f.shape+', and the middle finger is '+f.ratio+' of the palm. '):''; var thumb=f.thumb==='open'?'The thumb opens, so you give room and can give away the week.':f.thumb==='firm'?'The thumb sits in. You finish. Loosen when a better idea arrives.':'The thumb angle is moderate.'; return sentence([num+(base[f.element]||base.mixed), thumb]);}
+function fingersText(f){var g=f.fingers; if(!g) return 'Finger proportions were not measured. All five fingertips have to be in the photo.'; if(g.bad) return 'The fingertip lock looks wrong, so finger and thumb proportions are not used. Retake the photo with every fingertip visible and the palm flat.'; var bits=['These proportions come from the fingertips and the thumb joints, not from a guessed crease.']; if(g.indexRing>1.04) bits.push('The index is longer than the ring. Classically Jupiter leads: standards and leadership, with less hunger to be displayed.'); else if(g.indexRing<0.96) bits.push('The ring is longer than the index. Classically Apollo leads: art, risk, and a need to be seen.'); else bits.push('Index and ring are close. Ambition and display are not at war.'); if(g.pinky==='long') bits.push('The little finger reaches high, toward the top joint of the ring. Classical Mercury: speech, trade, and negotiation have reach.'); else if(g.pinky==='short') bits.push('The little finger stops low. Commerce and talk are not the loudest part of this hand.'); else bits.push('The little finger is ordinary in reach. Mercury is present, not dominant.'); if(g.willLogic>1.12) bits.push('The tip of the thumb is long against the middle segment. Will is stronger than argument. You decide, then you explain.'); else if(g.willLogic<0.88) bits.push('The middle segment of the thumb is longer. Reason outruns will. You can see the move and still delay it.'); else bits.push('The two thumb segments are balanced. Reason and will can share a decision.'); if(g.open>1.22) bits.push('The fingertips stand apart. The hand is more independent than secretive.'); else if(g.open<1.02) bits.push('The fingers sit close. The hand keeps its counsel.'); return sentence(bits);}
+function spaceText(f){if(f.source!=='photo') return 'The quadrangle and the great triangle need confirmed lines on a photo. They are not guessed from the questionnaire.'; var H=f.lines.heart, D=f.lines.head, L=f.lines.life, F=f.lines.fate, bits=[]; if(!(H&&H.confirmed&&H.present&&!H.placed&&D&&D.confirmed&&D.present&&!D.placed)) bits.push('The quadrangle, the space between heart and head, is measured only when both automatic traces were accepted. A redrawn line is not used for that distance.'); else if(f.quad<0.09) bits.push('The quadrangle is narrow. Heart and head sit close: private, intense, quick to feel a slight.'); else if(f.quad>0.17) bits.push('The quadrangle is wide. Feeling and thought have room. The shadow is saying more than you meant.'); else bits.push('The quadrangle is moderate. Feeling and thought are neither cramped nor loose.'); if(H&&D&&L&&F&&H.confirmed&&D.confirmed&&L.confirmed&&F.confirmed&&H.present&&D.present&&L.present&&F.present&&!H.placed&&!D.placed&&!L.placed&&!F.placed&&f.tri){ if(f.tri>0.06) bits.push('The great triangle inside life, head, and fate is broad: a wider field of interest.'); else bits.push('The great triangle is contained: fewer aims, more caution.'); } else bits.push('The great triangle is not claimed unless life, head, and fate were all accepted as traced.'); return sentence(bits);}
+function heartText(f){var h=f.lines.heart; var g=lineGate(f,h,'heart line'); if(g) return g; if(!h.present){ if(f.source==='photo' && !f.allowAbsence) return 'You marked the heart line as not visible, and the photo was also too weak to treat that as a true absence. No love style is invented.'; return 'The heart line is not on this reading. No style of love is invented from a line that was rejected or that is not there.'; } var end={jupiter:'It ends under the index. Love wants an ideal, and forgiveness runs on your clock.',between:'It ends between index and middle. Warmth with judgment.',saturn:'It ends under the middle. The inner circle is small and loyal.',ulnar:'It fades before the middle. Affection is private rather than idealistic.',unknown:'The ending is not clear enough to name.'}; var bits=[end[h.end]||end.unknown, h.curve>0.5?'The line bends.':'The line runs straighter.', 'Depth: '+depthWord(h.depth)+'.']; if(h.breaks) bits.push('A break '+whenAt(h.breakAt)+' is a change in how you attach, not a life without love.'); if(hasMark(f,'fork','heart')) bits.push(meaningOf(marksWhere(f,'fork','heart')[0])); if(hasMark(f,'island','heart')) bits.push(meaningOf(marksWhere(f,'island','heart')[0])); if(hasMark(f,'simian')) bits.push(meaningOf(marksWhere(f,'simian')[0])); bits.push(gloss('heart')); return sentence(bits);}
+function headText(f){var h=f.lines.head; var g=lineGate(f,h,'head line'); if(g) return g; if(!h.present) return 'The head line is not on this reading. No type of mind is invented.'; var slope={straight:'It runs level. You want sequence and evidence.',gentle:'It slopes gently. A practical mind with the door open.',steep:'It drops toward the Moon. You think in images. Guard sleep.',unknown:'Its slope is not clear enough to name.'}; var bits=[slope[h.slope]||slope.unknown, h.length>0.72?'It travels far.':'It is the shorter kind, aimed at a decision.', 'Depth: '+depthWord(h.depth)+'.']; if(h.breaks) bits.push('A break '+whenAt(h.breakAt)+' is a change in how you think.'); if(hasMark(f,'fork','head')) bits.push(meaningOf(marksWhere(f,'fork','head')[0])); if(hasMark(f,'island','head')) bits.push(meaningOf(marksWhere(f,'island','head')[0])); if(hasMark(f,'join','head-life')) bits.push(meaningOf(marksWhere(f,'join','head-life')[0])); else if(h.separate) bits.push('It starts well away from the life line: early independence, and sometimes a leap.'); bits.push(gloss('head')); return sentence(bits);}
+function lifeText(f){var L=f.lines.life; var g=lineGate(f,L,'life line'); if(g) return g; if(!L.present) return 'The life line is not on this reading. Vitality is not invented, and no lifespan is implied.'; var bits=['Depth: '+depthWord(L.depth)+'.', L.sweep==='wide'?'It bows into the palm. Appetite and warmth are part of stamina.':'It hugs the thumb. Caution is part of stamina.']; if(L.breaks) bits.push('A break '+whenAt(L.breakAt)+' is a change of rhythm, not an ending.'); if(hasMark(f,'island','life')) bits.push(meaningOf(marksWhere(f,'island','life')[0])); if(hasMark(f,'sister','life')) bits.push(meaningOf(marksWhere(f,'sister','life')[0])); bits.push(gloss('life')); return sentence(bits);}
+function fateText(f){var fate=f.lines.fate; var g=lineGate(f,fate,'fate line'); if(g) return g; if(!fate.present){ if(f.source==='photo' && !f.allowAbsence) return 'The fate line was not accepted, and the photo cannot prove it is truly absent. No self-made destiny is claimed from a bad trace.'; return 'No fate line is on this reading. Classically, a line that is truly absent means you name the work yourself. It is not bad luck.'; } var map={strong:'The fate line is clear. A role gets a vote.',faint:'The fate line is faint. The title may arrive after the skill.',broken:'The fate line breaks. There is more than one chapter of work.',absent:'No fate line.',unknown:'The fate line is present.'}; var bits=[map[fate.presence]||map.unknown]; if(fate.start==='life'||hasMark(f,'join','fate-life')) bits.push('It rises from the life line: the road is made by effort.'); else if(fate.start==='moon'||hasMark(f,'join','fate-moon')) bits.push('It rises from the outer palm: other people help shape the work.'); else if(fate.start==='late') bits.push('It clarifies higher up. The early years are apprenticeship.'); else if(fate.start==='wrist') bits.push('It rises low in the center, a steady start.'); if(fate.endMount==='jupiter') bits.push('It aims toward Jupiter: authority or a standard.'); if(fate.endMount==='apollo') bits.push('It aims toward Apollo: the work wants to be seen.'); if(fate.endMount==='saturn') bits.push('It aims at Saturn: duty and mastery.'); if(hasMark(f,'island','fate')) bits.push(meaningOf(marksWhere(f,'island','fate')[0])); bits.push(gloss('fate')); return sentence(bits);}
+function moneyText(f){var bits=[]; if(hasMark(f,'money')) bits.push(meaningOf(marksWhere(f,'money')[0])); if(hasMark(f,'business')) bits.push(meaningOf(marksWhere(f,'business')[0])); if(hasMark(f,'triangle','mercury')) bits.push(meaningOf(marksWhere(f,'triangle','mercury')[0])); if(hasMark(f,'star','mercury')) bits.push(meaningOf(marksWhere(f,'star','mercury')[0])); if(!bits.length) return 'No money triangle, business lines, or wealth star was confirmed. Nothing about a fortune is claimed.'; return sentence(bits);}
+function fameText(f){var sun=f.lines.sun, bits=[]; if(sun && sun.confirmed && sun.placed) bits.push('You redrew a sun line. Fame is not scored from that drawing.'); else if(sun && sun.confirmed && sun.present && !sun.placed && sun.length>=0.4 && sun.depth>=0.36) bits.push('The sun line was accepted and it has real length. That is visibility, not a promise of celebrity.'); else if(sun && sun.confirmed && !sun.present) bits.push('No sun line was accepted.'); else bits.push('The sun line was not checked, so fame is not read from it.'); if(hasMark(f,'star','apollo')) bits.push(meaningOf(marksWhere(f,'star','apollo')[0])); if(hasMark(f,'triangle','apollo')) bits.push(meaningOf(marksWhere(f,'triangle','apollo')[0])); if(hasMark(f,'cross','apollo')) bits.push(meaningOf(marksWhere(f,'cross','apollo')[0])); var named=hasMark(f,'star','apollo')||hasMark(f,'triangle','apollo')||(sun&&sun.confirmed&&sun.present&&!sun.placed&&sun.length>=0.4); if(!named && !(sun&&sun.confirmed&&!sun.present)) return sentence(['No accepted sun line of real length, and no star or triangle on Apollo. Classical fame marks are not claimed.']); return sentence(bits);}
+function successText(f){var bits=[]; if(hasMark(f,'star','jupiter')) bits.push(meaningOf(marksWhere(f,'star','jupiter')[0])); if(hasMark(f,'triangle','jupiter')) bits.push(meaningOf(marksWhere(f,'triangle','jupiter')[0])); if(f.lines.fate.confirmed && f.lines.fate.present && !f.lines.fate.placed && f.lines.fate.depth>0.45) bits.push('An accepted fate line supports a role. It does not, by itself, mean the role succeeds.'); if(f.fingers && !f.fingers.bad && f.fingers.willLogic>1.12 && f.lines.head.confirmed && f.lines.head.present) bits.push('A long thumb-tip plus an accepted head line is follow-through. That is character, not fame.'); if(!bits.length) return 'No Jupiter star or triangle was confirmed, so success is not declared.'; return sentence(bits);}
+function marksText(f){var m=f.marks||[], bits=[], i, seen={}, care=['cross','star','triangle','delta','grille','square']; for(i=0;i<m.length;i++){ if(care.indexOf(m[i].type)<0 || m[i].line) continue; var k=m[i].type+'|'+m[i].mount; if(seen[k]) continue; seen[k]=1; bits.push(meaningOf(m[i])); } if(!bits.length){ if(f.source==='photo' && !f.marksRead) return 'Crosses, stars, and triangles were not scored from this photo. '+(f.qualityNote||'Add only a mark you can see.'); return 'No cross, star, or triangle was confirmed. Faint scratches are not promoted into signs.'; } return sentence(bits);}
+function minorText(f){var bits=[]; if(hasMark(f,'girdle')) bits.push(meaningOf(marksWhere(f,'girdle')[0])); if(hasMark(f,'solomon')) bits.push(meaningOf(marksWhere(f,'solomon')[0])); if(hasMark(f,'intuition')) bits.push(meaningOf(marksWhere(f,'intuition')[0])); if(hasMark(f,'attachment')) bits.push(meaningOf(marksWhere(f,'attachment')[0])); if(!bits.length) return 'No girdle, ring of Solomon, intuition line, or attachment lines were confirmed.'; return sentence(bits);}
+function counselText(f){var bits=[]; if(hasMark(f,'join','fate-life')) bits.push('A fate line from the life line does not reward waiting for permission.'); if(hasMark(f,'money')) bits.push('The money triangle favors judgment. It does not favor a gamble.'); if(hasMark(f,'cross','saturn')||hasMark(f,'star','saturn')) bits.push('Keep the Saturn caution about risk. Drop the superstition.'); if(hasMark(f,'simian')) bits.push('Where heart and head are one line, wait overnight before you call a feeling a decision.'); if(!bits.length) bits.push('No rare mark was confirmed, so there is no special instruction. Use only the checked lines and the measured fingers.'); bits.push('Not a medical, legal, or financial instruction, and not a date of death.'); return sentence(bits);}
+function notClaimed(f){if(f.source==='sample') return 'Sample only. This is not your hand.'; if(f.source==='guided') return 'This reading uses what you reported, not a camera.'; return 'Unchecked lines were left out on purpose. Left out is not the same as absent.';}
+function compose(f){if(!f.marks) f.marks=[]; if(!f.lines) f.lines={}; var i; for(i=0;i<NAMES.length;i++) if(!f.lines[NAMES[i]]) f.lines[NAMES[i]]=emptyLine(); return [{t:'Hand shape', b:shapeText(f)},{t:'Fingers and thumb', b:fingersText(f)},{t:'Heart line', b:heartText(f)},{t:'Head line', b:headText(f)},{t:'Life line', b:lifeText(f)},{t:'Fate line', b:fateText(f)},{t:'Quadrangle and great triangle', b:spaceText(f)},{t:'Money', b:moneyText(f)},{t:'Fame', b:fameText(f)},{t:'Success', b:successText(f)},{t:'Crosses, stars, triangles', b:marksText(f)},{t:'Minor lines', b:minorText(f)},{t:'Counsel', b:counselText(f)}];}
 function textOf(sections){var i,o=[]; for(i=0;i<sections.length;i++) o.push(sections[i].t+'. '+sections[i].b); return o.join(NL()+NL());}
-function sideOf(){ if(state.which==='writing') return state.writes||'Right'; return state.writes==='Left'?'Right':'Left'; }
-function rolePhrase(rec){
-  var role=rec.role==='writing'?'the writing hand, the life you practice':'the other hand, the temperament you arrived with';
-  return (rec.name?rec.name+', ':'')+rec.hand+' hand, '+role+'.';
-}
-function scores(f){
-  function love(){ if(!f.lines.heart.present && f.source==='photo') return 0; return clamp(50+f.lines.heart.depth*34+(hasMark(f,'fork','heart')?6:0)-(f.lines.heart.breaks?6:0), 36, 94); }
-  function mind(){ if(!f.lines.head.present && f.source==='photo') return 0; return clamp(48+f.lines.head.depth*28+f.lines.head.length*16, 36, 94); }
-  function vita(){ if(!f.lines.life.present && f.source==='photo') return 0; return clamp(48+f.lines.life.depth*36, 36, 94); }
-  function work(){ if(!f.lines.fate.present && f.source==='photo') return 0; return clamp(f.lines.fate.presence==='strong'?82:f.lines.fate.depth*70+20, 36, 94); }
-  return {love:love(), mind:mind(), vita:vita(), work:work()};
-}
-function paintOverlay(c, rec){
-  var img=c.parentNode.querySelector('img');
-  var W=img.naturalWidth||c.clientWidth||600, H=img.naturalHeight||c.clientHeight||800;
-  c.width=W; c.height=H;
-  var ctx=c.getContext('2d'); ctx.clearRect(0,0,W,H);
-  var paths=(rec.features&&rec.features.paths)||{};
-  var colors={heart:'#e07a8a',head:'#7eb6e0',life:'#7dcea0',fate:'#e0c07a',sun:'#f3d48a',mercury:'#c9b6f2'};
-  var name, lw=Math.max(2, W/220);
-  for(name in colors){
-    if(!paths[name] || !rec.features.lines[name] || !rec.features.lines[name].present) continue;
-    var pts=paths[name]; if(!pts || pts.length<2) continue;
-    ctx.beginPath(); ctx.moveTo(pts[0].x*W, pts[0].y*H);
-    var i; for(i=1;i<pts.length;i++) ctx.lineTo(pts[i].x*W, pts[i].y*H);
-    ctx.strokeStyle=colors[name]; ctx.lineWidth=lw; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke();
-  }
-  var marks=rec.features.marks||[];
-  for(i=0;i<marks.length;i++){
-    var m=marks[i]; if(!m.x && !m.y) continue;
-    var x=m.x*W, y=m.y*H, r=Math.max(8, W/46);
-    ctx.strokeStyle='#fff6e8'; ctx.lineWidth=Math.max(1.5, lw*0.8);
-    if(m.type==='cross' || m.type==='grille' || m.type==='simian'){
-      ctx.beginPath(); ctx.moveTo(x-r,y-r); ctx.lineTo(x+r,y+r); ctx.moveTo(x+r,y-r); ctx.lineTo(x-r,y+r); ctx.stroke();
-    } else if(m.type==='star'){
-      var a; ctx.beginPath(); for(a=0;a<5;a++){ var ang=a*1.2566; ctx.moveTo(x,y); ctx.lineTo(x+Math.cos(ang)*r, y+Math.sin(ang)*r);} ctx.stroke();
-    } else if(m.type==='triangle' || m.type==='delta' || m.type==='money'){
-      ctx.beginPath(); ctx.moveTo(x, y-r); ctx.lineTo(x+r, y+r*0.8); ctx.lineTo(x-r, y+r*0.8); ctx.closePath(); ctx.stroke();
-    } else if(m.type==='square'){
-      ctx.strokeRect(x-r, y-r, r*2, r*2);
-    } else {
-      ctx.beginPath(); ctx.arc(x,y,r*0.55,0,6.3); ctx.stroke();
-    }
-  }
-}
-function renderReport(rec){
-  state.reading=rec;
-  var f=rec.features;
-  if(!f || !f.lines || !f.lines.heart){ var root0=document.getElementById('report-root'); clear(root0); addP(root0,'This saved reading is from an older version and cannot be opened. Read the hand again.'); show('report'); return; }
-  if(!f.marks) f.marks=[];
-  rec.sections=compose(f); rec.text=textOf(rec.sections);
-  var root=document.getElementById('report-root'); clear(root);
-  var eye=document.createElement('p'); eye.className='eyebrow'; eye.textContent=f.source==='sample'?'Sample, not your hand':f.source==='guided'?'Read from what you reported':'Measured from the photo'; root.appendChild(eye);
-  var h=document.createElement('h2'); h.textContent=ENAME[f.element]||'The hand'; root.appendChild(h);
-  addP(root, rolePhrase(rec));
-  if(f.note) addP(root, f.note);
-  if(f.qualityNote) addP(root, f.qualityNote, 'note');
-  if(rec.photo){
-    var box=document.createElement('div'); box.className='shotbox';
-    var img=document.createElement('img'); img.alt='Palm without invented marks'; img.src=rec.photo;
-    var cv=document.createElement('canvas'); cv.setAttribute('aria-hidden','true');
-    box.appendChild(img); box.appendChild(cv); root.appendChild(box);
-    var go=function(){ paintOverlay(cv, rec); };
-    if(img.complete && img.naturalWidth) go(); else img.onload=go;
-    addP(root, 'Rose heart, blue head, green life, gold fate, pale gold sun, lilac Mercury. White marks are crosses, stars, triangles, or other signs that passed the filter.', 'tiny');
-  }
-  var sc=scores(f); var meters=document.createElement('div'); meters.className='meters'; root.appendChild(meters);
-  function meter(n,label){ var d=document.createElement('div'); d.className='meter'; var b=document.createElement('b'); b.textContent=n?String(Math.round(n)):'–'; var s=document.createElement('span'); s.textContent=label; d.appendChild(b); d.appendChild(s); meters.appendChild(d); }
-  meter(sc.love,'Love'); meter(sc.mind,'Mind'); meter(sc.vita,'Vital'); meter(sc.work,'Work');
-  var h3=document.createElement('h3'); h3.textContent='What is actually on this hand'; root.appendChild(h3);
-  var bits=[], i;
-  function pushLine(name, L, extra){ if(!L) return; bits.push(name+': '+(L.present?depthWord(L.depth)+', length '+(Math.round((L.length||0)*100))+' percent'+(extra?'. '+extra:'.'):'not clear.')); }
-  pushLine('Heart', f.lines.heart, f.lines.heart.end?('ends '+f.lines.heart.end):'');
-  pushLine('Head', f.lines.head, f.lines.head.slope||'');
-  pushLine('Life', f.lines.life, f.lines.life.sweep||'');
-  pushLine('Fate', f.lines.fate, f.lines.fate.present?(f.lines.fate.start||f.lines.fate.presence):'');
-  pushLine('Sun', f.lines.sun, '');
-  pushLine('Mercury', f.lines.mercury, '');
-  for(i=0;i<bits.length;i++) addP(root, bits[i], 'ev');
-  if(!f.marks.length) addP(root, 'No extra mark passed the filter.', 'note');
-  for(i=0;i<f.marks.length;i++){
-    var row=document.createElement('div'); row.className='card';
-    addP(row, markTitle(f.marks[i])+(f.marks[i].source==='you'?' · you reported this':' · measured'));
-    var db=document.createElement('button'); db.type='button'; db.className='chip'; db.setAttribute('data-dismiss', f.marks[i].id); db.textContent='Not really there'; row.appendChild(db);
-    root.appendChild(row);
-  }
-  addP(root, notClaimed(f), 'note');
-  for(i=0;i<rec.sections.length;i++){
-    var det=document.createElement('details'); if(i<5) det.open=true;
-    var su=document.createElement('summary'); su.textContent=rec.sections[i].t; det.appendChild(su);
-    addP(det, rec.sections[i].b); root.appendChild(det);
-  }
-  var b1=document.createElement('button'); b1.className='btn'; b1.type='button'; b1.setAttribute('data-act','add-marks'); b1.textContent='I see a mark the reading missed'; root.appendChild(b1);
-  var b2=document.createElement('button'); b2.className='btn ghost'; b2.type='button'; b2.setAttribute('data-act','other'); b2.textContent='Read the other hand'; root.appendChild(b2);
-  var b3=document.createElement('button'); b3.className='btn ghost'; b3.type='button'; b3.setAttribute('data-act','to-ask'); b3.textContent='Ask about a sign'; root.appendChild(b3);
-  var b4=document.createElement('button'); b4.className='btn ghost'; b4.type='button'; b4.setAttribute('data-act','copy'); b4.textContent='Copy the reading'; root.appendChild(b4);
-  var b5=document.createElement('button'); b5.className='btn ghost'; b5.type='button'; b5.setAttribute('data-go','guide'); b5.setAttribute('data-act','guide-go'); b5.textContent='Wrong lines. Walk them myself'; root.appendChild(b5);
-  show('report');
-}
-function renderLibrary(){
-  var root=document.getElementById('lib-root'); clear(root); var list=loadLib(); var i;
-  if(!list.length){ addP(root,'No readings yet.'); return; }
-  for(i=0;i<list.length;i++){
-    var card=document.createElement('div'); card.className='card';
-    addP(card, (list[i].name||'Unnamed')+' · '+(list[i].hand||'')+' · '+(list[i].features&&ENAME[list[i].features.element]||'')+' · '+((list[i].at||'').slice(0,10)));
-    var b=document.createElement('button'); b.className='chip'; b.type='button'; b.setAttribute('data-lib', String(list[i].id)); b.textContent='Open'; card.appendChild(b);
-    var del=document.createElement('button'); del.className='chip'; del.type='button'; del.setAttribute('data-del', String(list[i].id)); del.textContent='Delete'; card.appendChild(del);
-    root.appendChild(card);
-  }
-}
-function compareText(a,b){
-  var fa=a.features, fb=b.features, bits=[];
-  if(!fa||!fb||!fa.lines||!fb.lines) return 'One of these readings is too old to compare. Read the hands again.';
-  if(fa.element===fb.element) bits.push('Both hands are '+fa.element+'. The basic tempo matches. Friction is more about pace than nature.');
-  else bits.push('One hand is '+fa.element+' and the other is '+fb.element+'. The difference is real. Name it early.');
-  var as=fa.marks||[], bs=fb.marks||[];
-  function types(list){var o={},i; for(i=0;i<list.length;i++) o[list[i].type+'|'+(list[i].mount||list[i].line||'')]=1; return o;}
-  var A=types(as), B=types(bs), k, both=[], onlyA=[], onlyB=[];
-  for(k in A){ if(B[k]) both.push(k); else onlyA.push(k); }
-  for(k in B) if(!A[k]) onlyB.push(k);
-  if(both.length) bits.push('Shared signs: '+both.join(', ')+'. Where the same mark is on both hands, do not treat it as a quirk of one person.');
-  else bits.push('No identical rare mark is stored on both readings. Do not invent a mystical match.');
-  if(fa.lines.heart.end && fa.lines.heart.end===fb.lines.heart.end) bits.push('The heart lines end the same way. That is a quiet agreement about love.');
-  else bits.push('The heart lines do not end the same way. Say what loyalty looks like on an ordinary week.');
-  bits.push('This compares recorded signs only. It is not permission and not a verdict.');
-  return sentence(bits);
-}
-function renderCompare(){
-  var root=document.getElementById('compare-root'); if(!root) return; clear(root);
-  var list=loadLib(); var i, b, a, c;
-  if(list.length<2) addP(root,'Save two readings first.');
-  for(i=0;i<list.length;i++){
-    b=document.createElement('button'); b.type='button'; b.className='chip'; if(state.cmp.indexOf(String(list[i].id))>=0) b.className='chip on';
-    b.setAttribute('data-cmp', String(list[i].id)); b.textContent=(list[i].name||'Unnamed')+' '+(list[i].hand||''); root.appendChild(b);
-  }
-  if(state.cmp.length===2){
-    for(i=0;i<list.length;i++){ if(String(list[i].id)===state.cmp[0]) a=list[i]; if(String(list[i].id)===state.cmp[1]) c=list[i]; }
-    if(a&&c){ var hh=document.createElement('h3'); hh.textContent=(a.name||a.hand)+' and '+(c.name||c.hand); root.appendChild(hh); addP(root, compareText(a,c)); }
-  }
-}
-function answerAsk(q, rec){
-  var f=rec.features; if(!f) return 'Read a hand first.';
-  var s=(' '+(q||'').toLowerCase()+' ');
-  function hit(words){var i,w=words.split(' '); for(i=0;i<w.length;i++) if(w[i] && s.indexOf(w[i])>=0) return true; return false;}
-  if(hit('money wealth cash business triangle fortune')) return moneyText(f);
-  if(hit('fame famous sun star apollo success honor celebrity')) return sentence([fameText(f), successText(f)]);
-  if(hit('cross star triangle delta mystic grille square')) return marksText(f);
-  if(hit('love heart marry partner romance')) return heartText(f);
-  if(hit('work career fate job purpose')) return fateText(f);
-  if(hit('health life vitality energy body')) return lifeText(f)+' This is not a diagnosis and not a lifespan.';
-  if(hit('mind head think anxiety')) return headText(f);
-  if(hit('travel move moon abroad')) return (hasMark(f,'cross','moon')||hasMark(f,'star','moon')||hasMark(f,'triangle','moon')||f.lines.head.slope==='steep')?'The outer palm or a sloping head line is involved. Travel and a change of scene are classically useful, and a cross on the Moon is a warning to look twice, not a ban.':'No travel mark, Moon star, or strong sloping head line is recorded, so a life of travel is not claimed.';
-  if(hit('family child marriage attach home')) return hasMark(f,'attachment')?meaningOf(marksWhere(f,'attachment')[0]):'No attachment lines were recorded, and children are not counted from a palm photo.';
-  if(hit('join connect simian fate')) return fateText(f);
-  return 'Ask about money, fame, a cross, love, work, vitality, travel, or family. The answer stays inside the signs already recorded.';
-}
+function sideOf(){return state.which==='writing'?(state.writes||'Right'):(state.writes==='Left'?'Right':'Left');}
+function rolePhrase(rec){var role=rec.role==='writing'?'the writing hand':'the other hand'; return (rec.name?rec.name+', ':'')+rec.hand+' hand, '+role+'.';}
+function paintOverlay(c, rec){var img=c.parentNode.querySelector('img'); var W=img.naturalWidth||600, H=img.naturalHeight||800; c.width=W; c.height=H; var ctx=c.getContext('2d'); ctx.clearRect(0,0,W,H); var paths=(rec.features&&rec.features.paths)||{}; var colors={heart:'#e07a8a',head:'#7eb6e0',life:'#7dcea0',fate:'#e0c07a',sun:'#f3d48a',mercury:'#c9b6f2'}; var name, i, lw=Math.max(2.5, W/180); for(name in colors){ var L=rec.features.lines && rec.features.lines[name]; if(!L || !L.present) continue; var pts=paths[name]; if(!pts||pts.length<2) continue; ctx.beginPath(); ctx.moveTo(pts[0].x*W, pts[0].y*H); for(i=1;i<pts.length;i++) ctx.lineTo(pts[i].x*W, pts[i].y*H); ctx.strokeStyle=colors[name]; ctx.lineWidth=lw; ctx.lineCap='round'; ctx.stroke(); } var marks=rec.features.marks||[]; for(i=0;i<marks.length;i++){ var m=marks[i]; if(!m.x&&!m.y) continue; var x=m.x*W, y=m.y*H, r=Math.max(8,W/46); ctx.strokeStyle='#fff6e8'; ctx.lineWidth=2; if(m.type==='cross'||m.type==='simian'){ ctx.beginPath(); ctx.moveTo(x-r,y-r); ctx.lineTo(x+r,y+r); ctx.moveTo(x+r,y-r); ctx.lineTo(x-r,y+r); ctx.stroke(); } else if(m.type==='star'){ var a; ctx.beginPath(); for(a=0;a<5;a++){ var ang=a*1.2566; ctx.moveTo(x,y); ctx.lineTo(x+Math.cos(ang)*r, y+Math.sin(ang)*r);} ctx.stroke(); } else if(m.type==='triangle'||m.type==='money'||m.type==='delta'){ ctx.beginPath(); ctx.moveTo(x,y-r); ctx.lineTo(x+r,y+r*0.8); ctx.lineTo(x-r,y+r*0.8); ctx.closePath(); ctx.stroke(); } else { ctx.beginPath(); ctx.arc(x,y,r*0.45,0,6.3); ctx.stroke(); } } if(state.place && state.place.pts){ ctx.fillStyle='#ffffff'; for(i=0;i<state.place.pts.length;i++){ ctx.beginPath(); ctx.arc(state.place.pts[i].x*W, state.place.pts[i].y*H, 7, 0, 6.3); ctx.fill(); } }}
+function mountShot(parent, rec, live){var box=document.createElement('div'); box.className='shotbox'; var img=document.createElement('img'); img.alt='Palm'; img.src=rec.photo; var cv=document.createElement('canvas'); if(live) cv.className='live'; box.appendChild(img); box.appendChild(cv); parent.appendChild(box); function go(){ paintOverlay(cv, rec); } if(img.complete && img.naturalWidth) go(); else img.onload=go; if(live){ cv.addEventListener('pointerdown', function(ev){ if(!state.place) return; ev.preventDefault(); var r=cv.getBoundingClientRect(); var x=(ev.clientX-r.left)/r.width, y=(ev.clientY-r.top)/r.height; state.place.pts.push({x:x,y:y}); if(state.place.pts.length>=3){ applyDrawn(state.place.line, state.place.pts); state.place=null; } renderReview(); }); } }
+function renderReport(rec){state.reading=rec; var f=rec.features; if(!f||!f.lines||!f.lines.heart){ var root0=document.getElementById('report-root'); clear(root0); addP(root0,'That saved reading is from an older version. Read the hand again.'); show('report'); return; } rec.sections=compose(f); rec.text=textOf(rec.sections); var root=document.getElementById('report-root'); clear(root); var eye=document.createElement('p'); eye.className='eyebrow'; eye.textContent=f.source==='sample'?'Sample, not your hand':f.source==='guided'?'From what you reported':'From checked lines'; root.appendChild(eye); var h=document.createElement('h2'); h.textContent=ENAME[f.element]||'The hand'; root.appendChild(h); addP(root, rolePhrase(rec)); if(f.note) addP(root, f.note); if(f.qualityNote) addP(root, f.qualityNote, 'note'); if(rec.photo) mountShot(root, rec, false); var i; for(i=0;i<(f.marks||[]).length;i++){ var row=document.createElement('div'); row.className='card'; addP(row, (f.marks[i].type+' '+(f.marks[i].mount||f.marks[i].line||''))+(f.marks[i].source==='you'?' · you reported this':' · on the draft')); var db=document.createElement('button'); db.type='button'; db.className='chip'; db.setAttribute('data-dismiss', f.marks[i].id); db.textContent='Not really there'; row.appendChild(db); root.appendChild(row); } addP(root, notClaimed(f), 'note'); for(i=0;i<rec.sections.length;i++){ var det=document.createElement('details'); if(i<6) det.open=true; var su=document.createElement('summary'); su.textContent=rec.sections[i].t; det.appendChild(su); addP(det, rec.sections[i].b); root.appendChild(det); } var b1=document.createElement('button'); b1.className='btn'; b1.type='button'; b1.setAttribute('data-act','add-marks'); b1.textContent='I see a mark that was missed'; root.appendChild(b1); var b2=document.createElement('button'); b2.className='btn ghost'; b2.type='button'; b2.setAttribute('data-act','other'); b2.textContent='Read the other hand'; root.appendChild(b2); var b3=document.createElement('button'); b3.className='btn ghost'; b3.type='button'; b3.setAttribute('data-act','to-ask'); b3.textContent='Ask about a sign'; root.appendChild(b3); var b4=document.createElement('button'); b4.className='btn ghost'; b4.type='button'; b4.setAttribute('data-act','copy'); b4.textContent='Copy the reading'; root.appendChild(b4); show('report');}
+function renderReview(){var draft=state.draft; if(!draft) return; var photo=document.getElementById('review-photo'); var lines=document.getElementById('review-lines'); var hint=document.getElementById('review-hint'); clear(photo); clear(lines); var rec={photo:draft.photo, features:draft.features}; mountShot(photo, rec, true); if(state.place) hint.textContent='Tap start, middle, and end of the '+LABEL[state.place.line]+' crease. '+state.place.pts.length+' of 3.'; else hint.textContent=draft.features.qualityNote||'Check each color against the crease you see.'; var i; for(i=0;i<NAMES.length;i++){ var name=NAMES[i], L=draft.features.lines[name]; var card=document.createElement('div'); card.className='card'; var status=L.placed?'redrawn by you':L.confirmed&&L.present?'accepted':L.confirmed&&!L.present?'marked not visible':L.present?'draft found':'draft did not find it'; addP(card, LABEL[name]+' · '+status); if(!L.confirmed){ var ok=document.createElement('button'); ok.type='button'; ok.className='chip'; ok.setAttribute('data-act','ok-line'); ok.setAttribute('data-line', name); ok.textContent=L.present?'Accept this trace':'Agree it is not visible'; card.appendChild(ok); } if(L.present){ var no=document.createElement('button'); no.type='button'; no.className='chip'; no.setAttribute('data-act','no-line'); no.setAttribute('data-line', name); no.textContent='Not this trace'; card.appendChild(no); } var dr=document.createElement('button'); dr.type='button'; dr.className='chip'; dr.setAttribute('data-act','draw-line'); dr.setAttribute('data-line', name); dr.textContent='Redraw'; card.appendChild(dr); lines.appendChild(card); } show('review');}
+function applyDrawn(name, pts){var f=state.draft.features; var a=pts[0], b=pts[1], c=pts[2], path=[], i, t, p0, p1; for(i=0;i<=24;i++){ t=i/24; p0={x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t}; p1={x:b.x+(c.x-b.x)*t, y:b.y+(c.y-b.y)*t}; path.push({x:p0.x+(p1.x-p0.x)*t, y:p0.y+(p1.y-p0.y)*t}); } if(!f.paths) f.paths={}; f.paths[name]=path; var L=f.lines[name]; L.present=true; L.confirmed=true; L.placed=true; L.depth=0; L.length=0.7; L.breaks=false; L.end=''; L.slope=''; L.endMount=''; f.marks=(f.marks||[]).filter(function(m){return m.line!==name;});}
+function renderLibrary(){var root=document.getElementById('lib-root'); clear(root); var list=loadLib(); if(!list.length){ addP(root,'No checked readings yet.'); return; } var i; for(i=0;i<list.length;i++){ var card=document.createElement('div'); card.className='card'; addP(card, (list[i].name||'Unnamed')+' · '+(list[i].hand||'')+' · '+((list[i].at||'').slice(0,10))); var b=document.createElement('button'); b.className='chip'; b.type='button'; b.setAttribute('data-lib', String(list[i].id)); b.textContent='Open'; card.appendChild(b); var del=document.createElement('button'); del.className='chip'; del.type='button'; del.setAttribute('data-del', String(list[i].id)); del.textContent='Delete'; card.appendChild(del); root.appendChild(card); }}
+function compareText(a,b){var fa=a.features, fb=b.features; if(!fa||!fb) return 'Read both hands again with the checker.'; var bits=[]; if(fa.element&&fa.element===fb.element) bits.push('Both hands are '+fa.element+'.'); else bits.push('One hand is '+(fa.element||'unmeasured')+' and the other is '+(fb.element||'unmeasured')+'.'); if(fa.fingers&&fb.fingers&&!fa.fingers.bad&&!fb.fingers.bad){ if((fa.fingers.indexRing>1.04)===(fb.fingers.indexRing>1.04) && (fa.fingers.indexRing<0.96)===(fb.fingers.indexRing<0.96)) bits.push('Index and ring lead the same way on both hands.'); else bits.push('Index and ring do not lead the same way. That difference is measured, so name it.'); } bits.push('Only checked signs are compared. An unchecked line is not a match and not a clash.'); return sentence(bits);}
+function renderCompare(){var root=document.getElementById('compare-root'); if(!root) return; clear(root); var list=loadLib(); var i,b,a,c; if(list.length<2) addP(root,'Save two checked readings first.'); for(i=0;i<list.length;i++){ b=document.createElement('button'); b.type='button'; b.className=state.cmp.indexOf(String(list[i].id))>=0?'chip on':'chip'; b.setAttribute('data-cmp', String(list[i].id)); b.textContent=(list[i].name||'Unnamed')+' '+(list[i].hand||''); root.appendChild(b);} if(state.cmp.length===2){ for(i=0;i<list.length;i++){ if(String(list[i].id)===state.cmp[0]) a=list[i]; if(String(list[i].id)===state.cmp[1]) c=list[i]; } if(a&&c){ var hh=document.createElement('h3'); hh.textContent=(a.name||a.hand)+' and '+(c.name||c.hand); root.appendChild(hh); addP(root, compareText(a,c)); } }}
+function answerAsk(q, rec){var f=rec.features, s=(' '+(q||'').toLowerCase()+' '); function hit(words){var w=words.split(' '), i; for(i=0;i<w.length;i++) if(w[i] && s.indexOf(w[i])>=0) return true; return false;} if(hit('finger thumb index ring pinky')) return fingersText(f); if(hit('quad triangle space')) return spaceText(f); if(hit('money wealth')) return moneyText(f); if(hit('fame sun star')) return fameText(f); if(hit('cross mystic')) return marksText(f); if(hit('love heart')) return heartText(f); if(hit('work fate career')) return fateText(f); if(hit('mind head')) return headText(f); if(hit('life health vital')) return lifeText(f)+' Not a diagnosis and not a lifespan.'; return 'Ask about fingers, the quadrangle, money, fame, love, work, or a cross. Unchecked lines are not used.';}
 function dist(a,b){return hypot(a.x-b.x,a.y-b.y);}
-function creases(imageData,w,h){
-  var lum=new Float32Array(w*h), d=imageData.data, i,x,y;
-  for(i=0;i<w*h;i++) lum[i]=d[i*4]*0.3+d[i*4+1]*0.59+d[i*4+2]*0.11;
-  var r=4, iw=w+1, I=new Float64Array(iw*(h+1));
-  for(y=1;y<=h;y++){ var row=0; for(x=1;x<=w;x++){ row+=lum[(y-1)*w+(x-1)]; I[y*iw+x]=I[(y-1)*iw+x]+row; } }
-  function sum(x0,y0,x1,y1){ x0=Math.max(0,x0); y0=Math.max(0,y0); x1=Math.min(w-1,x1); y1=Math.min(h-1,y1); return I[(y1+1)*iw+(x1+1)]-I[y0*iw+(x1+1)]-I[(y1+1)*iw+x0]+I[y0*iw+x0]; }
-  var out=new Float32Array(w*h);
-  for(y=0;y<h;y++) for(x=0;x<w;x++){
-    var xa=Math.max(0,x-r), ya=Math.max(0,y-r), xb=Math.min(w-1,x+r), yb=Math.min(h-1,y+r);
-    var area=(xb-xa+1)*(yb-ya+1);
-    var mean=sum(xa,ya,xb,yb)/area; var v=mean-lum[y*w+x]; out[y*w+x]=v>0?v:0;
-  }
-  return out;
-}
-function Rv(ridge,w,h,x,y){
-  if(!(x>=1&&y>=1&&x<w-1&&y<h-1)) return 0;
-  var x0=x|0, y0=y|0, fx=x-x0, fy=y-y0, i=y0*w+x0;
-  var a=ridge[i], b=ridge[i+1], c=ridge[i+w], d=ridge[i+w+1];
-  return (a*(1-fx)+b*fx)*(1-fy)+(c*(1-fx)+d*fx)*fy;
-}
-function makeMap(lm,w,h){
-  function P(i){return {x:lm[i].x*w, y:lm[i].y*h};}
-  var O=P(0), Mx=lm[9].x*w-O.x, My=lm[9].y*h-O.y, vlen=hypot(Mx,My)||1, Vx=Mx/vlen, Vy=My/vlen;
-  var Sx=-Vy, Sy=Vx, px=lm[17].x*w-O.x, py=lm[17].y*h-O.y;
-  if(px*Sx+py*Sy<0){Sx=-Sx; Sy=-Sy;}
-  var slen=hypot(lm[5].x*w-lm[17].x*w, lm[5].y*h-lm[17].y*h)||1;
-  function toXY(u,v){return {x:O.x+Vx*vlen*v+Sx*slen*(u-0.5), y:O.y+Vy*vlen*v+Sy*slen*(u-0.5)};}
-  function toUV(x,y){var dx=x-O.x, dy=y-O.y; return {u:(dx*Sx+dy*Sy)/slen+0.5, v:(dx*Vx+dy*Vy)/vlen};}
-  return {toXY:toXY,toUV:toUV,vlen:vlen,slen:slen,P:P};
-}
+function creases(imageData,w,h){var lum=new Float32Array(w*h), d=imageData.data, i,x,y; for(i=0;i<w*h;i++) lum[i]=d[i*4]*0.3+d[i*4+1]*0.59+d[i*4+2]*0.11; var r=4, iw=w+1, I=new Float64Array(iw*(h+1)); for(y=1;y<=h;y++){ var row=0; for(x=1;x<=w;x++){ row+=lum[(y-1)*w+(x-1)]; I[y*iw+x]=I[(y-1)*iw+x]+row; } } function sum(x0,y0,x1,y1){ x0=Math.max(0,x0); y0=Math.max(0,y0); x1=Math.min(w-1,x1); y1=Math.min(h-1,y1); return I[(y1+1)*iw+(x1+1)]-I[y0*iw+(x1+1)]-I[(y1+1)*iw+x0]+I[y0*iw+x0]; } var out=new Float32Array(w*h); for(y=0;y<h;y++) for(x=0;x<w;x++){ var xa=Math.max(0,x-r), ya=Math.max(0,y-r), xb=Math.min(w-1,x+r), yb=Math.min(h-1,y+r); var area=(xb-xa+1)*(yb-ya+1); var mean=sum(xa,ya,xb,yb)/area; var v=mean-lum[y*w+x]; out[y*w+x]=v>0?v:0; } return out;}
+function Rv(ridge,w,h,x,y){if(!(x>=1&&y>=1&&x<w-1&&y<h-1)) return 0; var x0=x|0,y0=y|0,fx=x-x0,fy=y-y0,i=y0*w+x0; var a=ridge[i],b=ridge[i+1],c=ridge[i+w],d=ridge[i+w+1]; return (a*(1-fx)+b*fx)*(1-fy)+(c*(1-fx)+d*fx)*fy;}
+function makeMap(lm,w,h){function P(i){return {x:lm[i].x*w,y:lm[i].y*h};} var O=P(0), Mx=lm[9].x*w-O.x, My=lm[9].y*h-O.y, vlen=hypot(Mx,My)||1, Vx=Mx/vlen, Vy=My/vlen, Sx=-Vy, Sy=Vx, px=lm[17].x*w-O.x, py=lm[17].y*h-O.y; if(px*Sx+py*Sy<0){Sx=-Sx;Sy=-Sy;} var slen=hypot(lm[5].x*w-lm[17].x*w, lm[5].y*h-lm[17].y*h)||1; function toXY(u,v){return {x:O.x+Vx*vlen*v+Sx*slen*(u-0.5), y:O.y+Vy*vlen*v+Sy*slen*(u-0.5)};} function toUV(x,y){var dx=x-O.x, dy=y-O.y; return {u:(dx*Sx+dy*Sy)/slen+0.5, v:(dx*Vx+dy*Vy)/vlen};} return {toXY:toXY,toUV:toUV,vlen:vlen,slen:slen,P:P};}
 function lineCenters(u0,u1,v0,v1,n){var a=[],i,t; for(i=0;i<=n;i++){t=i/n; a.push({u:u0+(u1-u0)*t, v:v0+(v1-v0)*t});} return a;}
 function curveCenters(p,n){var a=[],i,t,p0,p1; for(i=0;i<=n;i++){t=i/n; p0={u:p[0].u+(p[1].u-p[0].u)*t, v:p[0].v+(p[1].v-p[0].v)*t}; p1={u:p[1].u+(p[2].u-p[1].u)*t, v:p[1].v+(p[2].v-p[1].v)*t}; a.push({u:p0.u+(p1.u-p0.u)*t, v:p0.v+(p1.v-p0.v)*t});} return a;}
-function snapPath(ridge,w,h,map,centers,half){
-  var step=0.016, n=Math.max(2, Math.round(half/step)), offs=[], s,i,k,M,K=centers.length;
-  for(s=-n;s<=n;s++) offs.push(s*step); M=offs.length;
-  var normals=[];
-  for(i=0;i<K;i++){ var a=centers[Math.max(0,i-1)], b=centers[Math.min(K-1,i+1)], du=b.u-a.u, dv=b.v-a.v, len=hypot(du,dv)||1; normals.push({nu:-dv/len, nv:du/len}); }
-  var NEG=-1e9, dp=[], pre=[];
-  for(i=0;i<K;i++){ dp.push([]); pre.push([]); for(k=0;k<M;k++){ dp[i].push(NEG); pre[i].push(0);} }
-  function val(i,k){ var c=centers[i], nr=normals[i], o=offs[k], p=map.toXY(c.u+nr.nu*o, c.v+nr.nv*o); return Rv(ridge,w,h,p.x,p.y); }
-  for(k=0;k<M;k++) dp[0][k]=val(0,k);
-  for(i=1;i<K;i++) for(k=0;k<M;k++){
-    var best=NEG, bi=k, j0=Math.max(0,k-3), j1=Math.min(M-1,k+3), j, sc;
-    for(j=j0;j<=j1;j++){ sc=dp[i-1][j]-Math.abs(j-k)*0.09; if(sc>best){best=sc; bi=j;} }
-    dp[i][k]=best+val(i,k); pre[i][k]=bi;
-  }
-  var bk=0, bv=NEG; for(k=0;k<M;k++) if(dp[K-1][k]>bv){bv=dp[K-1][k]; bk=k;}
-  var ks=[]; for(i=K-1;i>=0;i--){ ks.push(bk); bk=pre[i][bk]; } ks.reverse();
-  var uv=[], xy=[], score=[];
-  for(i=0;i<K;i++){ var c2=centers[i], nr2=normals[i], o2=offs[ks[i]], u=c2.u+nr2.nu*o2, v=c2.v+nr2.nv*o2, p2=map.toXY(u,v); uv.push({u:u,v:v}); xy.push(p2); score.push(Rv(ridge,w,h,p2.x,p2.y)); }
-  return {uv:uv, xy:xy, score:score};
-}
-function lineStats(score){
-  var n=score.length, i, sum=0, c=0, first=-1, last=-1, run=0, best=0, at=0;
-  for(i=0;i<n;i++) if(score[i]>0.28){ if(first<0) first=i; last=i; sum+=score[i]; c++; }
-  if(first>=0){ for(i=first;i<=last;i++){ if(score[i]<0.2){ run++; if(run>best){best=run; at=i;} } else run=0; } }
-  var depth=c?sum/c:0, cover=n?c/n:0, length=first<0?0:(last-first)/Math.max(1,n-1);
-  return {present:cover>0.32 && depth>0.3 && length>0.28, depth:depth, cover:cover, length:length, breaks:best>n*0.08, breakAt:best>n*0.08?at/Math.max(1,n):null, first:first<0?0:first/Math.max(1,n), last:first<0?0:last/Math.max(1,n)};
-}
-function strongIdx(track){var o=[],i; for(i=0;i<track.score.length;i++) if(track.score[i]>0.28) o.push(i); return o;}
-function normPath(xy,w,h){var o=[],i; for(i=0;i<xy.length;i+=1) o.push({x:Math.round(xy[i].x/w*1000)/1000, y:Math.round(xy[i].y/h*1000)/1000}); return o;}
-function peakCount(arr){
-  var idx=[], i, kept=[];
-  for(i=1;i<arr.length-1;i++) if(arr[i]>=0.4 && arr[i]>=arr[i-1] && arr[i]>arr[i+1]) idx.push(i);
-  for(i=0;i<idx.length;i++){
-    if(!kept.length || idx[i]-kept[kept.length-1]>2) kept.push(idx[i]);
-    else if(arr[idx[i]]>arr[kept[kept.length-1]]) kept[kept.length-1]=idx[i];
-  }
-  if(kept.length>=2){
-    var a=kept[0], b=kept[1], lo=1e9, t;
-    for(t=a+1;t<b;t++) if(arr[t]<lo) lo=arr[t];
-    if(lo>Math.min(arr[a],arr[b])*0.72) return 1;
-  }
-  return kept.length;
-}
-function samplesAt(ridge,w,h,map,u,v,nu,nv){
-  var arr=[], i, p;
-  for(i=-8;i<=8;i++){ p=map.toXY(u+nu*i*0.012, v+nv*i*0.012); arr.push(Rv(ridge,w,h,p.x,p.y)); }
-  return arr;
-}
-function normalsOf(track){
-  var o=[], i, a, b, du, dv, len, K=track.uv.length;
-  for(i=0;i<K;i++){ a=track.uv[Math.max(0,i-1)]; b=track.uv[Math.min(K-1,i+1)]; du=b.u-a.u; dv=b.v-a.v; len=hypot(du,dv)||1; o.push({nu:-dv/len, nv:du/len}); }
-  return o;
-}
-function forkInfo(ridge,w,h,map,track){
-  var nr=normalsOf(track), n=track.uv.length, i, forks=0, tridents=0, doubles=0, runs=0, inrun=0, s0=Math.floor(n*0.15), s1=Math.floor(n*0.85);
-  for(i=s0;i<=s1;i++){
-    var pc=peakCount(samplesAt(ridge,w,h,map,track.uv[i].u,track.uv[i].v,nr[i].nu,nr[i].nv));
-    if(pc>=2){ doubles++; if(!inrun){runs++; inrun=1;} } else inrun=0;
-  }
-  var e0=Math.max(0,n-6);
-  for(i=e0;i<n;i++){
-    var pc2=peakCount(samplesAt(ridge,w,h,map,track.uv[i].u,track.uv[i].v,nr[i].nu,nr[i].nv));
-    if(pc2>=2) forks++; if(pc2>=3) tridents++;
-  }
-  return {fork:forks>=3, trident:tridents>=2, island:doubles>=6 && runs===1, chain:runs>=3 && doubles>=8};
-}
-function closest(A,B){
-  var best=1e12, pa=A[0], pb=B[0], i, j, d;
-  if(!A.length||!B.length) return {d:1e12,a:pa,b:pb};
-  for(i=0;i<A.length;i+=2) for(j=0;j<B.length;j+=2){ d=dist(A[i],B[j]); if(d<best){best=d; pa=A[i]; pb=B[j];} }
-  return {d:best,a:pa,b:pb};
-}
+function snapPath(ridge,w,h,map,centers,half){var step=0.016, n=Math.max(2,Math.round(half/step)), offs=[], s,i,k,M,K=centers.length; for(s=-n;s<=n;s++) offs.push(s*step); M=offs.length; var normals=[]; for(i=0;i<K;i++){ var a=centers[Math.max(0,i-1)], b=centers[Math.min(K-1,i+1)], du=b.u-a.u, dv=b.v-a.v, len=hypot(du,dv)||1; normals.push({nu:-dv/len, nv:du/len}); } var NEG=-1e9, dp=[], pre=[]; for(i=0;i<K;i++){ dp.push([]); pre.push([]); for(k=0;k<M;k++){ dp[i].push(NEG); pre[i].push(0);} } function val(i,k){ var c=centers[i], nr=normals[i], o=offs[k], p=map.toXY(c.u+nr.nu*o, c.v+nr.nv*o); return Rv(ridge,w,h,p.x,p.y);} for(k=0;k<M;k++) dp[0][k]=val(0,k); for(i=1;i<K;i++) for(k=0;k<M;k++){ var best=NEG, bi=k, j0=Math.max(0,k-3), j1=Math.min(M-1,k+3), j, sc; for(j=j0;j<=j1;j++){ sc=dp[i-1][j]-Math.abs(j-k)*0.09; if(sc>best){best=sc; bi=j;} } dp[i][k]=best+val(i,k); pre[i][k]=bi; } var bk=0, bv=NEG; for(k=0;k<M;k++) if(dp[K-1][k]>bv){bv=dp[K-1][k]; bk=k;} var ks=[]; for(i=K-1;i>=0;i--){ ks.push(bk); bk=pre[i][bk]; } ks.reverse(); var uv=[], xy=[], score=[]; for(i=0;i<K;i++){ var c2=centers[i], nr2=normals[i], o2=offs[ks[i]], u=c2.u+nr2.nu*o2, v=c2.v+nr2.nv*o2, p2=map.toXY(u,v); uv.push({u:u,v:v}); xy.push(p2); score.push(Rv(ridge,w,h,p2.x,p2.y)); } return {uv:uv,xy:xy,score:score};}
+function lineStats(score){var n=score.length,i,sum=0,c=0,first=-1,last=-1,run=0,best=0,at=0; for(i=0;i<n;i++) if(score[i]>0.26){ if(first<0) first=i; last=i; sum+=score[i]; c++; } if(first>=0){ for(i=first;i<=last;i++){ if(score[i]<0.18){ run++; if(run>best){best=run; at=i;} } else run=0; } } var depth=c?sum/c:0, cover=n?c/n:0, length=first<0?0:(last-first)/Math.max(1,n-1); return {present:cover>0.3 && depth>0.25 && length>0.34, depth:depth, cover:cover, length:length, breaks:best>n*0.08, breakAt:best>n*0.08?at/Math.max(1,n):null};}
+function strongIdx(track){var o=[],i; for(i=0;i<track.score.length;i++) if(track.score[i]>0.26) o.push(i); return o;}
+function strongXY(track){var o=[],i; for(i=0;i<track.xy.length;i++) if(track.score[i]>0.26) o.push(track.xy[i]); return o;}
+function normPath(xy,w,h){var o=[],i; for(i=0;i<xy.length;i++) o.push({x:Math.round(xy[i].x/w*1000)/1000, y:Math.round(xy[i].y/h*1000)/1000}); return o;}
+function meanDist(A,B){if(!A.length||!B.length) return 0; var s=0,i,j,best; for(i=0;i<A.length;i++){ best=1e12; for(j=0;j<B.length;j++){ var d=dist(A[i],B[j]); if(d<best) best=d; } s+=best; } return s/A.length;}
+function closest(A,B){var best=1e12, pa=A[0], pb=B[0], i, j, d; if(!A.length||!B.length) return {d:1e12,a:{x:0,y:0},b:{x:0,y:0}}; for(i=0;i<A.length;i+=2) for(j=0;j<B.length;j+=2){ d=dist(A[i],B[j]); if(d<best){best=d; pa=A[i]; pb=B[j];} } return {d:best,a:pa,b:pb};}
 function triArea(a,b,c){return Math.abs((a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y))/2);}
-function angleAt(a,b,c){
-  var ux=a.x-b.x, uy=a.y-b.y, vx=c.x-b.x, vy=c.y-b.y;
-  var d=(ux*vx+uy*vy)/( (hypot(ux,uy)||1)*(hypot(vx,vy)||1) );
-  return Math.acos(clamp(d,-1,1))*180/3.14159;
-}
-function strongXY(track){var o=[],i; for(i=0;i<track.xy.length;i++) if(track.score[i]>0.28) o.push(track.xy[i]); return o;}
-function zhang(bin,w,h){
-  function at(x,y){ if(x<0||y<0||x>=w||y>=h) return 0; return bin[y*w+x]; }
-  var guard=0, changed=true;
-  while(changed && guard<18){
-    changed=false; guard++;
-    var step; for(step=0; step<2; step++){
-      var kill=[], y, x, k;
-      for(y=1;y<h-1;y++) for(x=1;x<w-1;x++){
-        if(!bin[y*w+x]) continue;
-        var p2=at(x,y-1), p3=at(x+1,y-1), p4=at(x+1,y), p5=at(x+1,y+1), p6=at(x,y+1), p7=at(x-1,y+1), p8=at(x-1,y), p9=at(x-1,y-1);
-        var B=p2+p3+p4+p5+p6+p7+p8+p9; if(B<2||B>6) continue;
-        var seq=[p2,p3,p4,p5,p6,p7,p8,p9,p2], A=0; for(k=0;k<8;k++) if(seq[k]===0 && seq[k+1]===1) A++;
-        if(A!==1) continue;
-        if(step===0){ if(p2&&p4&&p6) continue; if(p4&&p6&&p8) continue; }
-        else { if(p2&&p4&&p8) continue; if(p2&&p6&&p8) continue; }
-        kill.push(y*w+x);
-      }
-      if(kill.length) changed=true;
-      for(k=0;k<kill.length;k++) bin[kill[k]]=0;
-    }
-  }
-}
-function nbs(bin,w,h,x,y){
-  var o=[], dy, dx;
-  for(dy=-1;dy<=1;dy++) for(dx=-1;dx<=1;dx++){
-    if(!dx&&!dy) continue; var nx=x+dx, ny=y+dy;
-    if(nx<0||ny<0||nx>=w||ny>=h) continue;
-    if(bin[ny*w+nx]) o.push({x:nx,y:ny});
-  }
-  return o;
-}
-function mountAt(u,v){
-  if(v>0.60 && v<0.80 && u>0.32 && u<0.64) return 'mystic';
-  if(v>=0.74 && u<0.30) return 'jupiter';
-  if(v>=0.74 && u<0.50) return 'saturn';
-  if(v>=0.74 && u<0.68) return 'apollo';
-  if(v>=0.58 && u>=0.68) return 'mercury';
-  if(u<0.36 && v>0.12 && v<0.74) return 'venus';
-  if(u>=0.66 && v<0.58) return 'moon';
-  if(v>=0.38 && v<0.72 && u>=0.32 && u<0.68) return 'mars';
-  return '';
-}
-function skeletonMarks(ridge,w,h,map){
-  var x0=w,y0=h,x1=0,y1=0,u,v,p,x,y;
-  for(v=0.08;v<=0.94;v+=0.08) for(u=0.04;u<=0.96;u+=0.08){ p=map.toXY(u,v); if(p.x<x0)x0=p.x; if(p.y<y0)y0=p.y; if(p.x>x1)x1=p.x; if(p.y>y1)y1=p.y; }
-  x0=Math.max(1,x0|0); y0=Math.max(1,y0|0); x1=Math.min(w-2,x1|0); y1=Math.min(h-2,y1|0);
-  var cw=x1-x0+1, ch=y1-y0+1; if(cw<24||ch<24) return {marks:[], noisy:false};
-  var bin=new Uint8Array(cw*ch);
-  for(y=0;y<ch;y++) for(x=0;x<cw;x++){
-    var uu=map.toUV(x+x0, y+y0);
-    var inside=uu.u>0.05 && uu.u<0.95 && uu.v>0.1 && uu.v<0.95;
-    bin[y*cw+x]=(inside && ridge[(y+y0)*w+(x+x0)]>0.55)?1:0;
-  }
-  zhang(bin,cw,ch);
-  var junctions=[], jcount=0;
-  for(y=1;y<ch-1;y++) for(x=1;x<cw-1;x++){
-    if(!bin[y*cw+x]) continue;
-    var nb=nbs(bin,cw,ch,x,y);
-    if(nb.length>=3){ junctions.push({x:x,y:y,n:nb.length}); jcount++; }
-  }
-  if(jcount>50) return {marks:[], noisy:true};
-  var marks=[], used=[], ji;
-  function nearJ(a,b){return hypot(a.x-b.x,a.y-b.y)<7;}
-  for(ji=0;ji<junctions.length;ji++){
-    if(used[ji]) continue;
-    var group=[junctions[ji]], t;
-    used[ji]=1;
-    for(t=0;t<junctions.length;t++) if(!used[t] && nearJ(junctions[ji], junctions[t])){ used[t]=1; group.push(junctions[t]); }
-    var best=group[0]; for(t=1;t<group.length;t++) if(group[t].n>best.n) best=group[t];
-    var arms=[], ai, px=best.x, py=best.y;
-    var startN=nbs(bin,cw,ch,px,py);
-    for(ai=0;ai<startN.length;ai++){
-      var cx=startN[ai].x, cy=startN[ai].y, prevx=px, prevy=py, guard=0, len=1, endx=cx, endy=cy;
-      while(guard++<36){
-        var around=nbs(bin,cw,ch,cx,cy), nxt=null, k;
-        if(around.length>=3 && len>1) break;
-        for(k=0;k<around.length;k++) if(!(around[k].x===prevx && around[k].y===prevy)){ nxt=around[k]; break; }
-        if(!nxt) break;
-        prevx=cx; prevy=cy; cx=nxt.x; cy=nxt.y; len++; endx=cx; endy=cy;
-        if(nbs(bin,cw,ch,cx,cy).length>=3 && len>2) break;
-      }
-      if(len>=5){
-        var ang=Math.atan2(endy-py, endx-px);
-        var merged=false, q;
-        for(q=0;q<arms.length;q++){
-          var diff=Math.abs(ang-arms[q].ang); if(diff>3.14159) diff=6.283-diff;
-          if(diff<0.5){ merged=true; if(len>arms[q].len){arms[q].len=len; arms[q].ang=ang;} break; }
-        }
-        if(!merged) arms.push({ang:ang, len:len});
-      }
-    }
-    if(arms.length<4) continue;
-    var fx=best.x+x0, fy=best.y+y0, uv=map.toUV(fx,fy), mount=mountAt(uv.u,uv.v);
-    if(!mount) continue;
-    var type=arms.length>=5?'star':'cross';
-    if(type==='cross'){
-      var longEnough=0; for(t=0;t<arms.length;t++) if(arms[t].len>=6) longEnough++;
-      if(longEnough<4) continue;
-    }
-    marks.push({id:nid(type), type:type, mount:mount, line:'', at:null, x:fx/w, y:fy/h, source:'photo', count:0});
-  }
-  var seen=new Uint8Array(cw*ch);
-  for(y=1;y<ch-1;y++) for(x=1;x<cw-1;x++){
-    if(!bin[y*cw+x] || seen[y*cw+x]) continue;
-    if(nbs(bin,cw,ch,x,y).length!==2) continue;
-    var sx=x, sy=y, cx2=x, cy2=y, px2=-1, py2=-1, pts=[], guard2=0, closed=false;
-    while(guard2++<180){
-      pts.push({x:cx2,y:cy2}); seen[cy2*cw+cx2]=1;
-      var around2=nbs(bin,cw,ch,cx2,cy2), nxt2=null, k2;
-      for(k2=0;k2<around2.length;k2++) if(!(around2[k2].x===px2 && around2[k2].y===py2)){ nxt2=around2[k2]; break; }
-      if(!nxt2) break;
-      px2=cx2; py2=cy2; cx2=nxt2.x; cy2=nxt2.y;
-      if(cx2===sx && cy2===sy && pts.length>=14){ closed=true; break; }
-      if(nbs(bin,cw,ch,cx2,cy2).length!==2) break;
-    }
-    if(!closed || pts.length>120) continue;
-    var minx=1e9,miny=1e9,maxx=-1,maxy=-1, pi;
-    for(pi=0;pi<pts.length;pi++){ if(pts[pi].x<minx)minx=pts[pi].x; if(pts[pi].y<miny)miny=pts[pi].y; if(pts[pi].x>maxx)maxx=pts[pi].x; if(pts[pi].y>maxy)maxy=pts[pi].y; }
-    var bw=maxx-minx+1, bh=maxy-miny+1; if(bw<6||bh<6) continue;
-    var aspect=Math.max(bw,bh)/Math.max(1,Math.min(bw,bh));
-    var turns=0;
-    for(pi=4;pi<pts.length-4;pi+=4){
-      var ax=pts[pi].x-pts[pi-4].x, ay=pts[pi].y-pts[pi-4].y, bx=pts[Math.min(pts.length-1,pi+4)].x-pts[pi].x, by=pts[Math.min(pts.length-1,pi+4)].y-pts[pi].y;
-      var dot=(ax*bx+ay*by)/((hypot(ax,ay)||1)*(hypot(bx,by)||1));
-      if(dot<0.45) turns++;
-    }
-    var cfx=(minx+maxx)/2+x0, cfy=(miny+maxy)/2+y0, cuv=map.toUV(cfx,cfy), cm=mountAt(cuv.u,cuv.v);
-    if(!cm) continue;
-    if(turns>=2 && turns<=4 && aspect<2.3 && pts.length<=80){
-      var kind=pts.length<36?'delta':'triangle';
-      if(turns>=4 && aspect<1.8) kind='square';
-      marks.push({id:nid(kind), type:kind, mount:cm==='mars'&&kind==='square'?'life':cm, line:kind==='square'?'life':'', at:null, x:cfx/w, y:cfy/h, source:'photo', count:0});
-    }
-  }
-  var byMount={}, mi, filtered=[];
-  for(mi=0;mi<marks.length;mi++){
-    var mk=marks[mi]; if(mk.type!=='cross'){ filtered.push(mk); continue; }
-    var key=mk.mount; if(!byMount[key]) byMount[key]=[]; byMount[key].push(mk);
-  }
-  for(key in byMount){
-    if(byMount[key].length>=3) filtered.push({id:nid('grille'), type:'grille', mount:key, line:'', at:null, x:byMount[key][0].x, y:byMount[key][0].y, source:'photo', count:byMount[key].length});
-    else if(byMount[key].length===1) filtered.push(byMount[key][0]);
-  }
-  return {marks:filtered, noisy:false};
-}
-function localCrosses(ridge,w,h,map,track,lineName,others){
-  var out=[], n=track.xy.length, i, hits=[];
-  for(i=Math.floor(n*0.12); i<n*0.88; i+=3){
-    if(track.score[i]<0.36) continue;
-    var a=track.xy[Math.max(0,i-2)], b=track.xy[Math.min(n-1,i+2)];
-    var tx=b.x-a.x, ty=b.y-a.y, len=hypot(tx,ty)||1; tx/=len; ty/=len;
-    var nx=-ty, ny=tx;
-    function arm(dx,dy){ var L=hypot(dx,dy)||1; dx/=L; dy/=L; var x=track.xy[i].x, y=track.xy[i].y; var s1=Rv(ridge,w,h,x+dx*5,y+dy*5), s2=Rv(ridge,w,h,x+dx*11,y+dy*11), s3=Rv(ridge,w,h,x+dx*18,y+dy*18); return s1>0.45 && s2>0.36 && s3<0.26; }
-    var d1x=nx+tx, d1y=ny+ty, d2x=nx-tx, d2y=ny-ty, c=0;
-    if(arm(d1x,d1y)) c++; if(arm(-d1x,-d1y)) c++; if(arm(d2x,d2y)) c++; if(arm(-d2x,-d2y)) c++;
-    if(c<3) continue;
-    var near=false, name, j, pts;
-    for(name in others){ if(name===lineName) continue; pts=others[name]; if(!pts) continue; for(j=0;j<pts.length;j+=2){ if(dist(track.xy[i], pts[j])<12) {near=true; break;} } if(near) break; }
-    if(near) continue;
-    hits.push(i);
-  }
-  var cluster=[], last=-10, ci;
-  function flush(){ if(cluster.length<2){ cluster=[]; return;} var mid=cluster[Math.floor(cluster.length/2)]; out.push({id:nid('cross'), type:'cross', mount:'', line:lineName, at:mid/n, x:track.xy[mid].x/w, y:track.xy[mid].y/h, source:'photo', count:0}); cluster=[]; }
-  for(ci=0;ci<hits.length;ci++){ if(hits[ci]-last>8) flush(); cluster.push(hits[ci]); last=hits[ci]; }
-  flush();
-  return out;
-}
-function businessCount(ridge,w,h,map,pu){
-  var count=0, u, v, run, best;
-  for(u=pu-0.14; u<=pu+0.08; u+=0.03){
-    if(Math.abs(u-pu)<0.035) continue;
-    run=0; best=0;
-    for(v=0.34; v<=0.76; v+=0.02){ var p=map.toXY(u,v); if(Rv(ridge,w,h,p.x,p.y)>0.48){ run++; if(run>best) best=run; } else run=0; }
-    if(best>=5) count++;
-  }
-  return count;
-}
-function scaleRidge(ridge,w,h,map){
-  var vals=[], u, v, p;
-  for(v=0.12; v<=0.9; v+=0.05) for(u=0.08; u<=0.92; u+=0.05){ p=map.toXY(u,v); vals.push(Rv(ridge,w,h,p.x,p.y)); }
-  vals.sort(function(a,b){return a-b;});
-  var p85=vals[Math.floor(vals.length*0.85)]||0;
-  var scale=p85;
-  if(scale<3.5) scale=3.5;
-  var i; for(i=0;i<ridge.length;i++) ridge[i]=ridge[i]/scale;
-  return p85;
-}
-function buildFeatures(canvas, lm, handedScore){
-  var w=canvas.width, h=canvas.height, ctx=canvas.getContext('2d');
-  var img=ctx.getImageData(0,0,w,h);
-  var ridge=creases(img,w,h);
-  var map=makeMap(lm,w,h);
-  var p85=scaleRidge(ridge,w,h,map);
-  var minx=1, maxx=0, miny=1, maxy=0, i;
-  for(i=0;i<lm.length;i++){ if(lm[i].x<minx)minx=lm[i].x; if(lm[i].x>maxx)maxx=lm[i].x; if(lm[i].y<miny)miny=lm[i].y; if(lm[i].y>maxy)maxy=lm[i].y; }
-  var frac=(maxx-minx)*(maxy-miny);
-  var notes=[];
-  var allow=true;
-  if(p85<3.5){ allow=false; notes.push('Contrast is too flat to score fine marks or to treat a missing line as truly absent.'); }
-  if(frac<0.09){ allow=false; notes.push('The hand is too small in the frame. Come closer, with all five fingers visible.'); }
-  if(handedScore<0.45){ allow=false; notes.push('The hand lock was uncertain, so minor marks are not claimed.'); }
-  var P=map.P;
-  var palmLen=map.vlen, palmWid=map.slen, finger=dist(P(9),P(12));
-  var ratio=finger/palmLen, shape=palmLen/palmWid, element;
-  if(shape>1.15 && ratio<0.78) element='fire'; else if(shape>1.15) element='water'; else if(ratio<0.78) element='earth'; else element='air';
-  var gap=dist(P(4),P(5))/palmWid; var thumb=gap>0.9?'open':gap<0.62?'firm':'measured';
-  var heart=snapPath(ridge,w,h,map,lineCenters(0.9,0.1,0.83,0.83,34),0.09);
-  var head=snapPath(ridge,w,h,map,lineCenters(0.14,0.9,0.7,0.56,34),0.09);
-  var lifeC=curveCenters([{u:0.2,v:0.78},{u:0.3,v:0.46},{u:0.16,v:0.12}],32);
-  var life=snapPath(ridge,w,h,map,lifeC,0.12);
-  var fate=snapPath(ridge,w,h,map,lineCenters(0.5,0.5,0.14,0.8,32),0.16);
-  var ring=map.toUV(P(13).x,P(13).y), pink=map.toUV(P(17).x,P(17).y);
-  var sun=snapPath(ridge,w,h,map,lineCenters(ring.u,ring.u,0.34,0.78,24),0.08);
-  var mercury=snapPath(ridge,w,h,map,lineCenters(pink.u,pink.u,0.3,0.72,22),0.07);
-  function pack(track){ var st=lineStats(track.score); st.track=track; return st; }
-  var H=pack(heart), D=pack(head), L=pack(life), F=pack(fate), S=pack(sun), M=pack(mercury);
-  var hi=strongIdx(heart);
-  if(hi.length){ var end=heart.uv[hi[hi.length-1]]; H.end=end.u>0.62?'ulnar':end.u>0.46?'saturn':end.u>0.3?'between':'jupiter'; var mid=heart.uv[hi[Math.floor(hi.length/2)]]; var a0=heart.uv[hi[0]], a1=heart.uv[hi[hi.length-1]]; var chord=a0.v+(a1.v-a0.v)*0.5; H.curve=mid.v-chord>0.02?0.8:0.2; }
-  var di=strongIdx(head);
-  if(di.length){ var hs=head.uv[di[0]], he=head.uv[di[di.length-1]], drop=hs.v-he.v; D.slope=drop>0.14?'steep':drop>0.06?'gentle':'straight'; }
-  var li=strongIdx(life), sumU=0;
-  for(i=0;i<li.length;i++) sumU+=life.uv[li[i]].u;
-  L.sweep=li.length && (sumU/li.length)>=0.28?'wide':'close';
-  var fi=strongIdx(fate);
-  F.presence=F.breaks && F.present?'broken':F.present && F.depth>0.48?'strong':F.present?'faint':'absent';
-  if(F.present){
-    var early=[], late=[], k;
-    for(k=0;k<fi.length;k++){ if(fate.uv[fi[k]].v<0.42) early.push(fate.uv[fi[k]]); if(fate.uv[fi[k]].v>0.62) late.push(fate.uv[fi[k]]); }
-    var src=early.length?early:fate.uv.slice(0,3); var mu=0; for(k=0;k<src.length;k++) mu+=src[k].u; mu=src.length?mu/src.length:0.5;
-    F.start=mu<0.36?'life':mu>0.62?'moon':'wrist';
-    if(!early.length) F.start='late';
-    if(late.length){ var eu=0; for(k=0;k<late.length;k++) eu+=late[k].u; eu/=late.length; F.endMount=eu<0.34?'jupiter':eu>0.6?'apollo':'saturn'; }
-  }
-  var marks=[];
-  function add(m){ if(m) marks.push(m); }
-  if(allow){
-    var hf=forkInfo(ridge,w,h,map,heart), df=forkInfo(ridge,w,h,map,head), lf=forkInfo(ridge,w,h,map,life), ff=forkInfo(ridge,w,h,map,fate), sf=forkInfo(ridge,w,h,map,sun);
-    if(H.present && hf.fork) add({id:nid('fork'), type:'fork', line:'heart', mount:'', at:null, x:0, y:0, source:'photo', count:0});
-    if(D.present && df.fork) add({id:nid('fork'), type:'fork', line:'head', mount:'', at:null, x:0, y:0, source:'photo', count:0});
-    if(S.present && sf.trident) add({id:nid('trident'), type:'trident', line:'sun', mount:'', at:null, x:0, y:0, source:'photo', count:0});
-    if(H.present && hf.island) add({id:nid('island'), type:'island', line:'heart', mount:'', at:0.5, x:0, y:0, source:'photo', count:0});
-    if(D.present && df.island) add({id:nid('island'), type:'island', line:'head', mount:'', at:0.5, x:0, y:0, source:'photo', count:0});
-    if(L.present && lf.island) add({id:nid('island'), type:'island', line:'life', mount:'', at:0.5, x:0, y:0, source:'photo', count:0});
-    if(F.present && ff.island) add({id:nid('island'), type:'island', line:'fate', mount:'', at:0.5, x:0, y:0, source:'photo', count:0});
-    if(H.present && hf.chain) add({id:nid('chain'), type:'chain', line:'heart', mount:'', at:null, x:0, y:0, source:'photo', count:0});
-    if(D.present && df.chain) add({id:nid('chain'), type:'chain', line:'head', mount:'', at:null, x:0, y:0, source:'photo', count:0});
-    if(L.present && lf.chain) add({id:nid('chain'), type:'chain', line:'life', mount:'', at:null, x:0, y:0, source:'photo', count:0});
-    if(H.present && D.present){
-      var hd=closest(strongXY(heart), strongXY(head));
-      if(hd.d < map.vlen*0.055) add({id:nid('simian'), type:'simian', line:'', mount:'palm', at:null, x:((hd.a.x+hd.b.x)/2)/w, y:((hd.a.y+hd.b.y)/2)/h, source:'photo', count:0});
-    }
-    if(D.present && L.present){
-      var a=null, b=null, ii;
-      var ds=strongIdx(head), ls=strongIdx(life);
-      if(ds.length&&ls.length){ a=head.xy[ds[0]]; b=life.xy[ls[0]]; if(dist(a,b)<map.slen*0.12) add({id:nid('join'), type:'join', line:'head-life', mount:'', at:null, x:((a.x+b.x)/2)/w, y:((a.y+b.y)/2)/h, source:'photo', count:0}); else if(dist(a,b)>map.slen*0.28) D.separate=true; }
-    }
-    if(F.present && F.start==='life' && L.present){
-      var cpair=closest(strongXY(fate), strongXY(life));
-      add({id:nid('join'), type:'join', line:'fate-life', mount:'', at:null, x:cpair.a?cpair.a.x/w:0, y:cpair.a?cpair.a.y/h:0, source:'photo', count:0});
-    }
-    if(F.present && F.start==='moon') add({id:nid('join'), type:'join', line:'fate-moon', mount:'', at:null, x:0, y:0, source:'photo', count:0});
-    if(H.present && F.present && M.present){
-      var XYH=strongXY(head), XYF=strongXY(fate), XYM=strongXY(mercury);
-      var cHF=closest(XYH,XYF), cHM=closest(XYH,XYM), cFM=closest(XYF,XYM);
-      var lim=map.vlen*0.14;
-      if(cHF.d<lim && cHM.d<lim && cFM.d<lim){
-        var area=triArea(cHF.a, cHM.a, cFM.a);
-        var ang=Math.min(angleAt(cHM.a,cHF.a,cFM.a), angleAt(cHF.a,cHM.a,cFM.a), angleAt(cHF.a,cFM.a,cHM.a));
-        if(area>map.vlen*map.vlen*0.01 && area<map.vlen*map.vlen*0.15 && ang>18){
-          var cx=(cHF.a.x+cHM.a.x+cFM.a.x)/3, cy=(cHF.a.y+cHM.a.y+cFM.a.y)/3;
-          add({id:nid('money'), type:'money', line:'', mount:'plain', at:null, x:cx/w, y:cy/h, source:'photo', count:0});
-        }
-      }
-    }
-    var sis=snapPath(ridge,w,h,map,lifeC.map(function(p){return {u:p.u+0.08, v:p.v};}),0.06);
-    var sisSt=lineStats(sis.score);
-    if(L.present && sisSt.present){
-      var du=0, n=Math.min(life.uv.length, sis.uv.length), t;
-      for(t=0;t<n;t++) du+=Math.abs(sis.uv[t].u-life.uv[t].u);
-      du=n?du/n:0;
-      if(du>0.045 && du<0.16) add({id:nid('sister'), type:'sister', line:'life', mount:'', at:null, x:0, y:0, source:'photo', count:0});
-    }
-    var girdle=snapPath(ridge,w,h,map,lineCenters(0.28,0.78,0.94,0.94,22),0.03);
-    var gSt=lineStats(girdle.score);
-    if(gSt.present){
-      var gv=0, hv=0, gc=0, hc=0, z;
-      for(z=0;z<girdle.score.length;z++) if(girdle.score[z]>0.28){ gv+=girdle.uv[z].v; gc++; }
-      for(z=0;z<heart.score.length;z++) if(heart.score[z]>0.28){ hv+=heart.uv[z].v; hc++; }
-      gv=gc?gv/gc:0; hv=hc?hv/hc:0;
-      if(!H.present || gv-hv>0.045) add({id:nid('girdle'), type:'girdle', line:'', mount:'palm', at:null, x:girdle.xy[10].x/w, y:girdle.xy[10].y/h, source:'photo', count:0});
-    }
-    var sol=snapPath(ridge,w,h,map,curveCenters([{u:0.08,v:0.9},{u:0.18,v:0.98},{u:0.32,v:0.9}],16),0.03);
-    var solSt=lineStats(sol.score);
-    if(solSt.present){
-      var midp=sol.uv[Math.floor(sol.uv.length/2)];
-      var bow=midp.v-(sol.uv[0].v+sol.uv[sol.uv.length-1].v)/2;
-      if(bow>0.015) add({id:nid('solomon'), type:'solomon', line:'', mount:'jupiter', at:null, x:sol.xy[8].x/w, y:sol.xy[8].y/h, source:'photo', count:0});
-    }
-    var intu=snapPath(ridge,w,h,map,curveCenters([{u:0.86,v:0.2},{u:0.68,v:0.4},{u:0.88,v:0.58}],20),0.06);
-    var inSt=lineStats(intu.score);
-    if(inSt.present){
-      var midu=intu.uv[Math.floor(intu.uv.length/2)];
-      var bowU=(intu.uv[0].u+intu.uv[intu.uv.length-1].u)/2-midu.u;
-      if(bowU>0.03) add({id:nid('intuition'), type:'intuition', line:'', mount:'moon', at:null, x:intu.xy[10].x/w, y:intu.xy[10].y/h, source:'photo', count:0});
-    }
-    var bc=businessCount(ridge,w,h,map,pink.u);
-    if(bc>=2 && bc<=5) add({id:nid('business'), type:'business', line:'', mount:'mercury', at:null, x:map.toXY(pink.u,0.6).x/w, y:map.toXY(pink.u,0.6).y/h, source:'photo', count:bc});
-    var sk=skeletonMarks(ridge,w,h,map);
-    if(sk.noisy) notes.push('Skin texture was too noisy for crosses, stars, and triangles, so those marks were not claimed.');
-    else { var si; for(si=0;si<sk.marks.length;si++) marks.push(sk.marks[si]); }
-    if(!sk.noisy){
-      var bags={heart:heart.xy, head:head.xy, life:life.xy, fate:fate.xy, sun:sun.xy, mercury:mercury.xy};
-      var packs={heart:[H,heart], head:[D,head], life:[L,life], fate:[F,fate]};
-      var ln; for(ln in packs){ if(!packs[ln][0].present) continue; var extras=localCrosses(ridge,w,h,map,packs[ln][1], ln, bags); var ei; for(ei=0;ei<extras.length;ei++) marks.push(extras[ei]); }
-    }
-  }
-  var paths={};
-  if(H.present) paths.heart=normPath(heart.xy,w,h);
-  if(D.present) paths.head=normPath(head.xy,w,h);
-  if(L.present) paths.life=normPath(life.xy,w,h);
-  if(F.present) paths.fate=normPath(fate.xy,w,h);
-  if(S.present) paths.sun=normPath(sun.xy,w,h);
-  if(M.present) paths.mercury=normPath(mercury.xy,w,h);
-  delete H.track; delete D.track; delete L.track; delete F.track; delete S.track; delete M.track;
-  return {element:element, thumb:thumb, will:dist(P(2),P(4))/palmLen<0.42?'soft':'firm', ratio:ratio.toFixed(2), shape:shape.toFixed(2), source:'photo', allowAbsence:allow, marksRead:allow && notes.join(' ').indexOf('noisy')<0, qualityNote:notes.join(' '), note:handedScore&&handedScore<1?('Hand lock '+(Math.round(handedScore*100))+' percent.'):'', lines:{heart:H, head:D, life:L, fate:F, sun:S, mercury:M}, marks:marks, paths:paths};
-}
-function fitCanvas(src,maxW){
-  var sc=Math.min(1, maxW/src.width), c=document.createElement('canvas');
-  c.width=Math.max(2, Math.round(src.width*sc)); c.height=Math.max(2, Math.round(src.height*sc));
-  c.getContext('2d').drawImage(src,0,0,c.width,c.height); return c;
-}
-function shrink(canvas){
-  var s=document.createElement('canvas'), sc=Math.min(1, 700/canvas.width);
-  s.width=Math.max(1,Math.round(canvas.width*sc)); s.height=Math.max(1,Math.round(canvas.height*sc));
-  s.getContext('2d').drawImage(canvas,0,0,s.width,s.height);
-  try{return s.toDataURL('image/jpeg',0.72);}catch(e){return '';}
-}
-function landmarker(){
-  if(state.eye) return Promise.resolve(state.eye);
-  return import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14').then(function(vision){
-    return vision.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm').then(function(files){
-      return vision.HandLandmarker.createFromOptions(files,{baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task'}, runningMode:'IMAGE', numHands:1});
-    });
-  }).then(function(marker){ state.eye=marker; return marker; });
-}
-function analyze(srcCanvas){
-  var canvas=fitCanvas(srcCanvas, 640);
-  show('busy'); document.getElementById('phase').textContent='Finding the hand';
-  landmarker().then(function(marker){
-    document.getElementById('phase').textContent='Tracing lines that are really there';
-    var res=marker.detect(canvas);
-    if(!res.landmarks || !res.landmarks[0] || res.landmarks[0].length<21) throw new Error('no hand');
-    var score=1; try{score=res.handedness[0][0].score||1;}catch(e){}
-    setTimeout(function(){
-      document.getElementById('phase').textContent='Checking crosses, stars, triangles, joins';
-      setTimeout(function(){
-        try{
-          var features=buildFeatures(canvas, res.landmarks[0], score);
-          var rec=makeRecord(features, shrink(canvas));
-          remember(rec); renderReport(rec);
-        }catch(err){
-          var issue=document.getElementById('issue');
-          if(issue) issue.textContent='The palm could not be measured cleanly. Try a closer photo, or walk the lines. '+(err&&err.message?err.message:'');
-          show('capture');
-        }
-      }, 30);
-    }, 30);
-  }).catch(function(err){
-    var issue=document.getElementById('issue');
-    if(issue) issue.textContent='No hand was locked. Use brighter, even light, all five fingers, and hold still. Or walk the lines.';
-    show('capture');
-  });
-}
-function makeRecord(features, photo){
-  var name=trim(document.getElementById('person').value||'');
-  if(!state.pairId) state.pairId=Date.now();
-  var sections=compose(features);
-  return {id:Date.now(), pairId:state.pairId, at:new Date().toISOString(), name:name, hand:sideOf(), role:state.which, tradition:state.tradition, features:features, photo:photo||'', sections:sections, text:textOf(sections)};
-}
-function markFromCode(code, source){
-  var p=code.split('|'), type=p[0], place=p[1]||'';
-  var m={id:nid(type), type:type, source:source, mount:'', line:'', at:null, x:0, y:0, count:type==='business'?3:0};
-  if(type==='fork'||type==='island'||type==='chain'||type==='trident'||type==='sister'||type==='join') m.line=place;
-  else m.mount=place||'palm';
-  if(type==='square') m.line='life';
-  return m;
-}
-function attestMarks(source){
-  var buttons=document.querySelectorAll('#attest-root .chip.on'), out=[], i;
-  for(i=0;i<buttons.length;i++) out.push(markFromCode(buttons[i].getAttribute('data-att'), source));
-  return out;
-}
-function clearAttest(){ var buttons=document.querySelectorAll('#attest-root .chip'); var i; for(i=0;i<buttons.length;i++) buttons[i].className='chip'; }
-function fromAnswers(ans){
-  var element='air';
-  if(ans.shape==='long' && ans.fingers==='short') element='fire';
-  else if(ans.shape==='long') element='water';
-  else if(ans.fingers==='short') element='earth';
-  var heart=emptyLine(); heart.present=true; heart.depth=0.6; heart.length=0.8; heart.cover=0.7; heart.end=ans.heart||'between'; heart.curve=ans.curve==='straight'?0.2:0.8;
-  var head=emptyLine(); head.present=true; head.depth=0.58; head.length=0.78; head.cover=0.7; head.slope=ans.head||'gentle';
-  var life=emptyLine(); life.present=true; life.depth=0.6; life.length=0.8; life.sweep=ans.sweep==='close'?'close':'wide';
-  var fate=emptyLine(); var fp=ans.fate||'strong'; fate.present=fp!=='absent'; fate.depth=fp==='strong'?0.66:fp==='broken'?0.4:fp==='faint'?0.34:0; fate.length=fate.present?0.7:0; fate.presence=fp; fate.breaks=fp==='broken'; fate.breakAt=fp==='broken'?0.5:null; fate.start=ans.fatestart&&ans.fatestart!=='none'?ans.fatestart:'wrist'; if(ans.fatestart==='none'){ fate.present=false; fate.presence='absent'; }
-  var sun=emptyLine(), mercury=emptyLine();
-  return {element:element, thumb:'measured', will:'firm', ratio:'', shape:'', source:'guided', allowAbsence:true, marksRead:true, qualityNote:'You walked the lines. Any extra mark is labeled as yours, not as a camera measurement.', note:'', lines:{heart:heart, head:head, life:life, fate:fate, sun:sun, mercury:mercury}, marks:[], paths:{}};
-}
-function finishGuide(){
-  var features=fromAnswers(state.answers);
-  var extra=attestMarks('you'), i;
-  for(i=0;i<extra.length;i++){
-    if(extra[i].type==='join' && extra[i].line==='fate-life') features.lines.fate.start='life';
-    if(extra[i].type==='join' && extra[i].line==='fate-moon') features.lines.fate.start='moon';
-    features.marks.push(extra[i]);
-  }
-  var rec=makeRecord(features, '');
-  remember(rec); clearAttest(); renderReport(rec);
-}
-function sampleFeatures(){
-  var heart=emptyLine(); heart.present=true; heart.depth=0.7; heart.length=0.86; heart.end='jupiter'; heart.curve=0.8; heart.breaks=true; heart.breakAt=0.62;
-  var head=emptyLine(); head.present=true; head.depth=0.64; head.length=0.8; head.slope='steep';
-  var life=emptyLine(); life.present=true; life.depth=0.52; life.length=0.84; life.sweep='wide'; life.breaks=true; life.breakAt=0.4;
-  var fate=emptyLine(); fate.present=true; fate.depth=0.48; fate.length=0.6; fate.presence='broken'; fate.breaks=true; fate.breakAt=0.55; fate.start='life'; fate.endMount='saturn';
-  var sun=emptyLine(); sun.present=true; sun.depth=0.58; sun.length=0.62;
-  var mercury=emptyLine(); mercury.present=true; mercury.depth=0.5; mercury.length=0.5;
-  var marks=[
-    {id:'s-join', type:'join', line:'fate-life', mount:'', source:'sample', x:0, y:0, count:0},
-    {id:'s-money', type:'money', mount:'plain', line:'', source:'sample', x:0, y:0, count:0},
-    {id:'s-star', type:'star', mount:'apollo', line:'', source:'sample', x:0, y:0, count:0},
-    {id:'s-cross', type:'cross', mount:'mystic', line:'', source:'sample', x:0, y:0, count:0},
-    {id:'s-sol', type:'solomon', mount:'jupiter', line:'', source:'sample', x:0, y:0, count:0},
-    {id:'s-fork', type:'fork', line:'heart', mount:'', source:'sample', x:0, y:0, count:0},
-    {id:'s-island', type:'island', line:'life', mount:'', source:'sample', x:0, y:0, count:0}
-  ];
-  return {element:'water', thumb:'open', will:'firm', ratio:'0.92', shape:'1.28', source:'sample', allowAbsence:true, marksRead:true, qualityNote:'', note:'Sample of a detailed reading. None of these signs were measured from your hand.', lines:{heart:heart, head:head, life:life, fate:fate, sun:sun, mercury:mercury}, marks:marks, paths:{}};
-}
-function stopCam(){ if(!state.stream) return; var ts=state.stream.getTracks(), i; for(i=0;i<ts.length;i++) ts[i].stop(); state.stream=null; }
-function startCam(facing){
-  state.facing=facing||'environment';
-  var issue=document.getElementById('issue'); if(issue) issue.textContent='';
-  stopCam();
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ if(issue) issue.textContent='No camera in this browser. Choose a photo or walk the lines.'; return; }
-  navigator.mediaDevices.getUserMedia({video:{facingMode:state.facing}, audio:false}).then(function(stream){
-    state.stream=stream; var v=document.getElementById('cam'); v.srcObject=stream; v.play(); document.getElementById('viewer').classList.add('on');
-  }).catch(function(){ if(issue) issue.textContent='The camera did not open. Allow camera access, choose a photo, or walk the lines.'; });
-}
-function snap(){
-  var v=document.getElementById('cam'), issue=document.getElementById('issue');
-  if(!v.videoWidth){ if(issue) issue.textContent='The camera is not ready. Tap the circle again.'; return; }
-  var c=document.createElement('canvas'); c.width=v.videoWidth; c.height=v.videoHeight; c.getContext('2d').drawImage(v,0,0);
-  stopCam(); document.getElementById('viewer').classList.remove('on'); analyze(c);
-}
-function onFile(ev){
-  var file=ev.target.files && ev.target.files[0]; if(!file) return;
-  var img=new Image();
-  img.onload=function(){ var c=document.createElement('canvas'); c.width=img.width; c.height=img.height; c.getContext('2d').drawImage(img,0,0); analyze(c); };
-  img.onerror=function(){ var issue=document.getElementById('issue'); if(issue) issue.textContent='That photo could not be read.'; show('capture'); };
-  img.src=URL.createObjectURL(file);
-}
-function renderGuide(){
-  var root=document.getElementById('guide-root'); clear(root);
-  var step=STEPS[state.step]||STEPS[0];
-  var eye=document.createElement('p'); eye.className='eyebrow'; eye.textContent='Walk the lines '+(state.step+1)+' / '+STEPS.length; root.appendChild(eye);
-  var h=document.createElement('h2'); h.textContent=step.q; root.appendChild(h);
-  var i,b; for(i=0;i<step.a.length;i++){ b=document.createElement('button'); b.type='button'; b.className='choice'; b.setAttribute('data-step', step.a[i][0]); b.textContent=step.a[i][1]; root.appendChild(b); }
-  if(state.step>0){ b=document.createElement('button'); b.type='button'; b.className='btn ghost'; b.setAttribute('data-act','back'); b.textContent='Back'; root.appendChild(b); }
-}
-function buildAttest(){
-  var root=document.getElementById('attest-root'); clear(root); var last='', i, b, p;
-  for(i=0;i<ATTEST.length;i++){
-    if(ATTEST[i][0]!==last){ last=ATTEST[i][0]; p=document.createElement('p'); p.className='eyebrow'; p.textContent=last; root.appendChild(p); }
-    b=document.createElement('button'); b.type='button'; b.className='chip'; b.setAttribute('data-att', ATTEST[i][1]); b.setAttribute('data-act','att'); b.textContent=ATTEST[i][2]; root.appendChild(b);
-  }
-}
-function syncPicks(){
-  var buttons=document.querySelectorAll('[data-pick]'), i, b, k, cur;
-  for(i=0;i<buttons.length;i++){ b=buttons[i]; k=b.getAttribute('data-pick'); cur=k==='writes'?state.writes:k==='which'?state.which:state.tradition; b.classList.toggle('on', b.getAttribute('data-val')===cur); }
-}
-function onClick(ev){
-  var n=ev.target;
-  while(n && n.nodeType===1 && n.tagName!=='BUTTON') n=n.parentNode;
-  if(!n || n.tagName!=='BUTTON') return;
-  var act=n.getAttribute('data-act');
-  if(act==='cam') startCam('environment');
-  else if(act==='cam-front') startCam('user');
-  else if(act==='snap') snap();
-  else if(act==='sample'){ var rec=makeRecord(sampleFeatures(), ''); rec.hand='Right'; rec.role='writing'; renderReport(rec); }
-  else if(act==='guide-go'){ state.step=0; state.answers={}; state.attestFor='new'; renderGuide(); }
-  else if(act==='fresh'){ state.pairId=Date.now(); }
-  else if(act==='back'){ if(state.step>0){ state.step--; renderGuide(); } }
-  else if(act==='other'){ state.which=state.which==='writing'?'other':'writing'; if(!state.pairId) state.pairId=Date.now(); syncPicks(); show('capture'); }
-  else if(act==='to-ask') show('ask');
-  else if(act==='add-marks'){ state.attestFor='add'; clearAttest(); show('attest'); }
-  else if(act==='attest-clear') clearAttest();
-  else if(act==='attest-done'){
-    if(state.attestFor==='add' && state.reading){
-      var extra=attestMarks('you'), rec=state.reading, i, m=rec.features.marks||[];
-      for(i=0;i<extra.length;i++){
-        var dup=false, j; for(j=0;j<m.length;j++) if(m[j].type===extra[i].type && m[j].mount===extra[i].mount && m[j].line===extra[i].line) dup=true;
-        if(!dup) m.push(extra[i]);
-      }
-      rec.features.marks=m; rec.sections=compose(rec.features); rec.text=textOf(rec.sections); remember(rec); clearAttest(); renderReport(rec);
-    } else finishGuide();
-  }
-  else if(act==='att'){ n.classList.toggle('on'); }
-  else if(act==='copy'){ var t=state.reading?state.reading.text:''; if(t && navigator.clipboard) navigator.clipboard.writeText(t).catch(function(){}); }
-  else if(act==='ask-send'){ var box=document.getElementById('ask-a'); clear(box); var q=document.getElementById('ask-q').value||''; if(!state.reading) addP(box,'Read a hand first.'); else addP(box, answerAsk(q, state.reading)); }
-  else if(act==='install'){ var hint=document.getElementById('hint'); if(hint) hint.textContent='iPhone: Share, then Add to Home Screen. Android: browser menu, then Install app or Add to Home screen.'; show('home'); }
-  else if(n.getAttribute('data-pick')){
-    var k=n.getAttribute('data-pick'), v=n.getAttribute('data-val');
-    if(k==='writes') state.writes=v; else if(k==='which') state.which=v;
-    else if(k==='tradition'){ state.tradition=v; try{localStorage.setItem('palmora-trad', v);}catch(e){} if(state.reading && state.reading.features){ state.reading.tradition=v; state.reading.sections=compose(state.reading.features); state.reading.text=textOf(state.reading.sections); renderReport(state.reading); return; } }
-    syncPicks();
-  }
-  else if(n.getAttribute('data-step')){
-    state.answers[STEPS[state.step].k]=n.getAttribute('data-step'); state.step++;
-    if(state.step>=STEPS.length){ state.attestFor='new'; show('attest'); } else renderGuide();
-  }
-  else if(n.getAttribute('data-dismiss')){
-    var id=n.getAttribute('data-dismiss'), rec2=state.reading; if(!rec2) return;
-    rec2.features.marks=(rec2.features.marks||[]).filter(function(m){return m.id!==id;});
-    rec2.sections=compose(rec2.features); rec2.text=textOf(rec2.sections); remember(rec2); renderReport(rec2);
-  }
-  else if(n.getAttribute('data-lib')){
-    var list=loadLib(), id2=n.getAttribute('data-lib'), ii; for(ii=0;ii<list.length;ii++) if(String(list[ii].id)===id2){ renderReport(list[ii]); break; }
-  }
-  else if(n.getAttribute('data-del')){
-    var idd=n.getAttribute('data-del'); var kept=loadLib().filter(function(x){return String(x.id)!==idd;});
-    try{localStorage.setItem('palmora-lib3', JSON.stringify(kept));}catch(e){}
-    state.cmp=state.cmp.filter(function(x){return x!==idd;}); renderLibrary(); renderCompare();
-  }
-  else if(n.getAttribute('data-cmp')){
-    var cid=n.getAttribute('data-cmp'), at=state.cmp.indexOf(cid);
-    if(at>=0) state.cmp.splice(at,1); else if(state.cmp.length<2) state.cmp.push(cid); else state.cmp=[state.cmp[1], cid];
-    renderCompare();
-  }
-}
-function main(){
-  try{ var saved=localStorage.getItem('palmora-trad'); if(saved) state.tradition=saved; }catch(e){}
-  syncPicks(); renderGuide(); buildAttest(); renderLibrary(); renderCompare();
-  document.getElementById('file').addEventListener('change', onFile);
-  document.body.addEventListener('click', onClick);
-}
-try{ main(); }catch(err){ var hint=document.getElementById('hint'); if(hint) hint.textContent='Palmora is open, but a part stalled: '+((err&&err.message)||err); }
+function suppressPath(ridge,w,h,xy,rad){var i,p,x,y,dx,dy,r2=rad*rad; for(i=0;i<xy.length;i+=1){ p=xy[i]; for(dy=-rad;dy<=rad;dy++) for(dx=-rad;dx<=rad;dx++){ if(dx*dx+dy*dy>r2) continue; x=(p.x+dx)|0; y=(p.y+dy)|0; if(x>=0&&y>=0&&x<w&&y<h) ridge[y*w+x]*=0.15; } }}
+function scaleRidge(ridge,w,h,map){var vals=[],u,v,p; for(v=0.12;v<=0.9;v+=0.05) for(u=0.08;u<=0.92;u+=0.05){ p=map.toXY(u,v); vals.push(Rv(ridge,w,h,p.x,p.y)); } vals.sort(function(a,b){return a-b;}); var p85=vals[Math.floor(vals.length*0.85)]||0; var scale=p85<3.5?3.5:p85; var i; for(i=0;i<ridge.length;i++) ridge[i]=ridge[i]/scale; return p85;}
+function buildFeatures(canvas, lm, handedScore){var w=canvas.width, h=canvas.height, ctx=canvas.getContext('2d'); var ridge=creases(ctx.getImageData(0,0,w,h),w,h); var map=makeMap(lm,w,h); var p85=scaleRidge(ridge,w,h,map); var minx=1,maxx=0,miny=1,maxy=0,i; for(i=0;i<lm.length;i++){ if(lm[i].x<minx)minx=lm[i].x; if(lm[i].x>maxx)maxx=lm[i].x; if(lm[i].y<miny)miny=lm[i].y; if(lm[i].y>maxy)maxy=lm[i].y; } var frac=(maxx-minx)*(maxy-miny); var notes=[]; var allow=true; if(p85<3.5){ allow=false; notes.push('Contrast is flat. Minor marks are not scored.'); } if(frac<0.09){ allow=false; notes.push('The hand is small in the frame. Come closer.'); } if(handedScore<0.45){ allow=false; notes.push('The hand lock was weak.'); } var P=map.P; var palmLen=map.vlen, palmWid=map.slen, finger=dist(P(9),P(12)); var ratio=finger/palmLen, shape=palmLen/palmWid, element; if(shape>1.15 && ratio<0.78) element='fire'; else if(shape>1.15) element='water'; else if(ratio<0.78) element='earth'; else element='air'; var gap=dist(P(4),P(5))/palmWid; var thumb=gap>0.9?'open':gap<0.62?'firm':'measured'; var indexL=dist(P(5),P(8)), ringL=dist(P(13),P(16)), pinkyL=dist(P(17),P(20)); var willPh=dist(P(4),P(3)), logicPh=dist(P(3),P(2)); var pTip=map.toUV(P(20).x,P(20).y), rDip=map.toUV(P(15).x,P(15).y), rPip=map.toUV(P(14).x,P(14).y); var pinky=pTip.v>=rDip.v-0.02?'long':pTip.v<rPip.v?'short':'mid'; var open=dist(P(8),P(20))/Math.max(1,dist(P(5),P(17))); var indexRing=indexL/Math.max(0.001,ringL), willLogic=willPh/Math.max(0.001,logicPh); var fingers={indexRing:indexRing, pinky:pinky, willLogic:willLogic, open:open, bad:indexRing<0.55||indexRing>1.6||willLogic<0.35||willLogic>2.4}; var heart=snapPath(ridge,w,h,map,lineCenters(0.9,0.12,0.86,0.84,36),0.08); var Hs=lineStats(heart.score); if(Hs.depth>0.22) suppressPath(ridge,w,h,heart.xy,8); var head=snapPath(ridge,w,h,map,lineCenters(0.16,0.88,0.66,0.52,36),0.08); var Ds=lineStats(head.score); if(Ds.depth>0.22) suppressPath(ridge,w,h,head.xy,8); var lifeC=curveCenters([{u:0.18,v:0.76},{u:0.28,v:0.45},{u:0.16,v:0.1}],34); var life=snapPath(ridge,w,h,map,lifeC,0.12); var Ls=lineStats(life.score); if(Ls.depth>0.22) suppressPath(ridge,w,h,life.xy,7); var fate=snapPath(ridge,w,h,map,lineCenters(0.5,0.5,0.16,0.78,32),0.14); var ring=map.toUV(P(13).x,P(13).y), pink=map.toUV(P(17).x,P(17).y); var sun=snapPath(ridge,w,h,map,lineCenters(ring.u,ring.u,0.32,0.78,24),0.07); var mercury=snapPath(ridge,w,h,map,lineCenters(pink.u,pink.u,0.3,0.72,22),0.06); function pack(track){var st=lineStats(track.score); st.confirmed=false; st.placed=false; st.end=''; st.slope=''; st.sweep=''; st.start=''; st.curve=0; st.endMount=''; st.separate=false; return st;} var H=pack(heart), D=pack(head), L=pack(life), F=pack(fate), S=pack(sun), M=pack(mercury); var hi=strongIdx(heart); if(hi.length){ var end=heart.uv[hi[hi.length-1]]; H.end=end.u>0.62?'ulnar':end.u>0.46?'saturn':end.u>0.3?'between':'jupiter'; var mid=heart.uv[hi[Math.floor(hi.length/2)]], a0=heart.uv[hi[0]], a1=end; H.curve=(mid.v-(a0.v+(a1.v-a0.v)*0.5))>0.02?0.8:0.2; } var di=strongIdx(head); if(di.length){ var drop=head.uv[di[0]].v-head.uv[di[di.length-1]].v; D.slope=drop>0.14?'steep':drop>0.06?'gentle':'straight'; } var li=strongIdx(life), sumU=0; for(i=0;i<li.length;i++) sumU+=life.uv[li[i]].u; L.sweep=li.length&&(sumU/li.length)>=0.28?'wide':'close'; var fi=strongIdx(fate); F.presence=F.breaks&&F.present?'broken':F.present&&F.depth>0.48?'strong':F.present?'faint':'absent'; if(F.present){ var early=[], late=[], k; for(k=0;k<fi.length;k++){ if(fate.uv[fi[k]].v<0.42) early.push(fate.uv[fi[k]]); if(fate.uv[fi[k]].v>0.62) late.push(fate.uv[fi[k]]); } var src=early.length?early:[fate.uv[0]], mu=0; for(k=0;k<src.length;k++) mu+=src[k].u; mu=src.length?mu/src.length:0.5; F.start=!early.length?'late':mu<0.36?'life':mu>0.62?'moon':'wrist'; if(late.length){ var eu=0; for(k=0;k<late.length;k++) eu+=late[k].u; eu/=late.length; F.endMount=eu<0.34?'jupiter':eu>0.6?'apollo':'saturn'; } } var marks=[]; function add(m){ if(m && allow) marks.push(m); } if(allow && H.present && D.present){ var hd=closest(strongXY(heart), strongXY(head)); if(hd.d<map.vlen*0.055) add({id:nid('simian'),type:'simian',mount:'palm',line:'',source:'photo',x:((hd.a.x+hd.b.x)/2)/w,y:((hd.a.y+hd.b.y)/2)/h,count:0}); } if(allow && D.present && L.present){ var ds=strongIdx(head), ls=strongIdx(life); if(ds.length&&ls.length){ var gap=dist(head.xy[ds[0]], life.xy[ls[0]]); if(gap<map.slen*0.12) add({id:nid('join'),type:'join',line:'head-life',mount:'',source:'photo',x:head.xy[ds[0]].x/w,y:head.xy[ds[0]].y/h,count:0}); else if(gap>map.slen*0.28) D.separate=true; } } if(allow && F.present && F.start==='life') add({id:nid('join'),type:'join',line:'fate-life',mount:'',source:'photo',x:0,y:0,count:0}); if(allow && F.present && F.start==='moon') add({id:nid('join'),type:'join',line:'fate-moon',mount:'',source:'photo',x:0,y:0,count:0}); var quad=meanDist(strongXY(heart), strongXY(head))/map.vlen; var tri=0; if(H.present&&D.present&&L.present&&F.present){ var c1=closest(strongXY(life), strongXY(head)), c2=closest(strongXY(head), strongXY(fate)), c3=closest(strongXY(fate), strongXY(life)); if(c1.d<map.vlen*0.2 && c2.d<map.vlen*0.25 && c3.d<map.vlen*0.25) tri=triArea(c1.a,c2.a,c3.a)/(map.vlen*map.vlen); } var paths={}; if(H.present) paths.heart=normPath(heart.xy,w,h); if(D.present) paths.head=normPath(head.xy,w,h); if(L.present) paths.life=normPath(life.xy,w,h); if(F.present) paths.fate=normPath(fate.xy,w,h); if(S.present) paths.sun=normPath(sun.xy,w,h); if(M.present) paths.mercury=normPath(mercury.xy,w,h); return {element:element, thumb:thumb, ratio:ratio.toFixed(2), shape:shape.toFixed(2), fingers:fingers, quad:quad, tri:tri, source:'photo', allowAbsence:allow, marksRead:allow, qualityNote:notes.join(' '), note:'', lines:{heart:H,head:D,life:L,fate:F,sun:S,mercury:M}, marks:marks, paths:paths};}
+function fitCanvas(src,maxW){var sc=Math.min(1,maxW/src.width), c=document.createElement('canvas'); c.width=Math.max(2,Math.round(src.width*sc)); c.height=Math.max(2,Math.round(src.height*sc)); c.getContext('2d').drawImage(src,0,0,c.width,c.height); return c;}
+function shrink(canvas){var s=document.createElement('canvas'), sc=Math.min(1,700/canvas.width); s.width=Math.max(1,Math.round(canvas.width*sc)); s.height=Math.max(1,Math.round(canvas.height*sc)); s.getContext('2d').drawImage(canvas,0,0,s.width,s.height); try{return s.toDataURL('image/jpeg',0.72);}catch(e){return '';}}
+function landmarker(){if(state.eye) return Promise.resolve(state.eye); return import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14').then(function(vision){ return vision.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm').then(function(files){ return vision.HandLandmarker.createFromOptions(files,{baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task'}, runningMode:'IMAGE', numHands:1}); }); }).then(function(marker){state.eye=marker; return marker;});}
+function analyze(srcCanvas){var canvas=fitCanvas(srcCanvas, 680); show('busy'); document.getElementById('phase').textContent='Finding fingertips'; landmarker().then(function(marker){ var res=marker.detect(canvas); if(!res.landmarks||!res.landmarks[0]||res.landmarks[0].length<21) throw new Error('no hand'); var score=1; try{score=res.handedness[0][0].score||1;}catch(e){} document.getElementById('phase').textContent='Drafting creases'; setTimeout(function(){ try{ var features=buildFeatures(canvas, res.landmarks[0], score); state.place=null; state.draft={features:features, photo:shrink(canvas)}; renderReview(); }catch(err){ var issue=document.getElementById('issue'); if(issue) issue.textContent='The palm could not be measured. Try a closer photo in side light, or walk the lines.'; show('capture'); } }, 40); }).catch(function(){ var issue=document.getElementById('issue'); if(issue) issue.textContent='No hand was locked. All five fingertips, side light, palm flat. Or walk the lines.'; show('capture'); });}
+function makeRecord(features, photo){var name=trim((document.getElementById('person')||{}).value||''); if(!state.pairId) state.pairId=Date.now(); var sections=compose(features); return {id:Date.now(), pairId:state.pairId, at:new Date().toISOString(), name:name, hand:sideOf(), role:state.which, features:features, photo:photo||'', sections:sections, text:textOf(sections)};}
+function markFromCode(code, source){var p=code.split('|'); var m={id:nid(p[0]), type:p[0], source:source, mount:'', line:'', x:0, y:0, count:p[0]==='business'?3:0, at:null}; if(p[0]==='fork'||p[0]==='island'||p[0]==='join'||p[0]==='sister') m.line=p[1]||''; else m.mount=p[1]||'palm'; return m;}
+function attestMarks(source){var buttons=document.querySelectorAll('#attest-root .chip.on'), out=[], i; for(i=0;i<buttons.length;i++) out.push(markFromCode(buttons[i].getAttribute('data-att'), source)); return out;}
+function clearAttest(){var buttons=document.querySelectorAll('#attest-root .chip'), i; for(i=0;i<buttons.length;i++) buttons[i].className='chip';}
+function fromAnswers(ans){var element='air'; if(ans.shape==='long'&&ans.fingers==='short') element='fire'; else if(ans.shape==='long') element='water'; else if(ans.fingers==='short') element='earth'; var heart=emptyLine(); heart.present=true; heart.confirmed=true; heart.depth=0.6; heart.length=0.8; heart.end=ans.heart||'between'; heart.curve=ans.curve==='straight'?0.2:0.8; var head=emptyLine(); head.present=true; head.confirmed=true; head.depth=0.58; head.length=0.78; head.slope=ans.head||'gentle'; var life=emptyLine(); life.present=true; life.confirmed=true; life.depth=0.6; life.length=0.8; life.sweep=ans.sweep==='close'?'close':'wide'; var fate=emptyLine(); var fp=ans.fate||'strong'; fate.present=fp!=='absent'; fate.confirmed=true; fate.depth=fp==='strong'?0.66:fp==='faint'?0.34:0.4; fate.length=fate.present?0.7:0; fate.presence=fp; fate.breaks=fp==='broken'; fate.breakAt=fp==='broken'?0.5:null; fate.start=ans.fatestart&&ans.fatestart!=='none'?ans.fatestart:'wrist'; if(ans.fatestart==='none'){ fate.present=false; fate.presence='absent'; } return {element:element, thumb:'measured', ratio:'', shape:'', fingers:null, source:'guided', allowAbsence:true, marksRead:true, qualityNote:'You described the lines. Marks you tick are yours, not a camera measurement.', note:'', lines:{heart:heart,head:head,life:life,fate:fate,sun:emptyLine(),mercury:emptyLine()}, marks:[], paths:{}};}
+function finishGuide(){var features=fromAnswers(state.answers); features.lines.sun.confirmed=true; features.lines.mercury.confirmed=true; var extra=attestMarks('you'), i; for(i=0;i<extra.length;i++){ if(extra[i].type==='join'&&extra[i].line==='fate-life') features.lines.fate.start='life'; if(extra[i].type==='join'&&extra[i].line==='fate-moon') features.lines.fate.start='moon'; features.marks.push(extra[i]); } remember(makeRecord(features,'')); clearAttest(); renderReport(loadLib()[0]);}
+function sampleFeatures(){function L(o){var x=emptyLine(); var k; for(k in o) x[k]=o[k]; x.confirmed=true; return x;} return {element:'water', thumb:'open', ratio:'0.91', shape:'1.24', fingers:{indexRing:0.94, pinky:'long', willLogic:0.84, open:1.18, bad:false}, quad:0.12, tri:0.05, source:'sample', allowAbsence:true, marksRead:true, qualityNote:'', note:'Sample only. Not your hand. In a real reading you would check every colored line first.', lines:{heart:L({present:true,depth:0.7,length:0.86,end:'jupiter',curve:0.8}), head:L({present:true,depth:0.64,length:0.8,slope:'steep'}), life:L({present:true,depth:0.55,length:0.84,sweep:'wide',breaks:true,breakAt:0.4}), fate:L({present:true,depth:0.5,length:0.62,presence:'broken',breaks:true,breakAt:0.5,start:'life',endMount:'saturn'}), sun:L({present:true,depth:0.58,length:0.6}), mercury:L({present:true,depth:0.4,length:0.4})}, marks:[{id:'s1',type:'star',mount:'apollo',line:'',source:'sample',x:0,y:0,count:0},{id:'s2',type:'money',mount:'plain',line:'',source:'sample',x:0,y:0,count:0},{id:'s3',type:'join',line:'fate-life',mount:'',source:'sample',x:0,y:0,count:0}], paths:{}};}
+function stopCam(){if(!state.stream) return; var ts=state.stream.getTracks(), i; for(i=0;i<ts.length;i++) ts[i].stop(); state.stream=null;}
+function startCam(facing){state.facing=facing||'environment'; var issue=document.getElementById('issue'); if(issue) issue.textContent=''; stopCam(); if(!navigator.mediaDevices){ if(issue) issue.textContent='No camera here. Choose a photo or walk the lines.'; return; } navigator.mediaDevices.getUserMedia({video:{facingMode:state.facing},audio:false}).then(function(stream){ state.stream=stream; var v=document.getElementById('cam'); v.srcObject=stream; v.play(); document.getElementById('viewer').classList.add('on'); }).catch(function(){ if(issue) issue.textContent='Allow the camera, or choose a photo.'; });}
+function snap(){var v=document.getElementById('cam'); if(!v.videoWidth){ var issue=document.getElementById('issue'); if(issue) issue.textContent='Camera not ready. Tap again.'; return; } var c=document.createElement('canvas'); c.width=v.videoWidth; c.height=v.videoHeight; c.getContext('2d').drawImage(v,0,0); stopCam(); document.getElementById('viewer').classList.remove('on'); analyze(c);}
+function onFile(ev){var file=ev.target.files&&ev.target.files[0]; if(!file) return; var img=new Image(); img.onload=function(){ var c=document.createElement('canvas'); c.width=img.width; c.height=img.height; c.getContext('2d').drawImage(img,0,0); analyze(c); }; img.src=URL.createObjectURL(file);}
+function renderGuide(){var root=document.getElementById('guide-root'); clear(root); var step=STEPS[state.step]||STEPS[0]; var eye=document.createElement('p'); eye.className='eyebrow'; eye.textContent='Walk '+(state.step+1)+' / '+STEPS.length; root.appendChild(eye); var h=document.createElement('h2'); h.textContent=step.q; root.appendChild(h); var i,b; for(i=0;i<step.a.length;i++){ b=document.createElement('button'); b.type='button'; b.className='choice'; b.setAttribute('data-step', step.a[i][0]); b.textContent=step.a[i][1]; root.appendChild(b);} if(state.step>0){ b=document.createElement('button'); b.type='button'; b.className='btn ghost'; b.setAttribute('data-act','back'); b.textContent='Back'; root.appendChild(b);} }
+function buildAttest(){var root=document.getElementById('attest-root'); clear(root); var last='', i, b, p; for(i=0;i<ATTEST.length;i++){ if(ATTEST[i][0]!==last){ last=ATTEST[i][0]; p=document.createElement('p'); p.className='eyebrow'; p.textContent=last; root.appendChild(p);} b=document.createElement('button'); b.type='button'; b.className='chip'; b.setAttribute('data-att', ATTEST[i][1]); b.setAttribute('data-act','att'); b.textContent=ATTEST[i][2]; root.appendChild(b);} }
+function syncPicks(){var buttons=document.querySelectorAll('[data-pick]'), i, b, k, cur; for(i=0;i<buttons.length;i++){ b=buttons[i]; k=b.getAttribute('data-pick'); cur=k==='writes'?state.writes:k==='which'?state.which:state.tradition; b.classList.toggle('on', b.getAttribute('data-val')===cur);} }
+function onClick(ev){var n=ev.target; while(n&&n.nodeType===1&&n.tagName!=='BUTTON') n=n.parentNode; if(!n||n.tagName!=='BUTTON') return; var act=n.getAttribute('data-act'); if(act==='cam') startCam('environment'); else if(act==='cam-front') startCam('user'); else if(act==='snap') snap(); else if(act==='sample'){ var rec=makeRecord(sampleFeatures(),''); rec.hand='Right'; rec.role='writing'; renderReport(rec);} else if(act==='guide-go'){ state.step=0; state.answers={}; state.attestFor='new'; renderGuide(); } else if(act==='fresh') state.pairId=Date.now(); else if(act==='back'){ if(state.step>0){ state.step--; renderGuide(); } } else if(act==='ok-line'||act==='no-line'||act==='draw-line'){ var name=n.getAttribute('data-line'); var f=state.draft&&state.draft.features; if(!f) return; var L=f.lines[name]; if(act==='ok-line'){ L.confirmed=true; L.placed=false; state.place=null; } else if(act==='no-line'){ L.present=false; L.confirmed=true; L.placed=false; if(f.paths) f.paths[name]=[]; f.marks=(f.marks||[]).filter(function(m){return m.line!==name;}); state.place=null; } else { state.place={line:name, pts:[]}; } renderReview(); } else if(act==='finish-review'){ var ff=state.draft.features; var miss=[], i; for(i=0;i<NAMES.length;i++) if(!ff.lines[NAMES[i]].confirmed) miss.push(LABEL[NAMES[i]]); var hint=document.getElementById('review-hint'); if(miss.length){ if(hint) hint.textContent='Still unchecked: '+miss.join(', ')+'. Accept, reject, or redraw each one.'; return; } var made=makeRecord(ff, state.draft.photo); remember(made); renderReport(made); } else if(act==='other'){ state.which=state.which==='writing'?'other':'writing'; syncPicks(); show('capture'); } else if(act==='to-ask') show('ask'); else if(act==='add-marks'){ state.attestFor='add'; clearAttest(); show('attest'); } else if(act==='attest-clear') clearAttest(); else if(act==='attest-done'){ if(state.attestFor==='add' && state.reading){ var extra=attestMarks('you'), recA=state.reading, m=recA.features.marks||[], j; for(j=0;j<extra.length;j++) m.push(extra[j]); recA.features.marks=m; remember(recA); clearAttest(); renderReport(recA); } else finishGuide(); } else if(act==='att') n.classList.toggle('on'); else if(act==='copy'){ var t=state.reading?state.reading.text:''; if(t&&navigator.clipboard) navigator.clipboard.writeText(t).catch(function(){}); } else if(act==='ask-send'){ var box=document.getElementById('ask-a'); clear(box); if(!state.reading) addP(box,'Read a hand first.'); else addP(box, answerAsk(document.getElementById('ask-q').value||'', state.reading)); } else if(act==='install'){ var hint2=document.getElementById('hint'); if(hint2) hint2.textContent='iPhone: Share, then Add to Home Screen. Android: browser menu, then Install or Add to Home screen.'; show('home'); } else if(n.getAttribute('data-pick')){ var k=n.getAttribute('data-pick'), v=n.getAttribute('data-val'); if(k==='writes') state.writes=v; else if(k==='which') state.which=v; else if(k==='tradition'){ state.tradition=v; try{localStorage.setItem('palmora-trad', v);}catch(e){} if(state.reading){ renderReport(state.reading); return; } } syncPicks(); } else if(n.getAttribute('data-step')){ state.answers[STEPS[state.step].k]=n.getAttribute('data-step'); state.step++; if(state.step>=STEPS.length){ state.attestFor='new'; show('attest'); } else renderGuide(); } else if(n.getAttribute('data-dismiss')){ var id=n.getAttribute('data-dismiss'), rec2=state.reading; if(!rec2) return; rec2.features.marks=(rec2.features.marks||[]).filter(function(m){return m.id!==id;}); remember(rec2); renderReport(rec2); } else if(n.getAttribute('data-lib')){ var list=loadLib(), id2=n.getAttribute('data-lib'), ii; for(ii=0;ii<list.length;ii++) if(String(list[ii].id)===id2){ renderReport(list[ii]); break; } } else if(n.getAttribute('data-del')){ var idd=n.getAttribute('data-del'); try{localStorage.setItem('palmora-lib4', JSON.stringify(loadLib().filter(function(x){return String(x.id)!==idd;})));}catch(e){} state.cmp=state.cmp.filter(function(x){return x!==idd;}); renderLibrary(); renderCompare(); } else if(n.getAttribute('data-cmp')){ var cid=n.getAttribute('data-cmp'), at=state.cmp.indexOf(cid); if(at>=0) state.cmp.splice(at,1); else if(state.cmp.length<2) state.cmp.push(cid); else state.cmp=[state.cmp[1], cid]; renderCompare(); } }
+function main(){try{var saved=localStorage.getItem('palmora-trad'); if(saved) state.tradition=saved;}catch(e){} syncPicks(); renderGuide(); buildAttest(); renderLibrary(); renderCompare(); document.getElementById('file').addEventListener('change', onFile); document.body.addEventListener('click', onClick);}
+try{main();}catch(err){var hint=document.getElementById('hint'); if(hint) hint.textContent='Palmora opened, but a part stalled: '+((err&&err.message)||err);}
 })();
-</script>
-</body>
-</html>
+</script></body></html>
