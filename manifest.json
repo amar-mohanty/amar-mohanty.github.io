@@ -1,0 +1,9 @@
+{
+  "name": "Palmora",
+  "short_name": "Palmora",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0c0a10",
+  "theme_color": "#0c0a10"
+}

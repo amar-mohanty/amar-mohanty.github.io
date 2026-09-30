@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover'>
+<meta name='theme-color' content='#0c0a10'>
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+<meta name='apple-mobile-web-app-title' content='Palmora'>
+<title>Palmora</title>
+<link rel='manifest' href='manifest.json'>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#0c0a10;color:#f6f0e6}body{font-family:system-ui,Segoe UI,sans-serif;line-height:1.55;min-height:100vh}h1,h2,h3,summary{font-family:Georgia,Palatino,serif;font-weight:500}h1{font-size:64px;line-height:.88;margin:8px 0 10px}h2{font-size:30px;line-height:1.08;margin:0 0 10px}button,input{font:inherit;color:inherit}button{cursor:pointer}.wrap{width:min(480px,100%);margin:0 auto;padding:22px 18px 120px}.screen{display:none}.screen.on{display:block}.eyebrow{letter-spacing:.22em;text-transform:uppercase;color:#e0c07a;font-size:11px;margin:0 0 8px}.note{color:#b7ab9a;font-size:14px}.mark{width:92px;height:122px;display:block;margin:8px 0 12px}.btn{display:block;width:100%;margin:8px 0;padding:14px 16px;border:0;border-radius:999px;background:#e0c07a;color:#1a140c;font-weight:650;text-align:center}.ghost{background:transparent;color:#f0d7a4;border:1px solid rgba(224,192,122,.45)}.chip,.choice{border:1px solid rgba(224,192,122,.35);background:transparent;color:#f6f0e6;border-radius:14px}.chip{border-radius:999px;padding:8px 14px;margin:4px 6px 4px 0}.chip.on{background:#e0c07a;color:#1a140c}.choice{display:block;width:100%;text-align:left;padding:14px;margin:8px 0}.field{width:100%;margin:8px 0 12px;padding:12px 14px;border-radius:14px;border:1px solid rgba(224,192,122,.28);background:#16131b}.card{border:1px solid rgba(224,192,122,.22);border-radius:18px;padding:14px;margin:10px 0}.meters{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.meter{text-align:center;border:1px solid rgba(224,192,122,.25);border-radius:14px;padding:8px 4px}.meter b{display:block;color:#e0c07a;font-size:22px;font-family:Georgia,serif}.meter span{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#b7ab9a}details{border-top:1px solid rgba(224,192,122,.2);padding:12px 0}summary{cursor:pointer;font-size:22px}img.palm{width:100%;border-radius:18px;display:block;background:#140f14}.nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-around;gap:4px;background:rgba(12,10,16,.94);border-top:1px solid rgba(224,192,122,.22);padding:10px 8px calc(10px + env(safe-area-inset-bottom));z-index:5}.nav button{background:none;border:0;color:#8f8374;letter-spacing:.12em;text-transform:uppercase;font-size:11px;padding:8px}.nav button.cur{color:#e0c07a}.viewer{display:none}.viewer.on{display:block}.frame{position:relative;border-radius:22px;overflow:hidden;background:#000;margin:8px 0}video{width:100%;height:58vh;object-fit:cover;background:#000}.guide{position:absolute;inset:10% 16% 16%;border:1.5px solid rgba(224,192,122,.9);border-radius:46% 46% 40% 40%;pointer-events:none}.shutter{width:74px;height:74px;border-radius:50%;border:2px solid #f0d7a4;background:transparent;display:block;margin:8px auto;position:relative}.shutter:after{content:;position:absolute;inset:8px;border-radius:50%;background:#f4ecdf}.file{position:absolute;width:1px;height:1px;opacity:0}#hint{color:#e0c07a}
+</style>
+</head>
+<body>
+<div class='wrap'>
+<section id='home' class='screen on'>
+<p class='eyebrow'>Private palmistry</p>
+<svg class='mark' viewBox='0 0 120 160' aria-hidden='true'><path d='M60 148 C22 136 16 96 30 74 C34 42 42 16 50 16 C54 30 56 50 60 66 C62 34 70 12 76 16 C80 32 76 52 74 68 C82 40 94 24 100 34 C104 52 94 74 86 82 C100 66 114 70 112 90 C108 122 86 150 60 148 Z' fill='none' stroke='#e0c07a' stroke-width='1.6'/></svg>
+<h1>Palmora</h1>
+<p>A reading of the hand in front of you: love, work, money, vitality, mind, gift, family, travel, and the inner life.</p>
+<p class='note'>Your photo stays on this phone. Nothing is uploaded. The life line is not how long you live, and this is not medical, legal, or financial advice.</p>
+<p id='hint' class='note'></p>
+<button class='btn' type='button' data-go='prep' data-act='fresh'>Begin a reading</button>
+<button class='btn ghost' type='button' data-act='sample'>Preview a full reading</button>
+<button class='btn ghost' type='button' data-go='compare'>Compatibility</button>
+<button class='chip' type='button' data-act='install'>Add to home screen</button>
+</section>
+<section id='prep' class='screen'>
+<p class='eyebrow'>The plate</p>
+<h2>Which hand</h2>
+<p class='note'>The writing hand is the life you practice. The other hand is the temperament you arrived with.</p>
+<input id='person' class='field' maxlength='40' placeholder='First name, optional'>
+<p class='note'>Hand you write with</p>
+<p><button type='button' class='chip on' data-pick='writes' data-val='Right'>Right</button><button type='button' class='chip' data-pick='writes' data-val='Left'>Left</button></p>
+<p class='note'>This reading is of</p>
+<p><button type='button' class='chip on' data-pick='which' data-val='writing'>The writing hand</button><button type='button' class='chip' data-pick='which' data-val='other'>The other hand</button></p>
+<p class='note'>Tradition to emphasize</p>
+<p><button type='button' class='chip on' data-pick='tradition' data-val='blend'>Blend</button><button type='button' class='chip' data-pick='tradition' data-val='western'>Western</button><button type='button' class='chip' data-pick='tradition' data-val='vedic'>Vedic</button><button type='button' class='chip' data-pick='tradition' data-val='chinese'>Chinese</button></p>
+<button class='btn' type='button' data-go='capture'>Use the camera or a photo</button>
+<button class='btn ghost' type='button' data-go='guide' data-act='guide-go'>No photo. Walk the lines</button>
+</section>
+<section id='capture' class='screen'>
+<p class='eyebrow'>The photograph</p>
+<h2>All five fingers. Even light. Hold still.</h2>
+<p id='issue' class='note'></p>
+<div id='viewer' class='viewer'><div class='frame'><video id='cam' playsinline autoplay muted></video><div class='guide'></div></div><button class='shutter' type='button' data-act='snap' aria-label='Take photo'></button></div>
+<button class='btn' type='button' data-act='cam'>Take palm photo</button>
+<label class='btn ghost' for='file'>Choose an existing photo</label>
+<input id='file' class='file' type='file' accept='image/*'>
+<button class='btn ghost' type='button' data-go='guide' data-act='guide-go'>Walk the lines instead</button>
+</section>
+<section id='guide' class='screen'><div id='guide-root'></div></section>
+<section id='busy' class='screen'>
+<p class='eyebrow'>Reading</p>
+<h2 id='phase'>Finding the hand</h2>
+<p class='note'>The hand model runs on this phone. The photo is not uploaded.</p>
+</section>
+<section id='report' class='screen'><div id='report-root'></div></section>
+<section id='library' class='screen'>
+<p class='eyebrow'>On this phone</p>
+<h2>Library</h2>
+<div id='lib-root'></div>
+</section>
+<section id='compare' class='screen'>
+<p class='eyebrow'>Two people</p>
+<h2>How the hands meet</h2>
+<p class='note'>Choose two saved readings. Read each person first, then come back.</p>
+<div id='compare-root'></div>
+</section>
+<section id='ask' class='screen'>
+<p class='eyebrow'>Ask</p>
+<h2>Ask this hand</h2>
+<p class='note'>The answer stays inside the reading already on this phone. Nothing is sent away.</p>
+<input id='ask-q' class='field' placeholder='Love, work, money, family, travel'>
+<button class='btn' type='button' data-act='ask-send'>Answer</button>
+<div id='ask-a'></div>
+</section>
+<section id='learn' class='screen'>
+<p class='eyebrow'>The craft</p>
+<h2>How a hand is read</h2>
+<details open><summary>The four elements</summary><p>A square palm and short fingers is the earth hand: build, keep, finish. A square palm and long fingers is the air hand: think, explain, design. A long palm and short fingers is the fire hand: start, lead, risk. A long palm and long fingers is the water hand: feel, imagine, counsel. Most people are louder in one element and borrow from a second.</p></details>
+<details><summary>The major lines</summary><p>The heart line, high on the palm, is the style of love. The head line is how the mind moves, not a test score. The life line around the thumb is vitality and the seasons of a life, never a death date. The fate line, when it exists, is direction and the world having a vote. A missing fate line is not a missing future. It often means you name the work yourself.</p></details>
+<details><summary>Mounts</summary><p>Venus, at the thumb, is appetite and warmth. Jupiter, under the index, is ambition with a standard. Saturn, under the middle, is weight and time. Apollo, under the ring, is visibility and joy in making. Mercury, under the little finger, is trade, wit, and healing talk. The Moon, on the outer palm, is imagination and the pull to roam.</p></details>
+<details><summary>Three traditions</summary><p>Western palmistry names heart, head, life, and fate. Vedic hasta samudrika uses the same rivers and adds a stronger reading of duty, mounts, and marks. Chinese hand study is plainer about career, constitution, and emotional clarity. Palmora can speak in one voice or braid the three. The hand does not change when the language does.</p></details>
+<details><summary>A useful photograph</summary><p>Daylight, not a yellow lamp. Palm flat, all five fingers in frame, thumb slightly open. Fill the picture with the hand. If the scanner cannot lock the fingers, walk the lines yourself. Your eyes are allowed to be the instrument.</p></details>
+<details><summary>What this will not do</summary><p>It will not tell you when you die, name a disease, or promise a marriage. Small lines that some readers call children or weddings are too easy to invent from a photo, so they are not counted as facts. Use the reading as a serious mirror, then decide for yourself.</p></details>
+</section>
+</div>
+<nav class='nav'><button type='button' data-go='home'>Home</button><button type='button' data-go='prep'>Read</button><button type='button' data-go='library'>Library</button><button type='button' data-go='learn'>Learn</button></nav>
+<script>
+document.body.addEventListener('click', function(ev){
+  var n=ev.target;
+  while(n&&n.nodeType===1){
+    if(n.getAttribute&&n.getAttribute('data-go')){
+      var id=n.getAttribute('data-go');
+      var screens=document.querySelectorAll('.screen');
+      var i;
+      for(i=0;i<screens.length;i++) screens[i].classList.toggle('on', screens[i].id===id);
+      var nav=document.querySelectorAll('.nav button');
+      for(i=0;i<nav.length;i++) nav[i].classList.toggle('cur', nav[i].getAttribute('data-go')===id);
+      window.scrollTo(0,0);
+      return;
+    }
+    n=n.parentNode;
+  }
+});
+</script>
+<script>
+(function(){
+var STEPS=[
+{k:'shape',q:'Is the palm longer than it is wide, or closer to a square?',a:[['long','Longer palm'],['square','Squarer palm']]},
+{k:'fingers',q:'Are the fingers long beside the palm, or shorter?',a:[['long','Long fingers'],['short','Shorter fingers']]},
+{k:'heart',q:'Where does the upper line, the heart line, end?',a:[['jupiter','Under the index finger'],['between','Between index and middle'],['saturn','Under the middle finger']]},
+{k:'curve',q:'Does that heart line bend, or run straight?',a:[['curve','It bends'],['straight','It runs straight']]},
+{k:'head',q:'Does the head line stay level, or slope down toward the wrist?',a:[['straight','Mostly level'],['gentle','A gentle slope'],['steep','A deep slope']]},
+{k:'sweep',q:'Does the life line bow wide around the thumb, or hug it?',a:[['wide','Bows wide'],['close','Hugs the thumb']]},
+{k:'fate',q:'Is there a line up the center of the palm, the fate line?',a:[['strong','Clear line'],['faint','Faint line'],['broken','Broken line'],['absent','No fate line']]},
+{k:'mount',q:'Which area of the palm looks fullest?',a:[['venus','Base of the thumb'],['jupiter','Under the index'],['apollo','Under the ring finger'],['moon','Outer edge']]}
+];
+var ENAME={earth:'Earth hand',air:'Air hand',fire:'Fire hand',water:'Water hand',mixed:'Mixed hand'};
+var state={writes:'Right',which:'writing',tradition:'blend',step:0,answers:{},stream:null,eye:null,reading:null,pairId:0,cmp:[]};
+function join(a){var o=[],i;for(i=0;i<a.length;i++) if(a[i]) o.push(a[i]);return o.join(' ');}
+function clamp(n,a,b){return Math.max(a,Math.min(b,n));}
+function show(id){
+  var screens=document.querySelectorAll('.screen');var i;
+  for(i=0;i<screens.length;i++) screens[i].classList.toggle('on', screens[i].id===id);
+  var nav=document.querySelectorAll('.nav button');
+  for(i=0;i<nav.length;i++){
+    var g=nav[i].getAttribute('data-go');
+    var cur=(g===id)||((id==='report'||id==='capture'||id==='guide'||id==='busy'||id==='ask')&&g==='prep');
+    nav[i].classList.toggle('cur', !!cur);
+  }
+  window.scrollTo(0,0);
+}
+function addP(parent,text){if(!text) return; var p=document.createElement('p'); p.textContent=text; parent.appendChild(p);}
+function clear(n){while(n&&n.firstChild) n.removeChild(n.firstChild);}
+function loadLib(){try{return JSON.parse(localStorage.getItem('palmora-lib')||'[]');}catch(e){return [];}}
+function remember(rec){
+  var list=loadLib().filter(function(x){return String(x.id)!==String(rec.id);});
+  list.unshift(rec); list=list.slice(0,8);
+  try{localStorage.setItem('palmora-lib', JSON.stringify(list));}
+  catch(e){var i; for(i=0;i<list.length;i++) list[i].photo=''; try{localStorage.setItem('palmora-lib', JSON.stringify(list));}catch(e2){}}
+  renderLibrary(); renderCompare();
+}
+function gloss(topic){
+  var t=state.tradition||'blend';
+  var all={
+    heart:{w:'Western readers begin with the heart line, because attachment colors every other choice.',v:'In hasta samudrika this is the hridaya rekha, the line of the heart.',c:'Chinese hand study calls it the emotion line and trusts a clear line over a dramatic one.'},
+    head:{w:'The head line is not a score of intelligence. It is how the mind prefers to move.',v:'Vedic readers call it the buddhi rekha, the line of discernment.',c:'In Chinese palmistry it is the wisdom line.'},
+    life:{w:'The life line is vitality and the seasons of a life. It is not a date of death.',v:'It is the jeevan rekha, the current of life force.',c:'The Chinese life line is read for constitution, not for a lifespan.'},
+    fate:{w:'The fate line is direction, and how much the outside world gets a vote.',v:'Vedic palmistry calls it the bhagya rekha.',c:'Chinese readers call it the career line. A missing one can mean a self-made road.'},
+    money:{w:'Western readers look to the little finger and the fate line for earning power.',v:'Vedic readers weigh Mercury and the fate line together before they speak of wealth.',c:'Chinese hand study ties livelihood to a clear career line and a capable little finger.'},
+    gift:{w:'The sun line, under the ring finger, is visibility and joy in the work.',v:'This is close to the surya rekha, a line of recognition.',c:'Chinese readers treat a clear line under the ring finger as a sign the work can be seen.'},
+    family:{w:'The hand shows the style of belonging. It does not inventory a household.',v:'Vedic readers speak of family duty through the heart line and the mount of Venus.',c:'Chinese palmistry reads kinship as duty and emotional clarity, not as a headcount.'},
+    travel:{w:'Travel is read from the outer palm, the Moon, and breaks that change a rhythm.',v:'A strong Moon and a broken life line often travel together in hasta samudrika.',c:'Chinese readers treat movement as a change of post and place, not as escape by itself.'},
+    spirit:{w:'The inner life shows where the head line slopes and the Moon is receptive.',v:'Vedic readers will speak of dream, mantra, and the Mount of Moon here.',c:'Chinese hand study is plainer: a clear mind and a steady constitution are the ground.'}
+  };
+  var g=all[topic]; if(!g) return '';
+  if(t==='western') return g.w; if(t==='vedic') return g.v; if(t==='chinese') return g.c;
+  return g.w+' '+g.v+' '+g.c;
+}
+function elementText(f){
+  var base={earth:'A squarer palm and shorter fingers. This is the earth hand: a mind that trusts what it can build, finish, and touch. You are steadier than you are loud. The shadow is staying loyal to a method after the ground has moved. Your best work has weight. Craft, land, food, care, and the keeping of real things.',air:'A squarer palm and long fingers. This is the air hand. You think for a living even when that is not the job title. The gift is clarity and the right question. The shadow is living one floor above your own life. Give the mind a body: a decision, a deadline, and one sentence you stop revising.',fire:'A longer palm and shorter fingers. This is the fire hand. You are quicker than your plans, and you start what other people only describe. The shadow is a trail of lit matches. Keep one fire. Leadership suits you if you stay long enough to be trusted.',water:'A long palm and long fingers. This is the water hand. You read rooms the way other people read print. Feeling is a sense, not a mood. The shadow is porousness. The gift needs a bank: time alone, a craft, and a boundary that is not an apology.',mixed:'The proportions do not settle on one element. This is the mixed hand, for a person who has had to be more than one thing. The gift is range. The shadow is auditioning lives. Choose work that uses two of your natures at once.'};
+  var thumb={firm:'The thumb sits a little closed. You finish. Loosen the grip when a better idea arrives in another voice.',open:'The thumb opens off the palm. You adapt and you give room. An open thumb can give away time and money before it asks what it needs.',measured:'The thumb is neither locked nor loose. You can hold a line and you can bend.'};
+  var will=f.will==='soft'?'The thumb is modest, so mood can outrun intention. Choose the next step before the feeling does.':'The thumb has length enough to steer the temperament.';
+  return join([base[f.element]||base.mixed, thumb[f.thumb]||thumb.measured, will]);
+}
+function heartText(f){
+  var h=f.lines.heart;
+  var end={jupiter:'The heart line reaches toward the index finger. You love as an idealist. A partnership has to enlarge you, and you forgive on your own clock.',saturn:'The heart line ends under the middle finger. Love is selective. The inner circle is kept with unusual loyalty, and everyone else meets a cooler courtesy.',between:'The heart line ends between the index and the middle finger. This is warmth with judgment. You can love without leaving yourself behind.',apollo:'The heart line pulls toward the ring finger. Affection is tied to beauty and to being met. Keep one private standard that does not need applause.'};
+  var curve=h.curve>0.5?'The line bends, so feeling is expressed. You are warmer in the room than on a page.':'The line runs straighter. You feel no less, but you edit it before it shows.';
+  var chain=h.chained?'Parts of the line are uneven. The emotional life has had weather. It asks for simpler promises, not for less love.':'';
+  var br=h.breaks?'A break in the heart line is a change in how you attach, often after a loss or a reinvention, not a life without love.':'';
+  return join([end[h.end]||end.between, curve, chain, br, gloss('heart')]);
+}
+function headText(f){
+  var h=f.lines.head;
+  var slope={straight:'The head line runs level. You think in sequence and you want evidence. The shadow is dismissing a hunch because it did not arrive as a list.',gentle:'The head line slopes gently. A practical mind with a door left open. Useful for strategy, design, and any work that is half people and half system.',steep:'The head line drops toward the Moon. You think in images. Guard sleep and what you take in. This mind absorbs more than it admits.'};
+  var len=h.length>0.72?'It travels far across the palm. You can hold a complicated problem without needing it to be small.':'It is the shorter kind. You think toward a decision. Often you are simply finished, not hasty.';
+  var depth=h.depth>0.5?'The line is clear. Concentration is a real resource.':'The line is softer. You think best with a walk, a page, or one other voice nearby.';
+  var br=h.breaks?'A break in the head line marks a change in how you think: a study, a country, or a crisis that made the old logic too small.':'';
+  var sim=f.marks&&f.marks.simian?'Heart and head run close, even as one line. Feeling and thinking are not separate departments. The gift is total commitment. The work is to let other people have a slower pace.':'';
+  return join([slope[h.slope]||slope.gentle, len, depth, br, sim, gloss('head')]);
+}
+function lifeText(f){
+  var L=f.lines.life;
+  var depth=L.depth>0.5?'The life line is clear: a strong vital current, provided sleep and food are not treated as optional.':'The life line is finer. Energy comes in tides. You are badly served by a borrowed schedule.';
+  var sweep=L.sweep>0.55?'It bows wide of the thumb. Appetite, warmth, and beauty are part of your stamina. Put pleasure in the week on purpose.':'It hugs the thumb. Caution is part of your vitality. You last longer than you flare.';
+  var br='';
+  if(L.breaks){
+    var where=L.breakAt==null?'along the way':L.breakAt<0.35?'early, in youth or first adulthood':L.breakAt<0.62?'in the building years':'later';
+    br='A break '+where+' is a change of rhythm: a move, a recovery, a reinvention. It is not an ending.';
+  }
+  return join([depth, sweep, br, 'Nothing in this line is a prediction of illness or of how many years you have.', gloss('life')]);
+}
+function fateText(f){
+  var fate=f.lines.fate;
+  var map={strong:'The fate line is clear. Direction is not only a private hobby. A role, a craft, or an institution gets a vote, and you are better when that vote is conscious.',faint:'The fate line is faint. You may be between names. Skill is already forming the road, even if the title is late.',broken:'The fate line breaks. There is more than one chapter of work. The break is a change of road, often a real one, not a personal failure.',absent:'There is little fate line. In every tradition that is allowed to mean a self-made road. You do not wait for a post to tell you who you are. You do need to choose, or the freedom becomes drift.'};
+  var late=fate.start==='late'?'It rises higher in the palm, so the early years are for apprenticeship. The public shape of the life clarifies after you have a skill.':'';
+  var el={earth:'Earth wants the work to be tangible and finished.',air:'Air wants the work to use language, systems, or design.',fire:'Fire wants a start, a lead, and enough room to move.',water:'Water wants work with people, images, care, or meaning.',mixed:'The mixed hand wants a role with two natures in it, not a costume with one.'};
+  return join([map[fate.presence]||map.faint, late, el[f.element]||'', gloss('fate')]);
+}
+function moneyText(f){
+  var bits=[];
+  if(f.lines.mercury.present&&f.lines.mercury.depth>0.4) bits.push('The line of Mercury is awake. Money comes more readily through words, trade, a craft sold to a real person, and advice that arrives on time, than through a silent bet.');
+  else bits.push('Wealth in this hand is a system more than a lightning strike: a skill, repeat work, and not leaking money through boredom or display.');
+  var el={earth:'An earth hand builds slowly, and then the asset is real. Be wary of anything you cannot explain in plain words.',air:'An air hand earns through ideas. Put a price and a container on the idea, or everyone will enjoy it for free.',fire:'A fire hand can make money in bursts. The leak is starting the second venture before the first one pays.',water:'A water hand earns in care, story, design, and counsel. Name the rate before you are tired.',mixed:'Use two skills on one invoice. Range is the asset if it is packaged.'};
+  bits.push(el[f.element]||'');
+  if(f.lines.fate.presence==='strong') bits.push('The fate line supports a public role. Income wants a spine, not only a mood.');
+  bits.push(gloss('money'));
+  return join(bits);
+}
+function giftText(f){
+  var sun=f.lines.sun&&f.lines.sun.present?'A sun line shows under the ring finger. There is a wish to make something that can be seen, and a need for honest recognition. Chase the work that would still matter if the applause were late.':'The sun line is quiet. Recognition may come through usefulness rather than spotlight. That is not the same as having no gift.';
+  var apo=f.mounts.apollo>=0.72?'Apollo is full. Beauty, performance, a product, a room, or a name people remember will keep asking for time.':'';
+  return join([sun, apo, gloss('gift')]);
+}
+function familyText(f){
+  var bits=[];
+  if(f.mounts.venus>=0.65) bits.push('Venus is warm. Home, touch, and loyalty are not side plots. You bond in the body as well as in plans, and cold schedules starve you.');
+  else bits.push('Venus is quieter. You belong deeply, but you do not perform belonging. People may miss it if you never say it.');
+  if(f.lines.heart.end==='saturn') bits.push('The selective heart keeps a small household of trust. Do not apologize for the size of the circle. Do tell the people inside it.');
+  if(f.lines.heart.end==='jupiter') bits.push('You can turn a partner into a vocation. Choose someone who wants a life, not only an admirer.');
+  bits.push('Short lines on the outer edge, which some readers call marriage or children, are not counted here. A photograph invents them too easily. What can be said is the style of care, not a headcount.');
+  bits.push(gloss('family'));
+  return join(bits);
+}
+function travelText(f){
+  var bits=[];
+  if(f.mounts.moon>=0.68||f.lines.head.slope==='steep') bits.push('The outer palm and the sloping mind both like a change of scene. Travel, study elsewhere, or a new room restores you. Go toward something, not only away.');
+  else bits.push('Change is useful but not your fuel. You travel well when the trip has a task. Restlessness alone will not tell you where to stand.');
+  if(f.lines.life.breaks) bits.push('A break in the life line often coincides with a move or a new chapter of place. Treat that chapter as a threshold you already know how to cross.');
+  bits.push(gloss('travel'));
+  return join(bits);
+}
+function spiritText(f){
+  var bits=[];
+  if(f.element==='water'||f.mounts.moon>=0.7||f.lines.head.slope==='steep') bits.push('The inner life is not a hobby in this hand. Dream, prayer, image, and conscience take up real room. Give them a practice with a time, or they will leak into anxiety.');
+  else if(f.element==='earth') bits.push('Spirit, for this hand, is mostly fidelity: showing up, telling the truth, caring for a place. Do not wait for a vision before you are kind.');
+  else if(f.element==='air') bits.push('You meet the sacred through questions and texts. A practice of attention will serve you better than a performance of certainty.');
+  else bits.push('Meaning arrives through action. A fire hand prays by starting. Leave a little silence so you can tell courage from restlessness.');
+  if(f.marks&&f.marks.simian) bits.push('Where heart and head unite, conviction is fast. Pause one night before you call a feeling a revelation.');
+  bits.push(gloss('spirit'));
+  return join(bits);
+}
+function seasonsText(f){
+  var bits=['Read the life line from the web of the thumb down toward the wrist. Youth is near the fingers. The building years are in the middle. Later life is where the line nears the wrist.'];
+  if(f.lines.life.breaks) bits.push('The break is the chapter turn. Before it, one rhythm. After it, another. Ask what you stopped pretending at that point.');
+  if(f.lines.fate.presence==='strong'&&f.lines.fate.start!=='late') bits.push('Direction is already speaking in the building years, not only as a late surprise.');
+  else bits.push('The early years are for skill and for character. A final name for the work can come later without being a failure of nerve.');
+  if(f.lines.heart.breaks) bits.push('The heart has a before and an after as well. The later style of love can be cleaner than the first one.');
+  return join(bits);
+}
+function counselText(f){
+  var c=[];
+  if(f.element==='fire') c.push('Keep one fire through a full season before you light the next.');
+  if(f.element==='air') c.push('Write the decision down and give it a date. Clarity without a date becomes delay.');
+  if(f.element==='earth') c.push('Stay with the craft, and still review the method once a season so loyalty does not become a rut.');
+  if(f.element==='water') c.push('Protect sleep and one hour that belongs to nobody else. The gift leaks when the day has no bank.');
+  if(f.element==='mixed') c.push('Stop auditioning a new life every month. Pick the two gifts that pay each other and ignore a third for now.');
+  if(f.lines.heart.breaks) c.push('Do not confuse a change in how you attach with an inability to love.');
+  if(f.lines.fate.presence==='absent'||f.lines.fate.presence==='faint') c.push('Name the work yourself. A quiet fate line will not shout a job title at you.');
+  if(f.lines.head.slope==='steep') c.push('Guard what you watch and who you listen to at night. Noise from other people can pass as your own thought.');
+  if(f.lines.life.depth<0.45) c.push('Treat food, walking, and sleep as part of the work, not as a prize you earn after collapse.');
+  if(f.thumb==='open') c.push('Before you say yes, ask what it costs the week. Generosity without a limit becomes resentment.');
+  c.push('Use this as a mirror. It is not a medical, legal, or financial instruction.');
+  return join(c);
+}
+function compose(f){
+  return [
+    {t:'The hand', b:elementText(f)},
+    {t:'Love and the heart line', b:heartText(f)},
+    {t:'Mind and the head line', b:headText(f)},
+    {t:'Vitality', b:lifeText(f)},
+    {t:'Work and direction', b:fateText(f)},
+    {t:'Money and exchange', b:moneyText(f)},
+    {t:'Gift and visibility', b:giftText(f)},
+    {t:'Family and belonging', b:familyText(f)},
+    {t:'Travel and change', b:travelText(f)},
+    {t:'The inner life', b:spiritText(f)},
+    {t:'Seasons', b:seasonsText(f)},
+    {t:'Counsel', b:counselText(f)}
+  ];
+}
+function scores(f){
+  return {
+    love:clamp(58+f.lines.heart.depth*30+(f.lines.heart.breaks?-6:6), 40, 96),
+    mind:clamp(56+f.lines.head.depth*22+f.lines.head.length*14, 40, 96),
+    vita:clamp(54+f.lines.life.depth*34+(f.lines.life.sweep>0.6?4:0), 40, 96),
+    work:clamp(f.lines.fate.presence==='strong'?84:f.lines.fate.presence==='broken'?70:f.lines.fate.presence==='faint'?62:58, 40, 96)
+  };
+}
+function sideOf(){
+  if(state.which==='writing') return state.writes||'Right';
+  return (state.writes==='Left')?'Right':'Left';
+}
+function rolePhrase(rec){
+  var role=rec.role==='writing'?'the writing hand, the life you practice':'the other hand, the temperament you arrived with';
+  var who=rec.name?rec.name+', ':'';
+  return who+rec.hand+' hand, '+role+'.';
+}
+function otherOf(rec){
+  var list=loadLib(); var i;
+  for(i=0;i<list.length;i++) if(rec.pairId&&list[i].pairId===rec.pairId&&String(list[i].id)!==String(rec.id)) return list[i];
+  return null;
+}
+function bilateral(rec){
+  var o=otherOf(rec); if(!o) return '';
+  var bits=['Both hands from this sitting are on the phone. Where they agree, the trait is settled. Where they differ, you are in the middle of becoming.'];
+  if(o.features&&rec.features&&o.features.element!==rec.features.element) bits.push('The elements differ: '+rec.features.element+' in this hand, '+o.features.element+' in the other. Practice and origin are not the same person yet.');
+  else bits.push('The element agrees across the two hands, so this nature is not a costume.');
+  return join(bits);
+}
+function textOf(sections){var i,o=[]; for(i=0;i<sections.length;i++) o.push(sections[i].t+'. '+sections[i].b); return o.join('\n\n');}
+function makeRecord(features, photo){
+  var name=(document.getElementById('person').value||'').replace(/^\s+|\s+$/g,'');
+  if(!state.pairId) state.pairId=Date.now();
+  var sections=compose(features);
+  return {id:Date.now(), pairId:state.pairId, at:new Date().toISOString(), name:name, hand:sideOf(), role:state.which, tradition:state.tradition, features:features, photo:photo||'', sections:sections, text:textOf(sections)};
+}
+function renderReport(rec){
+  state.reading=rec;
+  var root=document.getElementById('report-root'); clear(root);
+  var eye=document.createElement('p'); eye.className='eyebrow'; eye.textContent=rec.features.quality==='sample'?'Sample reading':'Your reading'; root.appendChild(eye);
+  var h=document.createElement('h2'); h.textContent=ENAME[rec.features.element]||'The hand'; root.appendChild(h);
+  addP(root, rolePhrase(rec));
+  if(rec.features.note) addP(root, rec.features.note);
+  if(rec.features.uncertain) addP(root, 'The creases were faint in this light. Treat the lines as a first look. If a sentence does not sound like you, walk the lines and answer from the hand itself.');
+  if(rec.features.seen) addP(root, rec.features.seen);
+  if(rec.photo){var img=document.createElement('img'); img.className='palm'; img.alt='Palm with major lines marked'; img.src=rec.photo; root.appendChild(img); addP(root, 'Rose is the heart line. Blue is the head line. Green is the life line. Gold is the fate line.');}
+  var both=bilateral(rec); if(both) addP(root, both);
+  var sc=scores(rec.features); var box=document.createElement('div'); box.className='meters'; root.appendChild(box);
+  function meter(n,label){var d=document.createElement('div'); d.className='meter'; var b=document.createElement('b'); b.textContent=String(Math.round(n)); var s=document.createElement('span'); s.textContent=label; d.appendChild(b); d.appendChild(s); box.appendChild(d);}
+  meter(sc.love,'Love'); meter(sc.mind,'Mind'); meter(sc.vita,'Vital'); meter(sc.work,'Work');
+  var i,d,s,open;
+  for(i=0;i<rec.sections.length;i++){
+    d=document.createElement('details'); if(i<4) d.open=true;
+    s=document.createElement('summary'); s.textContent=rec.sections[i].t; d.appendChild(s);
+    addP(d, rec.sections[i].b); root.appendChild(d);
+  }
+  var b1=document.createElement('button'); b1.className='btn'; b1.type='button'; b1.setAttribute('data-act','other'); b1.textContent='Read the other hand'; root.appendChild(b1);
+  var b2=document.createElement('button'); b2.className='btn ghost'; b2.type='button'; b2.setAttribute('data-act','to-ask'); b2.textContent='Ask this hand'; root.appendChild(b2);
+  var b3=document.createElement('button'); b3.className='btn ghost'; b3.type='button'; b3.setAttribute('data-act','copy'); b3.textContent='Copy the reading'; root.appendChild(b3);
+  addP(root, 'Saved on this phone only. For reflection, not a forecast of disease, death, law, or money.');
+  show('report');
+}
+function renderLibrary(){
+  var root=document.getElementById('lib-root'); clear(root); var list=loadLib(); var i,card,p,row,b,del;
+  if(!list.length){addP(root,'No readings saved yet. A finished reading stays here, on this phone.'); return;}
+  for(i=0;i<list.length;i++){
+    card=document.createElement('div'); card.className='card';
+    p=document.createElement('p'); p.textContent=(list[i].name||'Unnamed')+' · '+(list[i].hand||'')+' · '+(ENAME[list[i].features.element]||'')+' · '+(list[i].at||'').slice(0,10); card.appendChild(p);
+    row=document.createElement('div');
+    b=document.createElement('button'); b.className='chip'; b.type='button'; b.setAttribute('data-lib', String(list[i].id)); b.textContent='Open'; row.appendChild(b);
+    del=document.createElement('button'); del.className='chip'; del.type='button'; del.setAttribute('data-del', String(list[i].id)); del.textContent='Delete'; row.appendChild(del);
+    card.appendChild(row); root.appendChild(card);
+  }
+}
+function renderCompare(){
+  var root=document.getElementById('compare-root'); if(!root) return; clear(root);
+  var list=loadLib(); var i,b,a,c;
+  if(list.length<2){addP(root,'Save two readings, yours and another person, or your two hands. Then select them here.'); }
+  for(i=0;i<list.length;i++){
+    b=document.createElement('button'); b.type='button'; b.className='chip'; if(state.cmp.indexOf(String(list[i].id))>=0) b.className+=' on';
+    b.setAttribute('data-cmp', String(list[i].id));
+    b.textContent=(list[i].name||'Unnamed')+' '+list[i].hand; root.appendChild(b);
+  }
+  if(state.cmp.length===2){
+    a=null; c=null;
+    for(i=0;i<list.length;i++){ if(String(list[i].id)===state.cmp[0]) a=list[i]; if(String(list[i].id)===state.cmp[1]) c=list[i]; }
+    if(a&&c){
+      var h=document.createElement('h3'); h.textContent=(a.name||a.hand)+' and '+(c.name||c.hand); root.appendChild(h);
+      addP(root, compareText(a,c));
+    }
+  }
+}
+function compareText(a,b){
+  var fa=a.features, fb=b.features, bits=[];
+  if(fa.element===fb.element) bits.push('Both hands carry the '+fa.element+' element, so the basic tempo matches. Friction will be about pace and pride more than about nature.');
+  else bits.push('One hand is '+fa.element+' and the other is '+fb.element+'. The attraction is real, and so is the translation. Name the difference early and it becomes a skill instead of a verdict.');
+  if(fa.lines.heart.end===fb.lines.heart.end) bits.push('The heart lines ask for love in a similar way. That is a quiet advantage.');
+  else bits.push('The heart lines end apart. One loves more as an ideal, the other more as a careful choice. Neither is colder. Say what loyalty looks like on an ordinary week.');
+  if(fa.lines.fate.presence===fb.lines.fate.presence) bits.push('Work has a similar weight in both hands. You can plan without one person always being the engine.');
+  else bits.push('Direction is louder in one hand. The other may need room to invent the role. Do not turn that difference into a parent and a child.');
+  bits.push('This is a conversation about style. It is not permission, and it is not a sentence.');
+  return join(bits);
+}
+function answerAsk(q, rec){
+  var s=(' '+q+' ').toLowerCase();
+  var keys=[['love heart marry partner relationship romance dating','Love and the heart line'],['work career job fate purpose vocation boss','Work and direction'],['money wealth cash business mercury income','Money and exchange'],['health vitality energy body sleep illness','Vitality'],['mind think thought anxiety head study focus','Mind and the head line'],['family child home mother father parent belong','Family and belonging'],['travel move abroad change country journey','Travel and change'],['spirit soul faith dream god prayer inner','The inner life'],['gift art fame create talent sun recognition','Gift and visibility']];
+  var i,j,words,hit=null,sec;
+  for(i=0;i<keys.length&&!hit;i++){
+    words=keys[i][0].split(' ');
+    for(j=0;j<words.length;j++) if(s.indexOf(' '+words[j])>=0||s.indexOf(words[j])>=0) hit=keys[i][1];
+  }
+  if(!hit) return 'Ask in plain words about love, work, money, vitality, mind, family, travel, gift, or the inner life. The answer will come from this hand, not from a general fortune.';
+  for(i=0;i<rec.sections.length;i++) if(rec.sections[i].t===hit) sec=rec.sections[i];
+  if(!sec) return 'That part of the reading is missing. Open the report and read it once more.';
+  var extra=hit==='Vitality'?' This is not a diagnosis and not a lifespan.':'';
+  return sec.b+extra;
+}
+function dist(a,b){var dx=a.x-b.x, dy=a.y-b.y; return Math.sqrt(dx*dx+dy*dy);}
+function mix(a,b,t){return {x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t};}
+function quad(a,b,c,n){var pts=[],i,t,ab,bc; for(i=0;i<=n;i++){t=i/n; ab=mix(a,b,t); bc=mix(b,c,t); pts.push(mix(ab,bc,t));} return pts;}
+function luma(data,w,h,x,y){x=Math.max(0,Math.min(w-1,x|0)); y=Math.max(0,Math.min(h-1,y|0)); var i=(y*w+x)*4; return data[i]*0.3+data[i+1]*0.59+data[i+2]*0.11;}
+function contrastAlong(data,w,h,pts){
+  var sum=0,hits=0,breaks=0,run=0,i,p,dx,dy,len,nx,ny,c,k;
+  for(i=1;i<pts.length;i++){
+    p=pts[i]; dx=pts[i].x-pts[i-1].x; dy=pts[i].y-pts[i-1].y; len=Math.sqrt(dx*dx+dy*dy)||1; nx=-dy/len; ny=dx/len;
+    c=luma(data,w,h,p.x,p.y);
+    k=((luma(data,w,h,p.x+nx*6,p.y+ny*6)+luma(data,w,h,p.x-nx*6,p.y-ny*6))/2)-c;
+    if(k>7){sum+=k; hits++; if(run===0&&i>4) breaks++; run++;} else run=0;
+  }
+  return {depth:clamp(sum/Math.max(1,pts.length)/16,0,1), cover:hits/Math.max(1,pts.length), breaks:breaks>0};
+}
+function best(cands){var i,win=cands[0]; for(i=1;i<cands.length;i++) if(cands[i].stat.depth>win.stat.depth+0.02) win=cands[i]; return win;}
+function stroke(ctx,pts,color,w){if(!pts||pts.length<2) return; ctx.beginPath(); ctx.moveTo(pts[0].x,pts[0].y); var i; for(i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y); ctx.strokeStyle=color; ctx.lineWidth=w; ctx.lineCap='round'; ctx.stroke();}
+function featuresFrom(canvas, lm, handed){
+  var w=canvas.width, h=canvas.height, ctx=canvas.getContext('2d');
+  var data=ctx.getImageData(0,0,w,h).data;
+  function P(i){return {x:lm[i].x*w, y:lm[i].y*h};}
+  var palmLen=dist(P(0),P(9))||1, palmWid=dist(P(5),P(17))||1, finger=dist(P(9),P(12));
+  var shape=palmLen/palmWid, fr=finger/palmLen, element;
+  if(shape>1.15&&fr<0.75) element='fire'; else if(shape>1.15) element='water'; else if(fr<0.75) element='earth'; else element='air';
+  var gap=dist(P(4),P(5))/palmWid; var thumb=gap>0.92?'open':gap<0.62?'firm':'measured';
+  var will=dist(P(2),P(4))/palmLen<0.42?'soft':'firm';
+  function bowed(a,b){var c=mix(a,b,0.5); c.y-=Math.abs(b.x-a.x)*0.06; return quad(a,c,b,22);}
+  var ulnar=mix(P(17),P(0),0.25);
+  var hearts=[
+    {key:'jupiter', pts:bowed(ulnar, mix(P(5),P(0),0.16))},
+    {key:'between', pts:bowed(ulnar, mix(mix(P(5),P(9),0.5), P(0), 0.15))},
+    {key:'saturn', pts:bowed(ulnar, mix(P(9),P(0),0.13))},
+    {key:'apollo', pts:bowed(ulnar, mix(P(13),P(0),0.16))}
+  ];
+  var hs,i; for(i=0;i<hearts.length;i++) hearts[i].stat=contrastAlong(data,w,h,hearts[i].pts); hs=best(hearts);
+  var web=mix(P(5),P(2),0.42);
+  var heads=[
+    {key:'straight', pts:quad(web, mix(web, mix(P(17),P(0),0.32), 0.5), mix(P(17),P(0),0.32), 22)},
+    {key:'gentle', pts:quad(web, mix(web, mix(P(17),P(0),0.5), 0.55), mix(P(17),P(0),0.5), 22)},
+    {key:'steep', pts:quad(web, mix(web, mix(P(17),P(0),0.68), 0.6), mix(P(17),P(0),0.68), 22)}
+  ];
+  var hd; for(i=0;i<heads.length;i++) heads[i].stat=contrastAlong(data,w,h,heads[i].pts); hd=best(heads);
+  var lifeStart=mix(P(5),P(2),0.55), lifeEnd=mix(P(0),P(2),0.16);
+  var closeC=mix(P(2),P(0),0.5), wideC=mix(closeC, P(9), 0.42);
+  var lives=[
+    {key:'close', pts:quad(lifeStart, closeC, lifeEnd, 24)},
+    {key:'wide', pts:quad(lifeStart, wideC, lifeEnd, 24)}
+  ];
+  var lf; for(i=0;i<lives.length;i++) lives[i].stat=contrastAlong(data,w,h,lives[i].pts); lf=best(lives);
+  var wrist=P(0), mid=P(9);
+  var fates=[
+    {key:'early', pts:quad(mix(wrist,mid,0.1), mix(wrist,mid,0.48), mix(wrist,mid,0.84), 20)},
+    {key:'late', pts:quad(mix(wrist,mid,0.42), mix(wrist,mid,0.66), mix(wrist,mid,0.9), 16)}
+  ];
+  var ft; for(i=0;i<fates.length;i++) fates[i].stat=contrastAlong(data,w,h,fates[i].pts); ft=best(fates);
+  var presence; if(ft.stat.depth<0.16||ft.stat.cover<0.2) presence='absent'; else if(ft.stat.breaks&&ft.stat.depth<0.42) presence='broken'; else if(ft.stat.depth<0.32) presence='faint'; else presence='strong';
+  var ring=P(13), pinky=P(17);
+  var sunPts=quad(mix(ring,wrist,0.2), mix(ring,wrist,0.42), mix(ring,wrist,0.62), 14);
+  var mercPts=quad(mix(pinky,wrist,0.18), mix(pinky,wrist,0.4), mix(pinky,wrist,0.6), 14);
+  var sunS=contrastAlong(data,w,h,sunPts), mercS=contrastAlong(data,w,h,mercPts);
+  var lens={jupiter:dist(P(5),P(8)), saturn:dist(P(9),P(12)), apollo:dist(P(13),P(16)), mercury:dist(P(17),P(20))};
+  var mx=Math.max(lens.jupiter,lens.saturn,lens.apollo,lens.mercury,1), mn=Math.min(lens.jupiter,lens.saturn,lens.apollo,lens.mercury);
+  var balanced=(mx-mn)/mx<0.08;
+  var mounts={jupiter:lens.jupiter/mx, saturn:lens.saturn/mx, apollo:lens.apollo/mx, mercury:lens.mercury/mx, venus:clamp(dist(P(2),P(5))/palmWid, 0.35, 0.95), moon:hd.key==='steep'?0.84:hd.key==='gentle'?0.62:0.46, mars:0.5};
+  if(balanced){mounts.jupiter=0.55; mounts.saturn=0.55; mounts.apollo=0.55; mounts.mercury=0.55;}
+  var simian=dist(hs.pts[Math.floor(hs.pts.length/2)], hd.pts[Math.floor(hd.pts.length/2)])<palmLen*0.1 && hs.stat.depth>0.22 && hd.stat.depth>0.22;
+  var uncertain=hs.stat.depth<0.12 && hd.stat.depth<0.12 && lf.stat.depth<0.12;
+  var lw=Math.max(2, w/200);
+  stroke(ctx, hs.pts, '#e07a8a', lw); stroke(ctx, hd.pts, '#7eb6e0', lw); stroke(ctx, lf.pts, '#7dcea0', lw);
+  if(presence!=='absent') stroke(ctx, ft.pts, '#e0c07a', lw);
+  ctx.fillStyle='#e0c07a';
+  for(i=0;i<lm.length;i++){ctx.beginPath(); ctx.arc(lm[i].x*w, lm[i].y*h, lw, 0, 6.3); ctx.fill();}
+  var seen=handed?('The model sees a '+handed+' hand. You can still label it from the hand you write with.'):'';
+  return {element:element, thumb:thumb, will:will,
+    lines:{heart:{end:hs.key, curve:0.62, chained:hs.stat.breaks&&hs.stat.depth<0.45, breaks:hs.stat.breaks, depth:hs.stat.depth},
+      head:{slope:hd.key, length:clamp(hd.stat.cover,0.4,0.95), depth:hd.stat.depth, breaks:hd.stat.breaks},
+      life:{depth:lf.stat.depth, sweep:lf.key==='wide'?0.74:0.32, breaks:lf.stat.breaks, breakAt:lf.stat.breaks?0.5:null},
+      fate:{presence:presence, depth:ft.stat.depth, start:ft.key==='late'?'late':'wrist'},
+      sun:{present:sunS.depth>0.28, depth:sunS.depth}, mercury:{present:mercS.depth>0.28, depth:mercS.depth}},
+    mounts:mounts, marks:{simian:simian}, quality:'photo', uncertain:uncertain, seen:seen, note:''};
+}
+function shrink(canvas){
+  var s=document.createElement('canvas'); var sc=Math.min(1, 520/canvas.width); s.width=Math.max(1,Math.round(canvas.width*sc)); s.height=Math.max(1,Math.round(canvas.height*sc));
+  s.getContext('2d').drawImage(canvas,0,0,s.width,s.height);
+  try{return s.toDataURL('image/jpeg',0.7);}catch(e){return '';}
+}
+function landmarker(){
+  if(state.eye) return Promise.resolve(state.eye);
+  return import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14').then(function(vision){
+    return vision.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm').then(function(files){
+      return vision.HandLandmarker.createFromOptions(files, {baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task'}, runningMode:'IMAGE', numHands:1});
+    });
+  }).then(function(marker){state.eye=marker; return marker;});
+}
+function analyze(canvas){
+  show('busy'); document.getElementById('phase').textContent='Finding the hand';
+  landmarker().then(function(marker){
+    document.getElementById('phase').textContent='Reading the lines';
+    var res=marker.detect(canvas);
+    if(!res.landmarks||!res.landmarks.length) throw new Error('no hand');
+    var handed='';
+    try{handed=res.handedness[0][0].categoryName||'';}catch(e){}
+    var features=featuresFrom(canvas, res.landmarks[0], handed);
+    var rec=makeRecord(features, shrink(canvas));
+    remember(rec); renderReport(rec);
+  }).catch(function(){
+    var issue=document.getElementById('issue');
+    if(issue) issue.textContent='No hand was locked. Use brighter, even light, keep all five fingers in frame, and hold still. Or walk the lines.';
+    show('capture');
+  });
+}
+function fromAnswers(ans){
+  var element='air';
+  if(ans.shape==='long'&&ans.fingers==='short') element='fire';
+  else if(ans.shape==='long') element='water';
+  else if(ans.fingers==='short') element='earth';
+  else element='air';
+  var mounts={venus:0.48,jupiter:0.5,saturn:0.52,apollo:0.48,mercury:0.46,moon:ans.head==='steep'?0.8:0.5,mars:0.45};
+  if(ans.mount&&mounts[ans.mount]!=null) mounts[ans.mount]=0.86;
+  return {element:element, thumb:'measured', will:'firm',
+    lines:{heart:{end:ans.heart||'between', curve:ans.curve==='straight'?0.2:0.8, chained:false, breaks:false, depth:0.66},
+      head:{slope:ans.head||'gentle', length:0.78, depth:0.64, breaks:false},
+      life:{depth:0.66, sweep:ans.sweep==='close'?0.3:0.74, breaks:false, breakAt:null},
+      fate:{presence:ans.fate||'strong', depth:ans.fate==='absent'?0.1:ans.fate==='faint'?0.3:0.7, start:ans.fate==='faint'?'late':'wrist'},
+      sun:{present:ans.mount==='apollo', depth:ans.mount==='apollo'?0.7:0.3},
+      mercury:{present:ans.mount==='venus'?false:true, depth:0.42}},
+    mounts:mounts, marks:{simian:false}, quality:'guided', uncertain:false, seen:'', note:'You walked the lines yourself. The reading follows those choices.'};
+}
+function sampleFeatures(){
+  return {element:'water', thumb:'open', will:'firm',
+    lines:{heart:{end:'jupiter', curve:0.82, chained:false, breaks:true, depth:0.72},
+      head:{slope:'steep', length:0.86, depth:0.68, breaks:false},
+      life:{depth:0.56, sweep:0.74, breaks:true, breakAt:0.48},
+      fate:{presence:'broken', depth:0.42, start:'late'},
+      sun:{present:true, depth:0.6}, mercury:{present:true, depth:0.55}},
+    mounts:{venus:0.8,jupiter:0.7,saturn:0.5,apollo:0.78,mercury:0.66,moon:0.86,mars:0.42},
+    marks:{simian:false}, quality:'sample', uncertain:false, seen:'', note:'This is a full sample, not your hand. Begin a reading when you want your own.'};
+}
+function stopCam(){if(state.stream){var ts=state.stream.getTracks(),i; for(i=0;i<ts.length;i++) ts[i].stop(); state.stream=null;}}
+function startCam(){
+  var issue=document.getElementById('issue'); if(issue) issue.textContent='';
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){if(issue) issue.textContent='This browser has no camera here. Choose a photo, or walk the lines.'; return;}
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false}).then(function(stream){
+    state.stream=stream; var v=document.getElementById('cam'); v.srcObject=stream; v.play(); document.getElementById('viewer').classList.add('on');
+  }).catch(function(){if(issue) issue.textContent='The camera did not open. Allow camera access, choose an existing photo, or walk the lines.';});
+}
+function snap(){
+  var v=document.getElementById('cam'); var issue=document.getElementById('issue');
+  if(!v.videoWidth){if(issue) issue.textContent='The camera is not ready. Hold still and tap the circle again.'; return;}
+  var c=document.createElement('canvas'); c.width=v.videoWidth; c.height=v.videoHeight; c.getContext('2d').drawImage(v,0,0);
+  stopCam(); document.getElementById('viewer').classList.remove('on'); analyze(c);
+}
+function onFile(ev){
+  var file=ev.target.files&&ev.target.files[0]; if(!file) return;
+  var img=new Image();
+  img.onload=function(){var c=document.createElement('canvas'); var sc=Math.min(1,1100/Math.max(img.width,img.height)); c.width=Math.max(1,Math.round(img.width*sc)); c.height=Math.max(1,Math.round(img.height*sc)); c.getContext('2d').drawImage(img,0,0,c.width,c.height); analyze(c);};
+  img.onerror=function(){var issue=document.getElementById('issue'); if(issue) issue.textContent='That photo could not be read. Try another.'; show('capture');};
+  img.src=URL.createObjectURL(file);
+}
+function renderGuide(){
+  var root=document.getElementById('guide-root'); clear(root); var step=STEPS[state.step]||STEPS[0];
+  var eye=document.createElement('p'); eye.className='eyebrow'; eye.textContent='Walk the lines  '+(state.step+1)+' / '+STEPS.length; root.appendChild(eye);
+  var h=document.createElement('h2'); h.textContent=step.q; root.appendChild(h);
+  var i,b; for(i=0;i<step.a.length;i++){b=document.createElement('button'); b.type='button'; b.className='choice'; b.setAttribute('data-step', step.a[i][0]); b.textContent=step.a[i][1]; root.appendChild(b);}
+  if(state.step>0){b=document.createElement('button'); b.type='button'; b.className='btn ghost'; b.setAttribute('data-act','back'); b.textContent='Back'; root.appendChild(b);}
+}
+function syncPicks(){
+  var buttons=document.querySelectorAll('[data-pick]'); var i,b,k,cur;
+  for(i=0;i<buttons.length;i++){
+    b=buttons[i]; k=b.getAttribute('data-pick');
+    cur=k==='writes'?state.writes:k==='which'?state.which:state.tradition;
+    b.classList.toggle('on', b.getAttribute('data-val')===cur);
+  }
+}
+function finishGuide(){
+  var rec=makeRecord(fromAnswers(state.answers), '');
+  remember(rec); renderReport(rec);
+}
+function onClick(ev){
+  var n=ev.target;
+  while(n&&n.nodeType===1&&n.tagName!=='BUTTON') n=n.parentNode;
+  if(!n||n.tagName!=='BUTTON') return;
+  var act=n.getAttribute('data-act');
+  if(act==='cam') startCam();
+  else if(act==='snap') snap();
+  else if(act==='sample'){var rec=makeRecord(sampleFeatures(), ''); rec.hand='Right'; rec.role='writing'; rec.sections=compose(rec.features); rec.text=textOf(rec.sections); renderReport(rec);}
+  else if(act==='guide-go'){state.step=0; state.answers={}; renderGuide();}
+  else if(act==='fresh'){state.pairId=Date.now();}
+  else if(act==='back'){if(state.step>0) state.step--; renderGuide();}
+  else if(act==='other'){state.which=state.which==='writing'?'other':'writing'; if(!state.pairId) state.pairId=Date.now(); syncPicks(); show('capture');}
+  else if(act==='to-ask') show('ask');
+  else if(act==='copy'){var t=state.reading?state.reading.text:''; if(navigator.clipboard&&t) navigator.clipboard.writeText(t).catch(function(){}); var hint=document.getElementById('hint'); if(false&&hint) hint.textContent='';}
+  else if(act==='ask-send'){
+    var box=document.getElementById('ask-a'); clear(box); var q=document.getElementById('ask-q').value||'';
+    if(!state.reading) addP(box,'Read a hand first. The answer has to come from a palm.');
+    else addP(box, answerAsk(q, state.reading));
+  }
+  else if(act==='install'){var hint=document.getElementById('hint'); if(hint){hint.textContent='iPhone: tap Share, then Add to Home Screen. Android: open the browser menu, then Install app or Add to Home screen.'; show('home');}}
+  else if(n.getAttribute('data-pick')){
+    var k=n.getAttribute('data-pick'), v=n.getAttribute('data-val');
+    if(k==='writes') state.writes=v; else if(k==='which') state.which=v;
+    else if(k==='tradition'){state.tradition=v; try{localStorage.setItem('palmora-trad', v);}catch(e){} if(state.reading){state.reading.tradition=v; state.reading.sections=compose(state.reading.features); state.reading.text=textOf(state.reading.sections); renderReport(state.reading); return;}}
+    syncPicks();
+  }
+  else if(n.getAttribute('data-step')){
+    state.answers[STEPS[state.step].k]=n.getAttribute('data-step'); state.step++;
+    if(state.step>=STEPS.length) finishGuide(); else renderGuide();
+  }
+  else if(n.getAttribute('data-lib')){
+    var list=loadLib(), id=n.getAttribute('data-lib'), i; for(i=0;i<list.length;i++) if(String(list[i].id)===id){renderReport(list[i]); break;}
+  }
+  else if(n.getAttribute('data-del')){
+    var idd=n.getAttribute('data-del'); var kept=loadLib().filter(function(x){return String(x.id)!==idd;});
+    try{localStorage.setItem('palmora-lib', JSON.stringify(kept));}catch(e){}
+    state.cmp=state.cmp.filter(function(x){return x!==idd;}); renderLibrary(); renderCompare();
+  }
+  else if(n.getAttribute('data-cmp')){
+    var cid=n.getAttribute('data-cmp'), at=state.cmp.indexOf(cid);
+    if(at>=0) state.cmp.splice(at,1); else if(state.cmp.length<2) state.cmp.push(cid); else state.cmp=[state.cmp[1], cid];
+    renderCompare();
+  }
+}
+function main(){
+  try{var saved=localStorage.getItem('palmora-trad'); if(saved) state.tradition=saved;}catch(e){}
+  syncPicks(); renderGuide(); renderLibrary(); renderCompare();
+  document.getElementById('file').addEventListener('change', onFile);
+  document.body.addEventListener('click', onClick);
+}
+try{main();}catch(err){var hint=document.getElementById('hint'); if(hint) hint.textContent='The page is open, but part of the reader stalled. Walk the lines still works if the buttons respond. '+((err&&err.message)||err);}
+})();
+</script>
+</body>
+</html>
